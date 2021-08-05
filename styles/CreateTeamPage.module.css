@@ -1,0 +1,67 @@
+.pageDiv {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  width: 60%;
+  margin: auto auto;
+  font-size: 24px;
+}
+
+.inputDiv > input {
+  height: 32px;
+  margin-bottom: 16px;
+}
+
+.roleInnerDiv > input {
+  height: 32px;
+  margin-bottom: 16px;
+}
+
+.roleInnerDiv > label {
+  margin-bottom: 16px;
+}
+
+.labelDiv > label {
+  margin-bottom: 16px;
+}
+
+.labelDiv,
+.inputDiv {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.roleInnerDiv {
+  width: fit-content;
+  margin: auto auto;
+}
+
+.labelDiv {
+  align-items: flex-end;
+  margin-left: 20%;
+}
+
+.roleDiv {
+  margin: 20px auto;
+  width: 40%;
+  padding: 20px;
+  border: solid black 1px;
+  /* border-radius: 20px; */
+}
+
+.inputDiv {
+}
+
+.createBtn {
+  display: block;
+  margin: auto auto;
+  width: 200px;
+  height: 50px;
+}
+
+.roleLabel {
+  float: left;
+  margin-right: 10px;
+  text-align: right;
+  width: 100px;
+}
