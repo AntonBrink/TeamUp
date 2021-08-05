@@ -1,4 +1,4 @@
-import react from "React";
+import React from "react";
 import * as manageStyles from "../styles/ManagePage.module.css";
 
 const ManagePage = () => {
