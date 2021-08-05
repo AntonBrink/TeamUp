@@ -1,8 +1,6 @@
-import Layout from "../components/layout";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
-import { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import AuthContext from "../stores/authContext";
 
 export default function Home() {
