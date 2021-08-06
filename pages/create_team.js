@@ -1,64 +1,141 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import CreateTeamStyles from "../styles/CreateTeamPage.module.css";
+import AuthContext from "../stores/authContext";
 
 const CreatePage = () => {
+  const { user, authReady } = useContext(AuthContext);
   const [totalRoles, setTotalRoles] = useState(1);
+  const [teamName, setTeamName] = useState("");
+  const [creatorName, setCreatorName] = useState("");
+  const [creatorRole, setCreatorRole] = useState("");
+  const [creatorYear, setCreatorYear] = useState("");
+  const [endDate, setEndDate] = useState(null);
+  const [groupType, setGroupType] = useState("");
+
+  const [openRoles, setOpenRoles] = useState([]);
+  const [years, setYears] = useState([]);
+  const [amount, setAmount] = useState([]);
 
   const [roles] = useState([
     <div className={CreateTeamStyles.roleInnerDiv} key={totalRoles}>
       <label htmlFor="" className={CreateTeamStyles.roleLabel}>
         Degree/Role
       </label>
-      <input type="text" />
+      <input
+        type="text"
+        name="memberDegree0"
+        required
+        onChange={(e) => {
+          setOpenRoles((openRoles) => ({ ...openRoles, [0]: e.target.value }));
+        }}
+      />
       <br />
-      <label className={CreateTeamStyles.roleLabel} htmlFor="">
+      <label className={CreateTeamStyles.roleLabel} htmlFor="" required>
         Amount
       </label>
 
-      <input type="number" />
+      <input
+        type="number"
+        name="memberDegreeAmount0"
+        required
+        min="1"
+        onChange={(e) => {
+          setAmount((amount) => ({ ...amount, [0]: e.target.value }));
+        }}
+      />
       <br />
       <label className={CreateTeamStyles.roleLabel} htmlFor="">
         Year
       </label>
 
-      <select name="" id="">
-        <option value="">All</option>
-        <option value="">3rd</option>
-        <option value="">2nd</option>
-        <option value="">1st</option>
+      <select
+        id=""
+        name="memberDegreeYear0"
+        onChange={(e) => {
+          setYears((years) => ({ ...years, [0]: e.target.value }));
+        }}
+      >
+        <option value="All">All</option>
+        <option value="3rd">3rd</option>
+        <option value="2nd">2nd</option>
+        <option value="1st">1st</option>
       </select>
     </div>,
   ]);
+
+  const createTeam = () => {
+    setCreatorName(user.user_metadata.full_name);
+
+    console.log(openRoles);
+    console.log(amount);
+    console.log(years);
+  };
 
   if (totalRoles > roles.length) {
     let newRoles = totalRoles - roles.length;
 
     for (let i = 0; i < newRoles; i++) {
+      let divId = roles.length;
+
       roles.push(
         <div className={CreateTeamStyles.roleInnerDiv} key={totalRoles}>
           <label className={CreateTeamStyles.roleLabel} htmlFor="">
             Degree/Role
           </label>
-          <input type="text" />
+          <input
+            type="text"
+            name={`memberDegree${divId}`}
+            required
+            onChange={(e) => {
+              setOpenRoles((openRoles) => ({
+                ...openRoles,
+                [divId]: e.target.value,
+              }));
+            }}
+          />
           <br />
           <label className={CreateTeamStyles.roleLabel} htmlFor="">
             Amount
           </label>
 
-          <input type="number" />
+          <input
+            type="number"
+            name={`memberDegreeAmount${divId}`}
+            required
+            min="1"
+            onChange={(e) => {
+              setAmount((amount) => ({
+                ...amount,
+                [divId]: e.target.value,
+              }));
+            }}
+          />
           <br />
           <label className={CreateTeamStyles.roleLabel} htmlFor="">
             Year
           </label>
 
-          <select name="" id="">
-            <option value="">All</option>
-            <option value="">3rd</option>
-            <option value="">2nd</option>
-            <option value="">1st</option>
+          <select
+            name={`memberDegreeYear${divId}`}
+            id=""
+            required
+            onChange={(e) => {
+              setYears((years) => ({
+                ...years,
+                [divId]: e.target.value,
+              }));
+            }}
+          >
+            <option value="All">All</option>
+            <option value="3rd">3rd</option>
+            <option value="2nd">2nd</option>
+            <option value="1st">1st</option>
           </select>
         </div>
       );
+      console.log("divId", divId);
+      console.log("roles", roles.length);
+      console.log("i", i);
     }
   } else {
     let newRoles = roles.length - totalRoles;
@@ -69,38 +146,84 @@ const CreatePage = () => {
   }
 
   return (
-    <form action="">
-      <div className={CreateTeamStyles.pageDiv}>
-        <div className={CreateTeamStyles.labelDiv}>
-          <label htmlFor="">Team Name</label>
-          <label htmlFor="">Your Degree/Role</label>
-          <label htmlFor="">Application End Date</label>
-          <label htmlFor="">Total Unique Roles/Degrees</label>
-        </div>
-        <div className={CreateTeamStyles.inputDiv}>
-          <input type="text" />
-          <input type="text" />
-          <input type="date" />
-          <input
-            type="number"
-            defaultValue="1"
-            onChange={(e) => {
-              setTotalRoles(e.target.value);
-            }}
-          />
-        </div>
-      </div>
-      <div>
-        {roles.map((role, id) => {
-          return (
-            <div className={CreateTeamStyles.roleDiv} key={id}>
-              {role}
+    <div>
+      {!user && <div>You must be logged in to create a team</div>}
+
+      {user && (
+        <form
+          onSubmit={() => {
+            createTeam();
+          }}
+        >
+          <div className={CreateTeamStyles.pageDiv}>
+            <div className={CreateTeamStyles.labelDiv}>
+              <label htmlFor="">Team Name</label>
+              <label htmlFor="">Your Degree/Role</label>
+              <label htmlFor="">Your Year</label>
+              <label htmlFor="">Application End Date</label>
+              <label htmlFor="">Total Unique Roles/Degrees</label>
             </div>
-          );
-        })}
-      </div>
-      <button className={CreateTeamStyles.createBtn}>Create Team</button>
-    </form>
+            <div className={CreateTeamStyles.inputDiv}>
+              <input
+                type="text"
+                name="teamName"
+                required
+                onChange={(value) => {
+                  setTeamName(value);
+                }}
+              />
+              <input
+                type="text"
+                name="creatorDegreeRole"
+                required
+                onChange={(value) => {
+                  setCreatorRole(value);
+                }}
+              />
+              <input
+                type="number"
+                name="creatorYear"
+                required
+                onChange={(value) => {
+                  setCreatorYear(value);
+                }}
+              />
+              <input
+                type="date"
+                name="endDate"
+                required
+                onChange={(value) => {
+                  setEndDate(value);
+                }}
+              />
+              <input
+                type="number"
+                min="1"
+                max="10"
+                defaultValue="1"
+                name="uniqueRoles"
+                required
+                onChange={(e) => {
+                  setTotalRoles(e.target.value);
+                }}
+              />
+            </div>
+          </div>
+          <div>
+            {roles.map((role, id) => {
+              return (
+                <div className={CreateTeamStyles.roleDiv} key={id}>
+                  {role}
+                </div>
+              );
+            })}
+          </div>
+          <button type="submit" className={CreateTeamStyles.createBtn}>
+            Create Team
+          </button>
+        </form>
+      )}
+    </div>
   );
 };
 

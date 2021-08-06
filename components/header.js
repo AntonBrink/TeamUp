@@ -9,7 +9,7 @@ const Header = () => {
       <h1>Eduvos Heading</h1>
 
       {authReady &&
-        (user ? (
+        (!user ? (
           <button onClick={login} className="btn">
             Login/SignUp
           </button>

@@ -1,34 +1,44 @@
 import styles from "../styles/Home.module.css";
+import Link from "next/link";
 
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../stores/authContext";
 
 export default function Home() {
   const { user, authReady } = useContext(AuthContext);
+  const [teams] = useState([]);
+  const [teamsReady, setTeamsReady] = useState(false);
 
   useEffect(() => {
-    if (authReady) {
+    if (authReady && user) {
       fetch(
         "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            query: `query{
-  teams{
-    
+            query: `query ($userEmail: String!){
+
+  teams(where: {creatorEmail: $userEmail}) {
     teamName
-    
-  }
+    id
   
+}
+
   
 }`,
+            variables: {
+              userEmail: user.email,
+            },
           }),
         }
       )
         .then((res) => res.json())
         .then((result) => {
-          console.log(result);
+          result.data.teams.forEach((team) => {
+            teams.push(<p key={team.id}>{team.teamName}</p>);
+          });
+          setTeamsReady(true);
         });
     }
   }, [user, authReady]);
@@ -54,12 +64,17 @@ export default function Home() {
           </select>
         </div>
         <div>
-          <button>View Team(s)</button>
-          <button>Create Team</button>
+          <Link href="manage_page">View Team(s)</Link>
+          <Link href="create_team">Create Team</Link>
         </div>
       </div>
 
       {!authReady && <h1>Loading...</h1>}
+      {!teamsReady && <h1>Loading teams...</h1>}
+
+      {teams.map((team) => {
+        return <h1>{team}</h1>;
+      })}
     </div>
   );
 }
