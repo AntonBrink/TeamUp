@@ -11,6 +11,7 @@ export default function Home() {
 
   useEffect(() => {
     if (authReady && user) {
+      console.log(user);
       fetch(
         "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
         {

@@ -6,11 +6,11 @@ const CreatePage = () => {
   const { user, authReady } = useContext(AuthContext);
   const [totalRoles, setTotalRoles] = useState(1);
   const [teamName, setTeamName] = useState("");
-  const [creatorName, setCreatorName] = useState("");
   const [creatorRole, setCreatorRole] = useState("");
   const [creatorYear, setCreatorYear] = useState("");
   const [endDate, setEndDate] = useState(null);
   const [groupType, setGroupType] = useState("");
+  const groupData = [];
 
   const [openRoles, setOpenRoles] = useState([]);
   const [years, setYears] = useState([]);
@@ -63,12 +63,52 @@ const CreatePage = () => {
     </div>,
   ]);
 
-  const createTeam = () => {
-    setCreatorName(user.user_metadata.full_name);
-
-    console.log(openRoles);
-    console.log(amount);
+  const createTeam = (e) => {
     console.log(years);
+
+    for (let i = 0; i < totalRoles; i++) {
+      if (years[i] == undefined) {
+        years[i] = "All";
+      }
+
+      groupData.push({
+        Role: openRoles[i],
+        Amount: amount[i],
+        Years: years[i],
+      });
+    }
+
+    console.log(groupData);
+
+    e.preventDefault();
+
+    if (authReady && user) {
+      fetch(
+        "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            query: `mutation MyMutation($myTeamName : String!, $creatorName : String!, $endDate : Date!, $creatorEmail : String!, $openPositions: [Json!]) {
+
+  createTeam(data: {teamName: $myTeamName, creatorName: $creatorName, creatorEmail : $creatorEmail, applyEndDate: $endDate , openPositions: $openPositions}){
+    id
+    
+  }
+}
+`,
+            variables: {
+              myTeamName: teamName,
+              creatorName: user.user_metadata.full_name,
+              endDate: endDate,
+              creatorEmail: user.email,
+              openPositions: groupData,
+            },
+          }),
+        }
+      );
+      console.log("Fetched");
+    }
   };
 
   if (totalRoles > roles.length) {
@@ -151,8 +191,8 @@ const CreatePage = () => {
 
       {user && (
         <form
-          onSubmit={() => {
-            createTeam();
+          onSubmit={(e) => {
+            createTeam(e);
           }}
         >
           <div className={CreateTeamStyles.pageDiv}>
@@ -168,32 +208,32 @@ const CreatePage = () => {
                 type="text"
                 name="teamName"
                 required
-                onChange={(value) => {
-                  setTeamName(value);
+                onChange={(e) => {
+                  setTeamName(e.target.value);
                 }}
               />
               <input
                 type="text"
                 name="creatorDegreeRole"
                 required
-                onChange={(value) => {
-                  setCreatorRole(value);
+                onChange={(e) => {
+                  setCreatorRole(e.target.value);
                 }}
               />
               <input
                 type="number"
                 name="creatorYear"
                 required
-                onChange={(value) => {
-                  setCreatorYear(value);
+                onChange={(e) => {
+                  setCreatorYear(e.target.value);
                 }}
               />
               <input
                 type="date"
                 name="endDate"
                 required
-                onChange={(value) => {
-                  setEndDate(value);
+                onChange={(e) => {
+                  setEndDate(e.target.value);
                 }}
               />
               <input
