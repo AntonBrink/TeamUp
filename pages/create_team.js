@@ -10,6 +10,7 @@ const CreatePage = () => {
   const [creatorYear, setCreatorYear] = useState("");
   const [endDate, setEndDate] = useState(null);
   const [groupType, setGroupType] = useState("");
+  const [groupDescription, setGroupDescription] = useState("");
   const groupData = [];
 
   const [openRoles, setOpenRoles] = useState([]);
@@ -66,6 +67,14 @@ const CreatePage = () => {
   const createTeam = (e) => {
     console.log(years);
 
+    const memberData = [
+      {
+        role: creatorRole,
+        year: creatorYear,
+        name: user.user_metadata.full_name,
+      },
+    ];
+
     for (let i = 0; i < totalRoles; i++) {
       if (years[i] == undefined) {
         years[i] = "All";
@@ -89,9 +98,9 @@ const CreatePage = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            query: `mutation MyMutation($myTeamName : String!, $creatorName : String!, $endDate : Date!, $creatorEmail : String!, $openPositions: [Json!]) {
+            query: `mutation MyMutation($myTeamName : String!, $creatorName : String!, $endDate : Date!, $creatorEmail : String!, $openPositions: [Json!], $memberData: [Json!], $groupDescription: String!, $groupType : String!) {
 
-  createTeam(data: {teamName: $myTeamName, creatorName: $creatorName, creatorEmail : $creatorEmail, applyEndDate: $endDate , openPositions: $openPositions}){
+  createTeam(data: {teamName: $myTeamName, creatorName: $creatorName, creatorEmail : $creatorEmail, applyEndDate: $endDate , openPositions: $openPositions, memberData : $memberData, groupDescription : $groupDescription, groupType : $groupType}){
     id
     
   }
@@ -103,6 +112,9 @@ const CreatePage = () => {
               endDate: endDate,
               creatorEmail: user.email,
               openPositions: groupData,
+              memberData: memberData,
+              groupDescription: groupDescription,
+              groupType: groupType,
             },
           }),
         }
@@ -198,6 +210,9 @@ const CreatePage = () => {
           <div className={CreateTeamStyles.pageDiv}>
             <div className={CreateTeamStyles.labelDiv}>
               <label htmlFor="">Team Name</label>
+              <label htmlFor="">Team Type</label>
+              <label htmlFor="">Team Description</label>
+
               <label htmlFor="">Your Degree/Role</label>
               <label htmlFor="">Your Year</label>
               <label htmlFor="">Application End Date</label>
@@ -210,6 +225,22 @@ const CreatePage = () => {
                 required
                 onChange={(e) => {
                   setTeamName(e.target.value);
+                }}
+              />
+              <input
+                type="text"
+                name="groupType"
+                required
+                onChange={(e) => {
+                  setGroupType(e.target.value);
+                }}
+              />
+              <input
+                type="text"
+                name="groupDescription"
+                required
+                onChange={(e) => {
+                  setGroupDescription(e.target.value);
                 }}
               />
               <input
