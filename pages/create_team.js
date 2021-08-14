@@ -72,6 +72,7 @@ const CreatePage = () => {
         role: creatorRole,
         year: creatorYear,
         name: user.user_metadata.full_name,
+        email: user.email,
       },
     ];
 

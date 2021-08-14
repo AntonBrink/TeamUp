@@ -18,9 +18,9 @@ export default function Home() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            query: `query ($userEmail: String!){
+            query: `query{
 
-  teams(where: {creatorEmail: $userEmail}) {
+  teams {
     teamName
     id
   
@@ -28,9 +28,7 @@ export default function Home() {
 
   
 }`,
-            variables: {
-              userEmail: user.email,
-            },
+            variables: {},
           }),
         }
       )

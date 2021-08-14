@@ -1,10 +1,99 @@
 import React from "react";
 import * as manageStyles from "../styles/ManagePage.module.css";
+import { useContext, useState, useEffect } from "react";
+import AuthContext from "../stores/authContext";
 
 const ManagePage = () => {
+  const { user, authReady } = useContext(AuthContext);
+  const [teams, setTeams] = useState();
+  const [teamsReady, setTeamsReady] = useState(false);
+
+  useEffect(() => {
+    if (authReady && user) {
+      fetch(
+        "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            query: `query($userEmail : String!){
+
+  teams (where: {hiddenDesc_contains : $userEmail}){
+    teamName
+    id
+    memberData
+    openPositions
+}
+
+  
+}`,
+            variables: {
+              userEmail: user.email,
+            },
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then((result) => {
+          setTeams(result);
+          setTeamsReady(true);
+        });
+    }
+  }, [user, authReady]);
+
+  const deleteTeam = () => {};
+
   return (
     <div>
       <h1>Your Teams</h1>
+
+      {!teamsReady && <div>Loading your teams...</div>}
+
+      {teamsReady && (
+        <div>
+          {teams.data.teams.map((team) => {
+            let totalPositions = 0;
+
+            team.openPositions.forEach((openPosition) => {
+              totalPositions += openPosition.Amount;
+            });
+
+            totalPositions = totalPositions + team.memberData.length;
+
+            return (
+              <div key={team.id}>
+                <h2>{team.teamName}</h2>
+                <p>
+                  {team.memberData.length}/{totalPositions} members
+                </p>
+                <ul>
+                  Member(s) needed:{" "}
+                  {team.openPositions.map((openPosition, id) => {
+                    return (
+                      <li key={id}>
+                        {openPosition.Amount} {openPosition.Role}(s)
+                      </li>
+                    );
+                  })}
+                </ul>
+                <div>
+                  <button
+                    onClick={() => {
+                      deleteTeam();
+                    }}
+                  >
+                    Disband
+                  </button>
+                  <button>Remove Member</button>
+                  <button>Add Member</button>
+                  <button>View Members</button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
       <div>
         <div>
           <h2>TeamName</h2>
@@ -13,7 +102,13 @@ const ManagePage = () => {
         </div>
 
         <div>
-          <button>Disband</button>
+          <button
+            onClick={() => {
+              deleteTeam();
+            }}
+          >
+            Disband
+          </button>
           <button>Remove Member</button>
           <button>Add Member</button>
           <button>View Members</button>
