@@ -7,6 +7,10 @@ const ManagePage = () => {
   const { user, authReady } = useContext(AuthContext);
   const [teams, setTeams] = useState();
   const [teamsReady, setTeamsReady] = useState(false);
+  const [tempMembers] = useState([]);
+
+  let teamMembers = [];
+  const [displayMembers, setDisplayMembers] = useState("noshowmembers");
 
   useEffect(() => {
     if (authReady && user) {
@@ -42,6 +46,17 @@ const ManagePage = () => {
   }, [user, authReady]);
 
   const deleteTeam = () => {};
+  const showFunction = (teamId) => {
+    setDisplayMembers("showmembers");
+
+    teamMembers.forEach((teamMembersArray) => {
+      if (teamMembersArray.teamId == teamId) {
+        teamMembersArray.members.forEach((member) => {
+          tempMembers.push(member);
+        });
+      }
+    });
+  };
 
   return (
     <div>
@@ -52,6 +67,7 @@ const ManagePage = () => {
       {teamsReady && (
         <div>
           {teams.data.teams.map((team) => {
+            teamMembers.push({ teamId: team.id, members: team.memberData });
             let totalPositions = 0;
 
             team.openPositions.forEach((openPosition) => {
@@ -86,7 +102,9 @@ const ManagePage = () => {
                   </button>
                   <button>Remove Member</button>
                   <button>Add Member</button>
-                  <button>View Members</button>
+                  <button onClick={() => showFunction(team.id)}>
+                    View Members
+                  </button>
                 </div>
               </div>
             );
@@ -100,6 +118,8 @@ const ManagePage = () => {
           <p>2/5 members</p>
           <p>Member(s) needed</p>
         </div>
+
+        {/* sample team */}
 
         <div>
           <button
@@ -119,6 +139,10 @@ const ManagePage = () => {
           <p>1 Law Student(s) 3rd Year</p>
         </span>
       </div>
+
+      {/* sample team */}
+
+      {/* add member modal */}
 
       <div className={manageStyles.addModal}>
         <h2>TeamName</h2>
@@ -142,6 +166,10 @@ const ManagePage = () => {
         </form>
       </div>
 
+      {/* add member modal */}
+
+      {/* remove member modal */}
+
       <div className={manageStyles.removeModal}>
         <h2>TeamName</h2>
 
@@ -161,6 +189,10 @@ const ManagePage = () => {
           <button>Remove Member</button>
         </form>
 
+        {/* remove member modal */}
+
+        {/* confirmation remove */}
+
         <div className={manageStyles.removeConfirmation}>
           <h1>Are you sure you want to remove user with id of id1</h1>
           <button>No!</button>
@@ -168,11 +200,22 @@ const ManagePage = () => {
         </div>
       </div>
 
-      <div className={manageStyles.memberList}>
-        <p>Member 1</p>
-        <p>Member 2</p>
+      {/* confirmation remove */}
+
+      {/* members */}
+
+      <div className={` manageStyles.memberList${displayMembers}`}>
+        {console.log(tempMembers)}
+
+        {tempMembers.map((member, id) => {
+          console.log(member);
+
+          return <p key={id}>{member.name}</p>;
+        })}
       </div>
     </div>
+
+    // members
   );
 };
 
