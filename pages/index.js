@@ -40,7 +40,7 @@ export default function Home() {
           setTeamsReady(true);
         });
     }
-  }, [user, authReady]);
+  }, [teams, user, authReady]);
 
   return (
     <div>
@@ -71,8 +71,8 @@ export default function Home() {
       {!authReady && <h1>Loading...</h1>}
       {!teamsReady && <h1>Loading teams...</h1>}
 
-      {teams.map((team) => {
-        return <h1>{team}</h1>;
+      {teams.map((team, id) => {
+        return <h1 key={id}>{team}</h1>;
       })}
     </div>
   );
