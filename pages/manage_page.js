@@ -27,6 +27,8 @@ const ManagePage = () => {
     id
     memberData
     openPositions
+    creatorEmail
+
 }
 
   
@@ -92,20 +94,28 @@ const ManagePage = () => {
                     );
                   })}
                 </ul>
-                <div>
-                  <button
-                    onClick={() => {
-                      deleteTeam();
-                    }}
-                  >
-                    Disband
-                  </button>
-                  <button>Remove Member</button>
-                  <button>Add Member</button>
-                  <button onClick={() => showFunction(team.id)}>
-                    View Members
-                  </button>
-                </div>
+                {team.creatorEmail == user.email ? (
+                  <div>
+                    <button
+                      onClick={() => {
+                        deleteTeam();
+                      }}
+                    >
+                      Disband
+                    </button>
+                    <button>Remove Member</button>
+                    <button>Add Member</button>
+                    <button onClick={() => showFunction(team.id)}>
+                      View Members
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => showFunction(team.id)}>
+                      View Members
+                    </button>
+                  </div>
+                )}
               </div>
             );
           })}
