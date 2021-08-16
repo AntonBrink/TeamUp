@@ -8,9 +8,13 @@ const ManagePage = () => {
   const [teams, setTeams] = useState();
   const [teamsReady, setTeamsReady] = useState(false);
   const [tempMembers] = useState([]);
+  const [tempRequests] = useState([]);
 
   let teamMembers = [];
+  let joinRequests = [];
   const [displayMembers, setDisplayMembers] = useState("noshowmembers");
+  const [displayRequesters, setDisplayRequesters] =
+    useState("noshowrequesters");
 
   useEffect(() => {
     if (authReady && user) {
@@ -28,6 +32,7 @@ const ManagePage = () => {
     memberData
     openPositions
     creatorEmail
+    memberApplications
 
 }
 
@@ -48,6 +53,7 @@ const ManagePage = () => {
   }, [user, authReady]);
 
   const deleteTeam = () => {};
+
   const showFunction = (teamId) => {
     setDisplayMembers("showmembers");
 
@@ -55,6 +61,17 @@ const ManagePage = () => {
       if (teamMembersArray.teamId == teamId) {
         teamMembersArray.members.forEach((member) => {
           tempMembers.push(member);
+        });
+      }
+    });
+  };
+
+  const memberApplicationsFunction = (teamId) => {
+    setDisplayRequesters("showrequesters");
+    joinRequests.forEach((memberApplicationsArray) => {
+      if (memberApplicationsArray.teamId == teamId) {
+        memberApplicationsArray.members.forEach((member) => {
+          tempRequests.push(member);
         });
       }
     });
@@ -70,6 +87,11 @@ const ManagePage = () => {
         <div>
           {teams.data.teams.map((team) => {
             teamMembers.push({ teamId: team.id, members: team.memberData });
+            joinRequests.push({
+              teamId: team.id,
+              members: team.memberApplications,
+            });
+
             let totalPositions = 0;
 
             team.openPositions.forEach((openPosition) => {
@@ -107,6 +129,9 @@ const ManagePage = () => {
                     <button>Add Member</button>
                     <button onClick={() => showFunction(team.id)}>
                       View Members
+                    </button>
+                    <button onClick={() => memberApplicationsFunction(team.id)}>
+                      View Join Requests
                     </button>
                   </div>
                 ) : (
@@ -151,6 +176,21 @@ const ManagePage = () => {
       </div>
 
       {/* sample team */}
+
+      {/* Join Requests */}
+
+      <div>
+        {tempRequests.map((requester, id) => {
+          return (
+            <p key={id}>
+              {requester.name} - {requester.email} <button>Add</button>
+              <button>Decline</button>
+            </p>
+          );
+        })}
+      </div>
+
+      {/* Join Requests */}
 
       {/* add member modal */}
 
@@ -215,8 +255,6 @@ const ManagePage = () => {
       {/* members */}
 
       <div className={` manageStyles.memberList${displayMembers}`}>
-        {console.log(tempMembers)}
-
         {tempMembers.map((member, id) => {
           console.log(member);
 
