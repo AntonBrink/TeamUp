@@ -52,7 +52,94 @@ const ManagePage = () => {
     }
   }, [user, authReady]);
 
-  const deleteTeam = () => {};
+  const deleteTeam = (teamId) => {
+    let teamDeleteConfirm = confirm(
+      "Are you sure you want to disband your team, this means it will be gone forever"
+    );
+
+    if (teamDeleteConfirm) {
+      fetch(
+        "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: `mutation MyMutation($teamId : ID!) {
+                    deleteTeam(where: {id : $teamId}){
+                    id
+}
+}
+`,
+            variables: {
+              teamId: teamId,
+            },
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then((result) => console.log(result));
+
+      location.reload();
+    }
+  };
+  const addMember = (teamId) => {
+    fetch(
+      "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: `query($userEmail : String!){
+
+  teams (where: {hiddenDesc_contains : $userEmail}){
+    teamName
+    id
+    memberData
+    openPositions
+    creatorEmail
+    memberApplications
+
+}
+
+  
+}`,
+          variables: {
+            userEmail: user.email,
+          },
+        }),
+      }
+    );
+  };
+  const removeMember = (teamId) => {
+    fetch(
+      "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: `query($userEmail : String!){
+
+  teams (where: {hiddenDesc_contains : $userEmail}){
+    teamName
+    id
+    memberData
+    openPositions
+    creatorEmail
+    memberApplications
+
+}
+
+  
+}`,
+          variables: {
+            userEmail: user.email,
+          },
+        }),
+      }
+    );
+  };
 
   const showFunction = (teamId) => {
     setDisplayMembers("showmembers");
@@ -120,13 +207,25 @@ const ManagePage = () => {
                   <div>
                     <button
                       onClick={() => {
-                        deleteTeam();
+                        deleteTeam(team.id);
                       }}
                     >
                       Disband
                     </button>
-                    <button>Remove Member</button>
-                    <button>Add Member</button>
+                    <button
+                      onClick={() => {
+                        removeMember();
+                      }}
+                    >
+                      Remove Member
+                    </button>
+                    <button
+                      onClick={() => {
+                        addMember();
+                      }}
+                    >
+                      Add Member
+                    </button>
                     <button onClick={() => showFunction(team.id)}>
                       View Members
                     </button>
@@ -179,7 +278,7 @@ const ManagePage = () => {
 
       {/* Join Requests */}
 
-      <div>
+      <div className={` manageStyles.${displayRequesters}`}>
         {tempRequests.map((requester, id) => {
           return (
             <p key={id}>
