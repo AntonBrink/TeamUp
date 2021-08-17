@@ -116,6 +116,7 @@ const CreatePage = () => {
               memberData: memberData,
               groupDescription: groupDescription,
               groupType: groupType,
+              hiddenDesc: user.email,
             },
           }),
         }
