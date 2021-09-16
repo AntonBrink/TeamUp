@@ -1,0 +1,45 @@
+
+.navbarComponent :global{
+    height: 150px;
+    display: flex;
+    font-family: "larken";
+    position: relative;
+}
+.navH1{
+    font-size: 70px;
+    font-family: "larken";
+    margin-top: 47px;
+    margin-right: 20px;
+}
+.navList{
+    list-style-type: none;
+    width: max-content ;
+    display: unset;
+    margin-top: 90px;
+    font-family: "larken";
+}
+.navItem{
+    display: inline;
+    margin-right: 20px;
+    font-size: 30px;
+    margin-top: 100px;
+    font-family: "larken";
+}
+.button{
+    background-color: #11223E;
+    height: fit-content;
+    width: fit-content;
+    font-family: "larken";
+    font-size: 25px;
+    border: none;
+    padding: 10px;
+    width: 200px;
+    border-radius: 15px;
+    font-weight: bolder;
+    margin-top: 70px;
+    margin-left: 40px;
+    margin-right: 40px;
+    position: absolute;
+    right: 0%;
+    
+}
