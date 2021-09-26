@@ -12,11 +12,13 @@ const ManagePage = () => {
   const [memberToRemove, setMemberToRemove] = useState("");
   const [removeGroup] = useState([]);
   const [tempId, setTempId] = useState("");
+  const [openRoles, setOpenRoles] = useState([]);
 
   let teamMembers = [];
   let joinRequests = [];
   const [displayRemoveModal, setShowRemoveModal] =
     useState("noShowRemoveModal");
+  const [displayShowAddModal, setDisplayShowAddModal] = useState("noShowAddModal");
   const [displayMembers, setDisplayMembers] = useState("noshowmembers");
   const [displayRequesters, setDisplayRequesters] =
     useState("noshowrequesters");
@@ -29,12 +31,17 @@ const ManagePage = () => {
   const showMembersClassname =
     displayMembers == "noshowmembers"
       ? `${manageStyles.noshowmembers}`
-      : `${manageStyles.noshowmembers}`;
+      : `${manageStyles.showmembers}`;
 
   const showRequestersClassname =
     displayRequesters == "noshowrequesters"
       ? `${manageStyles.noshowrequesters}`
       : `${manageStyles.showrequesters}`;
+
+  const addClassname =
+    displayShowAddModal == "noShowAddModal"
+      ? `${manageStyles.noShowAddModal}`
+      : `${manageStyles.showAddModal}`;
 
   useEffect(() => {
     if (authReady && user) {
@@ -67,6 +74,7 @@ const ManagePage = () => {
         .then((res) => res.json())
         .then((result) => {
           setTeams(result);
+          console.log(result);
           setTeamsReady(true);
         });
     }
@@ -104,7 +112,18 @@ const ManagePage = () => {
       location.reload();
     }
   };
-  const addMember = (teamId) => {
+
+  const createAddModal = (teamId) => {
+    setTempId(teamId);
+    setDisplayShowAddModal("showAddModal");
+    setOpenRoles()
+  };
+
+  const addMember = (memberInfo) => {
+    let hiddenDesc = "";
+    let newGroup = [];
+    let myInfo;
+
     fetch(
       "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
       {
@@ -113,25 +132,56 @@ const ManagePage = () => {
         body: JSON.stringify({
           query: `query($userEmail : String!){
 
-  teams (where: {hiddenDesc_contains : $userEmail}){
-    teamName
-    id
+  teams (where: {id : $tempId}){
     memberData
-    openPositions
-    creatorEmail
-    memberApplications
-
 }
 
   
 }`,
           variables: {
-            userEmail: user.email,
+            tempId: tempId,
           },
         }),
       }
-    );
+    )
+      .then((res) => res.json())
+      .then((result) => {
+        myInfo = result;
+      });
+
+    newGroup = myInfo.data.team.memberData;
+    newGroup.push(memberInfo);
+    newGroup.map((member) => {
+      hiddenDesc += member.email;
+      hiddenDesc += ",";
+    });
+
+    fetch(
+      "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: `mutation UpdateTeam($id : ID!, $groupData :  [Json!], $hiddenDescription : String!){
+
+updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where: {id : $id}) {
+    id
+  }
+
+  
+}`,
+          variables: {
+            id: tempId,
+            groupData: newGroup,
+            hiddenDescription: hiddenDesc,
+          },
+        }),
+      }
+    )
+      .then((res) => res.json())
+      .then((result) => console.log(result));
   };
+
   const CreateRemoveModal = (teamId) => {
     teamMembers.forEach((teamMembersArray) => {
       if (teamMembersArray.teamId == teamId) {
@@ -225,10 +275,11 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
             let totalPositions = 0;
 
             team.openPositions.forEach((openPosition) => {
-              totalPositions += openPosition.Amount;
+              totalPositions += parseInt(openPosition.Amount);
             });
 
             totalPositions = totalPositions + team.memberData.length;
+            console.log(totalPositions);
 
             return (
               <div key={team.id}>
@@ -264,7 +315,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
                     </button>
                     <button
                       onClick={() => {
-                        addMember();
+                        addMember(team.id);
                       }}
                     >
                       Add Member
@@ -336,9 +387,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
 
       {/* add member modal */}
 
-      <div className={manageStyles.addModal}>
-        <h2>TeamName</h2>
-
+      <div className={addClassname}>
         <form action="">
           <div>
             <label htmlFor="">Member Name</label>
@@ -349,9 +398,9 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
             <input type="text" />
             <input type="text" />
             <select name="" id="">
-              <option value="">Software Developer</option>
-              <option value="">Law Student</option>
-              <option value="">BA Student</option>
+             
+             
+              <option value="other">Other</option>
             </select>
           </div>
           <button>Add Member</button>

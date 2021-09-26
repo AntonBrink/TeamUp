@@ -4,6 +4,8 @@ import AuthContext from "../stores/authContext";
 const Header = () => {
   const { user, login, logout, authReady } = useContext(AuthContext);
 
+  console.log(AuthContext);
+
   return (
     <header>
       <h1>Eduvos Heading</h1>
