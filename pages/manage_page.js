@@ -9,12 +9,39 @@ const ManagePage = () => {
   const [teamsReady, setTeamsReady] = useState(false);
   const [tempMembers] = useState([]);
   const [tempRequests] = useState([]);
+  const [memberToRemove, setMemberToRemove] = useState("");
+  const [removeGroup] = useState([]);
+  const [tempId, setTempId] = useState("");
+  const [openRoles, setOpenRoles] = useState([]);
 
   let teamMembers = [];
   let joinRequests = [];
+  const [displayRemoveModal, setShowRemoveModal] =
+    useState("noShowRemoveModal");
+  const [displayShowAddModal, setDisplayShowAddModal] = useState("noShowAddModal");
   const [displayMembers, setDisplayMembers] = useState("noshowmembers");
   const [displayRequesters, setDisplayRequesters] =
     useState("noshowrequesters");
+
+  const removeClassname =
+    displayRemoveModal == "noShowRemoveModal"
+      ? `${manageStyles.noShowRemoveModal}`
+      : `${manageStyles.showRemoveModal}`;
+
+  const showMembersClassname =
+    displayMembers == "noshowmembers"
+      ? `${manageStyles.noshowmembers}`
+      : `${manageStyles.showmembers}`;
+
+  const showRequestersClassname =
+    displayRequesters == "noshowrequesters"
+      ? `${manageStyles.noshowrequesters}`
+      : `${manageStyles.showrequesters}`;
+
+  const addClassname =
+    displayShowAddModal == "noShowAddModal"
+      ? `${manageStyles.noShowAddModal}`
+      : `${manageStyles.showAddModal}`;
 
   useEffect(() => {
     if (authReady && user) {
@@ -47,6 +74,7 @@ const ManagePage = () => {
         .then((res) => res.json())
         .then((result) => {
           setTeams(result);
+          console.log(result);
           setTeamsReady(true);
         });
     }
@@ -84,35 +112,18 @@ const ManagePage = () => {
       location.reload();
     }
   };
-  const addMember = (teamId) => {
-    fetch(
-      "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          query: `query($userEmail : String!){
 
-  teams (where: {hiddenDesc_contains : $userEmail}){
-    teamName
-    id
-    memberData
-    openPositions
-    creatorEmail
-    memberApplications
-
-}
-
-  
-}`,
-          variables: {
-            userEmail: user.email,
-          },
-        }),
-      }
-    );
+  const createAddModal = (teamId) => {
+    setTempId(teamId);
+    setDisplayShowAddModal("showAddModal");
+    setOpenRoles()
   };
-  const removeMember = (teamId) => {
+
+  const addMember = (memberInfo) => {
+    let hiddenDesc = "";
+    let newGroup = [];
+    let myInfo;
+
     fetch(
       "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
       {
@@ -121,24 +132,105 @@ const ManagePage = () => {
         body: JSON.stringify({
           query: `query($userEmail : String!){
 
-  teams (where: {hiddenDesc_contains : $userEmail}){
-    teamName
-    id
+  teams (where: {id : $tempId}){
     memberData
-    openPositions
-    creatorEmail
-    memberApplications
-
 }
 
   
 }`,
           variables: {
-            userEmail: user.email,
+            tempId: tempId,
           },
         }),
       }
-    );
+    )
+      .then((res) => res.json())
+      .then((result) => {
+        myInfo = result;
+      });
+
+    newGroup = myInfo.data.team.memberData;
+    newGroup.push(memberInfo);
+    newGroup.map((member) => {
+      hiddenDesc += member.email;
+      hiddenDesc += ",";
+    });
+
+    fetch(
+      "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: `mutation UpdateTeam($id : ID!, $groupData :  [Json!], $hiddenDescription : String!){
+
+updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where: {id : $id}) {
+    id
+  }
+
+  
+}`,
+          variables: {
+            id: tempId,
+            groupData: newGroup,
+            hiddenDescription: hiddenDesc,
+          },
+        }),
+      }
+    )
+      .then((res) => res.json())
+      .then((result) => console.log(result));
+  };
+
+  const CreateRemoveModal = (teamId) => {
+    teamMembers.forEach((teamMembersArray) => {
+      if (teamMembersArray.teamId == teamId) {
+        teamMembersArray.members.forEach((member) => {
+          removeGroup.push(member);
+        });
+      }
+    });
+
+    setTempId(teamId);
+    setShowRemoveModal("showRemoveModal");
+  };
+
+  const removeMember = () => {
+    let hiddenDesc = "";
+    let newGroup = [];
+
+    removeGroup.forEach((member) => {
+      if (member.email != memberToRemove) {
+        newGroup.push(member);
+        hiddenDesc += member.email;
+        hiddenDesc += ",";
+      }
+    });
+
+    fetch(
+      "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: `mutation UpdateTeam($id : ID!, $groupData :  [Json!], $hiddenDescription : String!){
+
+updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where: {id : $id}) {
+    id
+  }
+
+  
+}`,
+          variables: {
+            id: tempId,
+            groupData: newGroup,
+            hiddenDescription: hiddenDesc,
+          },
+        }),
+      }
+    )
+      .then((res) => res.json())
+      .then((result) => console.log(result));
   };
 
   const showFunction = (teamId) => {
@@ -159,6 +251,7 @@ const ManagePage = () => {
       if (memberApplicationsArray.teamId == teamId) {
         memberApplicationsArray.members.forEach((member) => {
           tempRequests.push(member);
+          console.log(member);
         });
       }
     });
@@ -182,10 +275,11 @@ const ManagePage = () => {
             let totalPositions = 0;
 
             team.openPositions.forEach((openPosition) => {
-              totalPositions += openPosition.Amount;
+              totalPositions += parseInt(openPosition.Amount);
             });
 
             totalPositions = totalPositions + team.memberData.length;
+            console.log(totalPositions);
 
             return (
               <div key={team.id}>
@@ -214,14 +308,14 @@ const ManagePage = () => {
                     </button>
                     <button
                       onClick={() => {
-                        removeMember();
+                        CreateRemoveModal(team.id);
                       }}
                     >
                       Remove Member
                     </button>
                     <button
                       onClick={() => {
-                        addMember();
+                        addMember(team.id);
                       }}
                     >
                       Add Member
@@ -278,7 +372,7 @@ const ManagePage = () => {
 
       {/* Join Requests */}
 
-      <div className={` manageStyles.${displayRequesters}`}>
+      <div className={showRequestersClassname}>
         {tempRequests.map((requester, id) => {
           return (
             <p key={id}>
@@ -293,9 +387,7 @@ const ManagePage = () => {
 
       {/* add member modal */}
 
-      <div className={manageStyles.addModal}>
-        <h2>TeamName</h2>
-
+      <div className={addClassname}>
         <form action="">
           <div>
             <label htmlFor="">Member Name</label>
@@ -306,9 +398,9 @@ const ManagePage = () => {
             <input type="text" />
             <input type="text" />
             <select name="" id="">
-              <option value="">Software Developer</option>
-              <option value="">Law Student</option>
-              <option value="">BA Student</option>
+             
+             
+              <option value="other">Other</option>
             </select>
           </div>
           <button>Add Member</button>
@@ -319,23 +411,36 @@ const ManagePage = () => {
 
       {/* remove member modal */}
 
-      <div className={manageStyles.removeModal}>
+      <div className={removeClassname}>
         <h2>TeamName</h2>
 
-        <form action="">
+        <form>
           <div>
-            <label htmlFor="">Member ID(must be unique)</label>
-            <label htmlFor="">Member Role/Degree</label>
+            <label htmlFor="">Member Email</label>
           </div>
           <div>
-            <input type="text" />
-            <select name="" id="">
-              <option value="">Software Developer</option>
-              <option value="">Law Student</option>
-              <option value="">BA Student</option>
+            <select
+              onChange={(e) => {
+                setMemberToRemove(e.target.value);
+              }}
+            >
+              <option value="">Member Emails</option>
+              {removeGroup.map((member, id) => {
+                return (
+                  <option key={id} value={member.email}>
+                    {member.email}
+                  </option>
+                );
+              })}
             </select>
           </div>
-          <button>Remove Member</button>
+          <button
+            onClick={() => {
+              removeMember();
+            }}
+          >
+            Remove Member
+          </button>
         </form>
 
         {/* remove member modal */}
@@ -353,7 +458,7 @@ const ManagePage = () => {
 
       {/* members */}
 
-      <div className={` manageStyles.memberList${displayMembers}`}>
+      <div className={showMembersClassname}>
         {tempMembers.map((member, id) => {
           console.log(member);
 

@@ -99,9 +99,9 @@ const CreatePage = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            query: `mutation MyMutation($myTeamName : String!, $creatorName : String!, $endDate : Date!, $creatorEmail : String!, $openPositions: [Json!], $memberData: [Json!], $groupDescription: String!, $groupType : String!) {
+            query: `mutation MyMutation($myTeamName : String!, $creatorName : String!, $endDate : Date!, $creatorEmail : String!, $openPositions: [Json!], $memberData: [Json!], $groupDescription: String!, $groupType : String!, $hiddenDesc: String!) {
 
-  createTeam(data: {teamName: $myTeamName, creatorName: $creatorName, creatorEmail : $creatorEmail, applyEndDate: $endDate , openPositions: $openPositions, memberData : $memberData, groupDescription : $groupDescription, groupType : $groupType}){
+  createTeam(data: {teamName: $myTeamName, creatorName: $creatorName, creatorEmail : $creatorEmail, applyEndDate: $endDate , openPositions: $openPositions, memberData : $memberData, groupDescription : $groupDescription, groupType : $groupType, hiddenDesc : $hiddenDesc}){
     id
     
   }
