@@ -12,7 +12,7 @@ const ManagePage = () => {
   const [memberToRemove, setMemberToRemove] = useState("");
   const [removeGroup] = useState([]);
   const [tempId, setTempId] = useState("");
-  const [tempAddId, setTempAddId] = useState("");
+  const [tempId2, settempId2] = useState("");
   const [openRoles, setOpenRoles] = useState([]);
   const [memberToAddInfo, setMemberToAddInfo] = useState({
     name: "",
@@ -52,13 +52,13 @@ const ManagePage = () => {
       : `${manageStyles.showAddModal}`;
 
   useEffect(() => {
-    if (tempAddId !== "") {
+    if (tempId2 !== "") {
       fetchRoles().then((response) => {
         console.log(response);
         setOpenRoles(response.data.teams[0].openPositions);
       });
     }
-  }, [tempAddId]);
+  }, [tempId2]);
 
   useEffect(() => {
     if (openRoles.length !== 0) {
@@ -135,10 +135,10 @@ const ManagePage = () => {
   };
 
   const createAddModal = (teamId) => {
-    setTempAddId(teamId);
+    settempId2(teamId);
   };
   const fetchRoles = async () => {
-    console.log(tempAddId);
+    console.log(tempId2);
 
     const response = await fetch(
       "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
@@ -155,7 +155,7 @@ const ManagePage = () => {
   
 }`,
           variables: {
-            tempId: tempAddId,
+            tempId: tempId2,
           },
         }),
       }
@@ -165,36 +165,14 @@ const ManagePage = () => {
     return openPositions;
   };
 
-  const fetchMembers = async () => {
-    console.log("Fetching");
-    console.log(tempAddId);
+  // const fetchMembers = () => {
+  //   console.log("Fetching");
+  //   console.log(tempId2);
 
-    const response = await fetch(
-      "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          query: `query($tempId : ID!){
+  //   const memberData = [];
 
-  teams (where: {id : $tempId}){
-    memberData
-}
-
-  
-}`,
-          variables: {
-            tempId: tempAddId,
-          },
-        }),
-      }
-    );
-
-    const memberData = await response.json();
-    console.log(memberData);
-
-    return memberData;
-  };
+  //   return memberData;
+  // };
 
   const addMember = (memberInfo) => {
     let newRoles = [];
@@ -212,8 +190,7 @@ const ManagePage = () => {
             return;
           }
         }
-        console.log(role);
-        console.log(role.Amount);
+
         newRoles.push(role);
       });
     }
@@ -222,45 +199,81 @@ const ManagePage = () => {
     let newGroup = [];
     let myInfo = [];
 
-    fetchMembers().then((memberData) => {
-      myInfo = memberData;
-      newGroup = myInfo.data.teams[0].memberData;
-      newGroup.push(memberInfo);
-      newGroup.map((member) => {
-        hiddenDesc += member.email;
-        hiddenDesc += ",";
-      });
+    console.log("check 1");
+    console.log(tempId2);
 
-      if (memberInfo.role == "other") {
-        newRoles = openRoles;
+    fetch(
+      "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: `query($tempId : ID!){
+  teams (where: {id : $tempId}){
+    memberData
+}
+
+  
+}`,
+          variables: {
+            tempId: tempId2,
+          },
+        }),
       }
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        console.log("check 2");
 
-      console.log("before new roles log");
+        let memberData = res;
 
-      console.log(newRoles);
+        myInfo = memberData;
+        newGroup = myInfo.data.teams[0].memberData;
+        newGroup.push(memberInfo);
+        newGroup.map((member) => {
+          hiddenDesc += member.email;
+          hiddenDesc += ",";
+        });
 
-      fetch(
-        "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            query: `mutation UpdateTeam($id : ID!, $groupData :  [Json!], $hiddenDescription : String!, $openRoles : [Json!]){
+        if (memberInfo.role == "other") {
+          newRoles = openRoles;
+        }
+
+        console.log("before new roles log");
+
+        console.log(newRoles);
+
+        fetch(
+          "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              query: `mutation UpdateTeam($id : ID!, $groupData :  [Json!], $hiddenDescription : String!, $openRoles : [Json!]){
     updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription, openPositions: $openRoles}, where: {id : $id}) {
         id
       }
 
     }`,
-            variables: {
-              id: tempAddId,
-              groupData: newGroup,
-              hiddenDescription: hiddenDesc,
-              openRoles: newRoles,
-            },
-          }),
-        }
-      );
-    });
+              variables: {
+                id: tempId2,
+                groupData: newGroup,
+                hiddenDescription: hiddenDesc,
+                openRoles: newRoles,
+              },
+            }),
+          }
+        )
+          .then((res) => res.json())
+          .then((res) => {
+            if (res !== undefined) {
+              location.reload();
+            }
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const CreateRemoveModal = (teamId) => {
@@ -465,70 +478,68 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
       {/* add member modal */}
 
       <div className={addClassname}>
-        <form>
-          <div>
-            <label htmlFor="">Member Name</label>
-            <label htmlFor="">Member Year</label>
-            <label htmlFor="">Member Email</label>
-            <label htmlFor="">Member Role/Degree</label>
-          </div>
-          <div>
-            <input
-              required
-              type="text"
-              onChange={(e) => {
-                setMemberToAddInfo((memberToAddInfo) => ({
-                  ...memberToAddInfo,
-                  name: e.target.value,
-                }));
-              }}
-            />
-            <input
-              required
-              type="text"
-              onChange={(e) => {
-                setMemberToAddInfo((memberToAddInfo) => ({
-                  ...memberToAddInfo,
-                  year: e.target.value,
-                }));
-              }}
-            />
-            <input
-              required
-              type="text"
-              onChange={(e) => {
-                setMemberToAddInfo((memberToAddInfo) => ({
-                  ...memberToAddInfo,
-                  email: e.target.value,
-                }));
-              }}
-            />
-            <select
-              onChange={(e) => {
-                setMemberToAddInfo((memberToAddInfo) => ({
-                  ...memberToAddInfo,
-                  role: e.target.value,
-                }));
-              }}
-            >
-              <option value="other">Other</option>
-              {openRoles.map((openRole) => {
-                return (
-                  <option value={openRole.Role}>
-                    {openRole.Role} - {openRole.Years} Year
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <button
-            onClick={() => {
-              addMember(memberToAddInfo);
+        <div>
+          <label htmlFor="">Member Name</label>
+          <label htmlFor="">Member Year</label>
+          <label htmlFor="">Member Email</label>
+          <label htmlFor="">Member Role/Degree</label>
+        </div>
+        <div>
+          <input
+            required
+            type="text"
+            onChange={(e) => {
+              setMemberToAddInfo((memberToAddInfo) => ({
+                ...memberToAddInfo,
+                name: e.target.value,
+              }));
+            }}
+          />
+          <input
+            required
+            type="text"
+            onChange={(e) => {
+              setMemberToAddInfo((memberToAddInfo) => ({
+                ...memberToAddInfo,
+                year: e.target.value,
+              }));
+            }}
+          />
+          <input
+            required
+            type="text"
+            onChange={(e) => {
+              setMemberToAddInfo((memberToAddInfo) => ({
+                ...memberToAddInfo,
+                email: e.target.value,
+              }));
+            }}
+          />
+          <select
+            onChange={(e) => {
+              setMemberToAddInfo((memberToAddInfo) => ({
+                ...memberToAddInfo,
+                role: e.target.value,
+              }));
             }}
           >
-            Add Member
-          </button>
-        </form>
+            <option value="other">Other</option>
+            {openRoles.map((openRole) => {
+              return (
+                <option key={openRole.Role} value={openRole.Role}>
+                  {openRole.Role} - {openRole.Years} Year
+                </option>
+              );
+            })}
+          </select>
+        </div>
+        <button
+          onClick={() => {
+            addMember(memberToAddInfo);
+          }}
+        >
+          Add Member
+        </button>
       </div>
 
       {/* add member modal */}
