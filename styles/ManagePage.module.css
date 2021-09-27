@@ -24,3 +24,7 @@
 .noshowrequesters {
   display: none;
 }
+
+.noShowAddModal {
+  display: none;
+}

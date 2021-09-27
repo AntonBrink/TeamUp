@@ -12,13 +12,21 @@ const ManagePage = () => {
   const [memberToRemove, setMemberToRemove] = useState("");
   const [removeGroup] = useState([]);
   const [tempId, setTempId] = useState("");
+  const [tempAddId, setTempAddId] = useState("");
   const [openRoles, setOpenRoles] = useState([]);
+  const [memberToAddInfo, setMemberToAddInfo] = useState({
+    name: "",
+    role: "",
+    year: "",
+    email: "",
+  });
 
   let teamMembers = [];
   let joinRequests = [];
   const [displayRemoveModal, setShowRemoveModal] =
     useState("noShowRemoveModal");
-  const [displayShowAddModal, setDisplayShowAddModal] = useState("noShowAddModal");
+  const [displayShowAddModal, setDisplayShowAddModal] =
+    useState("noShowAddModal");
   const [displayMembers, setDisplayMembers] = useState("noshowmembers");
   const [displayRequesters, setDisplayRequesters] =
     useState("noshowrequesters");
@@ -42,6 +50,22 @@ const ManagePage = () => {
     displayShowAddModal == "noShowAddModal"
       ? `${manageStyles.noShowAddModal}`
       : `${manageStyles.showAddModal}`;
+
+  useEffect(() => {
+    if (tempAddId !== "") {
+      fetchRoles().then((response) => {
+        console.log(response);
+        setOpenRoles(response.data.teams[0].openPositions);
+      });
+    }
+  }, [tempAddId]);
+
+  useEffect(() => {
+    if (openRoles.length !== 0) {
+      setDisplayShowAddModal("showAddModal");
+      console.log(openRoles);
+    }
+  }, [openRoles]);
 
   useEffect(() => {
     if (authReady && user) {
@@ -74,7 +98,6 @@ const ManagePage = () => {
         .then((res) => res.json())
         .then((result) => {
           setTeams(result);
-          console.log(result);
           setTeamsReady(true);
         });
     }
@@ -105,32 +128,54 @@ const ManagePage = () => {
             },
           }),
         }
-      )
-        .then((res) => res.json())
-        .then((result) => console.log(result));
+      );
 
       location.reload();
     }
   };
 
   const createAddModal = (teamId) => {
-    setTempId(teamId);
-    setDisplayShowAddModal("showAddModal");
-    setOpenRoles()
+    setTempAddId(teamId);
   };
+  const fetchRoles = async () => {
+    console.log(tempAddId);
 
-  const addMember = (memberInfo) => {
-    let hiddenDesc = "";
-    let newGroup = [];
-    let myInfo;
-
-    fetch(
+    const response = await fetch(
       "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          query: `query($userEmail : String!){
+          query: `query($tempId : ID!){
+
+  teams (where: {id : $tempId}){
+    openPositions
+}
+
+  
+}`,
+          variables: {
+            tempId: tempAddId,
+          },
+        }),
+      }
+    );
+
+    const openPositions = await response.json();
+    return openPositions;
+  };
+
+  const fetchMembers = async () => {
+    console.log("Fetching");
+    console.log(tempAddId);
+
+    const response = await fetch(
+      "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: `query($tempId : ID!){
 
   teams (where: {id : $tempId}){
     memberData
@@ -139,47 +184,83 @@ const ManagePage = () => {
   
 }`,
           variables: {
-            tempId: tempId,
+            tempId: tempAddId,
           },
         }),
       }
-    )
-      .then((res) => res.json())
-      .then((result) => {
-        myInfo = result;
+    );
+
+    const memberData = await response.json();
+    console.log(memberData);
+
+    return memberData;
+  };
+
+  const addMember = (memberInfo) => {
+    let newRoles = [];
+
+    if (memberInfo.role == "") {
+      memberInfo.role = "other";
+    } else {
+      openRoles.map((role) => {
+        if (role.Role == memberInfo.role) {
+          if (role.Amount > 1) {
+            let tempAmount = parseInt(role.Amount) - 1;
+
+            role.Amount = tempAmount.toString();
+          } else {
+            return;
+          }
+        }
+        console.log(role);
+        console.log(role.Amount);
+        newRoles.push(role);
+      });
+    }
+
+    let hiddenDesc = "";
+    let newGroup = [];
+    let myInfo = [];
+
+    fetchMembers().then((memberData) => {
+      myInfo = memberData;
+      newGroup = myInfo.data.teams[0].memberData;
+      newGroup.push(memberInfo);
+      newGroup.map((member) => {
+        hiddenDesc += member.email;
+        hiddenDesc += ",";
       });
 
-    newGroup = myInfo.data.team.memberData;
-    newGroup.push(memberInfo);
-    newGroup.map((member) => {
-      hiddenDesc += member.email;
-      hiddenDesc += ",";
-    });
-
-    fetch(
-      "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          query: `mutation UpdateTeam($id : ID!, $groupData :  [Json!], $hiddenDescription : String!){
-
-updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where: {id : $id}) {
-    id
-  }
-
-  
-}`,
-          variables: {
-            id: tempId,
-            groupData: newGroup,
-            hiddenDescription: hiddenDesc,
-          },
-        }),
+      if (memberInfo.role == "other") {
+        newRoles = openRoles;
       }
-    )
-      .then((res) => res.json())
-      .then((result) => console.log(result));
+
+      console.log("before new roles log");
+
+      console.log(newRoles);
+
+      fetch(
+        "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            query: `mutation UpdateTeam($id : ID!, $groupData :  [Json!], $hiddenDescription : String!, $openRoles : [Json!]){
+    updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription, openPositions: $openRoles}, where: {id : $id}) {
+        id
+      }
+
+    }`,
+            variables: {
+              id: tempAddId,
+              groupData: newGroup,
+              hiddenDescription: hiddenDesc,
+              openRoles: newRoles,
+            },
+          }),
+        }
+      );
+    });
   };
 
   const CreateRemoveModal = (teamId) => {
@@ -228,9 +309,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
           },
         }),
       }
-    )
-      .then((res) => res.json())
-      .then((result) => console.log(result));
+    ).then((res) => res.json());
   };
 
   const showFunction = (teamId) => {
@@ -251,7 +330,6 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
       if (memberApplicationsArray.teamId == teamId) {
         memberApplicationsArray.members.forEach((member) => {
           tempRequests.push(member);
-          console.log(member);
         });
       }
     });
@@ -279,7 +357,6 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
             });
 
             totalPositions = totalPositions + team.memberData.length;
-            console.log(totalPositions);
 
             return (
               <div key={team.id}>
@@ -315,7 +392,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
                     </button>
                     <button
                       onClick={() => {
-                        addMember(team.id);
+                        createAddModal(team.id);
                       }}
                     >
                       Add Member
@@ -388,22 +465,69 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
       {/* add member modal */}
 
       <div className={addClassname}>
-        <form action="">
+        <form>
           <div>
             <label htmlFor="">Member Name</label>
-            <label htmlFor="">Member ID(must be unique)</label>
+            <label htmlFor="">Member Year</label>
+            <label htmlFor="">Member Email</label>
             <label htmlFor="">Member Role/Degree</label>
           </div>
           <div>
-            <input type="text" />
-            <input type="text" />
-            <select name="" id="">
-             
-             
+            <input
+              required
+              type="text"
+              onChange={(e) => {
+                setMemberToAddInfo((memberToAddInfo) => ({
+                  ...memberToAddInfo,
+                  name: e.target.value,
+                }));
+              }}
+            />
+            <input
+              required
+              type="text"
+              onChange={(e) => {
+                setMemberToAddInfo((memberToAddInfo) => ({
+                  ...memberToAddInfo,
+                  year: e.target.value,
+                }));
+              }}
+            />
+            <input
+              required
+              type="text"
+              onChange={(e) => {
+                setMemberToAddInfo((memberToAddInfo) => ({
+                  ...memberToAddInfo,
+                  email: e.target.value,
+                }));
+              }}
+            />
+            <select
+              onChange={(e) => {
+                setMemberToAddInfo((memberToAddInfo) => ({
+                  ...memberToAddInfo,
+                  role: e.target.value,
+                }));
+              }}
+            >
               <option value="other">Other</option>
+              {openRoles.map((openRole) => {
+                return (
+                  <option value={openRole.Role}>
+                    {openRole.Role} - {openRole.Years} Year
+                  </option>
+                );
+              })}
             </select>
           </div>
-          <button>Add Member</button>
+          <button
+            onClick={() => {
+              addMember(memberToAddInfo);
+            }}
+          >
+            Add Member
+          </button>
         </form>
       </div>
 
@@ -460,8 +584,6 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
 
       <div className={showMembersClassname}>
         {tempMembers.map((member, id) => {
-          console.log(member);
-
           return <p key={id}>{member.name}</p>;
         })}
       </div>
