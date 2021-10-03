@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import CreateTeamStyles from "../styles/CreateTeamPage.module.css";
 import AuthContext from "../stores/authContext";
+import Image from "next/image";
 
 const CreatePage = () => {
   const { user, authReady } = useContext(AuthContext);
@@ -20,19 +21,19 @@ const CreatePage = () => {
   const [roles] = useState([
     <div className={CreateTeamStyles.roleInnerDiv} key={totalRoles}>
       <label htmlFor="" className={CreateTeamStyles.roleLabel}>
-        Degree/Role
+        Member Degree / Role :
       </label>
-      <input
+      <input 
         type="text"
         name="memberDegree0"
         required
         onChange={(e) => {
           setOpenRoles((openRoles) => ({ ...openRoles, [0]: e.target.value }));
         }}
+        className={CreateTeamStyles.roleLabel}
       />
-      <br />
       <label className={CreateTeamStyles.roleLabel} htmlFor="" required>
-        Amount
+        Amount :
       </label>
 
       <input
@@ -44,13 +45,12 @@ const CreatePage = () => {
           setAmount((amount) => ({ ...amount, [0]: e.target.value }));
         }}
       />
-      <br />
       <label className={CreateTeamStyles.roleLabel} htmlFor="">
-        Year
+        Member Year :
       </label>
 
       <select
-        id=""
+        className={CreateTeamStyles.select}
         name="memberDegreeYear0"
         onChange={(e) => {
           setYears((years) => ({ ...years, [0]: e.target.value }));
@@ -208,20 +208,20 @@ const CreatePage = () => {
           onSubmit={(e) => {
             createTeam(e);
           }}
-        >
-          <div>
-          <h1>New Team Information</h1>
+        > 
+          <div className={CreateTeamStyles.page}>
+          <div className={CreateTeamStyles.pageDivLeft}>
+          <h1>New Team Information :</h1>
+          
           <div className={CreateTeamStyles.pageDiv}>
-            
             <div className={CreateTeamStyles.labelDiv}>
-              <label htmlFor="">Team Name</label>
-              <label htmlFor="">Team Type</label>
-              <label htmlFor="">Team Description</label>
-
-              <label htmlFor="">Your Degree/Role</label>
-              <label htmlFor="">Your Year</label>
-              <label htmlFor="">Application End Date</label>
-              <label htmlFor="">Total Unique Roles/Degrees</label>
+              <label htmlFor="">Team Name :</label>
+              <label htmlFor="">Team Type :</label>
+              <label htmlFor="">Team Description :</label>
+              <label htmlFor="">Your Degree/Role :</label>
+              <label htmlFor="">Your Year :</label>
+              <label htmlFor="">Application End Date :</label>
+              <label htmlFor="">Total Unique Roles/Degrees :</label>
             </div>
             <div className={CreateTeamStyles.inputDiv}>
               <input
@@ -285,9 +285,10 @@ const CreatePage = () => {
                 }}
               />
             </div>
-          </div>
-          <div>
+            </div>
+          
                 <h1>Team Members:</h1>
+            <div className={CreateTeamStyles.teamMembersDiv}>
             {roles.map((role, id) => {
               return (
                 <div className={CreateTeamStyles.roleDiv} key={id}>
@@ -295,17 +296,19 @@ const CreatePage = () => {
                 </div>
               );
             })}
-          </div>
-          <button type="submit" className={CreateTeamStyles.createBtn}>
+          </div> <button type="submit" className={CreateTeamStyles.createBtn}>
             Create Team
           </button>
           </div>
-          <div>
-            
+          
+          <div className={CreateTeamStyles.pageDivRight}>
+          <Image src="/puzzle.png" alt="Could not find logo" layout="responsive" width = "250px" height = "200px"/>
+          </div>
           </div>
         </form>
       )}
     </div>
+    
     
   );
 };
