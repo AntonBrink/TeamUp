@@ -1,15 +1,16 @@
 
 .navbarComponent :global{
-    height: 150px;
+    height: 135px;
     display: flex;
     font-family: "larken";
     position: relative;
 }
 .navH1{
-    font-size: 70px;
+    font-size: 55px;
     font-family: "larken";
-    margin-top: 47px;
+    margin-top: 65px;
     margin-right: 20px;
+    cursor: pointer;
 }
 .navList{
     list-style-type: none;
@@ -36,7 +37,7 @@
     width: 200px;
     border-radius: 15px;
     font-weight: bolder;
-    margin-top: 70px;
+    margin-top: 80px;
     margin-left: 40px;
     margin-right: 40px;
     position: absolute;

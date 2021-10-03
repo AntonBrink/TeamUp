@@ -209,7 +209,10 @@ const CreatePage = () => {
             createTeam(e);
           }}
         >
+          <div>
+          <h1>New Team Information</h1>
           <div className={CreateTeamStyles.pageDiv}>
+            
             <div className={CreateTeamStyles.labelDiv}>
               <label htmlFor="">Team Name</label>
               <label htmlFor="">Team Type</label>
@@ -269,6 +272,7 @@ const CreatePage = () => {
                   setEndDate(e.target.value);
                 }}
               />
+
               <input
                 type="number"
                 min="1"
@@ -283,6 +287,7 @@ const CreatePage = () => {
             </div>
           </div>
           <div>
+                <h1>Team Members:</h1>
             {roles.map((role, id) => {
               return (
                 <div className={CreateTeamStyles.roleDiv} key={id}>
@@ -294,9 +299,14 @@ const CreatePage = () => {
           <button type="submit" className={CreateTeamStyles.createBtn}>
             Create Team
           </button>
+          </div>
+          <div>
+            
+          </div>
         </form>
       )}
     </div>
+    
   );
 };
 
