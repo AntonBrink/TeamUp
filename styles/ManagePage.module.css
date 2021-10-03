@@ -1,3 +1,21 @@
+.pageDiv{
+  display: flex;
+}
+.leftPageDiv{
+  width: 50vw;
+}
+.rightPageDiv{
+  padding-top: 80px;
+  width: 40vw;
+  bottom: 0;
+}
+.heading{
+  margin-left: 70px;
+  font-family: "poppins";
+  margin-bottom: 5px;
+  font-size: 50px;
+  font-weight: lighter;
+}
 .noShowRemoveModal {
   display: none;
 }
@@ -27,4 +45,52 @@
 
 .noShowAddModal {
   display: none;
+}
+.teamDiv{
+  background-color: #11223E;
+  padding: 30px;
+  margin: 40px;
+  margin-top: 0px;
+  border-radius: 20px;
+}
+.teamDiv >h2{
+  background-color: #11223E;
+  font-family: "poppins";
+  font-size: 35px;
+  margin-top: 0px;
+  margin-bottom: 2px;
+  font-weight: lighter;
+}
+.teamDiv >p{
+  background-color: #11223E;
+  font-family: "poppins";
+  font-size: 25px;
+
+}
+.teamDiv >ul{
+  background-color: #11223E;
+  font-family: "poppins";
+  font-size: 25px;
+  list-style-type: none;
+  padding: 0px;
+}
+.teamDiv >ul >li{
+  background-color: #11223E;
+}
+.teamDiv >div{
+  background-color: #11223E;
+}
+.teamDiv >div >button{
+  background-color: #11223E;
+  border: solid;
+  border-width: 2px;
+  border-color: white;
+  margin: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-family: "poppins";
+  font-size: 17px;
+
 }

@@ -2,6 +2,7 @@ import React from "react";
 import * as manageStyles from "../styles/ManagePage.module.css";
 import { useContext, useState, useEffect } from "react";
 import AuthContext from "../stores/authContext";
+import Image from "next/image";
 
 const ManagePage = () => {
   const { user, authReady } = useContext(AuthContext);
@@ -349,8 +350,9 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
   };
 
   return (
-    <div>
-      <h1>Your Teams</h1>
+    <div className={manageStyles.pageDiv}>
+    <div className={manageStyles.leftPageDiv}>
+      <h1 className={manageStyles.heading}>Your Teams :</h1>
 
       {!teamsReady && <div>Loading your teams...</div>}
 
@@ -372,7 +374,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
             totalPositions = totalPositions + team.memberData.length;
 
             return (
-              <div key={team.id}>
+              <div  className={manageStyles.teamDiv} key={team.id}>
                 <h2>{team.teamName}</h2>
                 <p>
                   {team.memberData.length}/{totalPositions} members
@@ -429,36 +431,6 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
           })}
         </div>
       )}
-
-      <div>
-        <div>
-          <h2>TeamName</h2>
-          <p>2/5 members</p>
-          <p>Member(s) needed</p>
-        </div>
-
-        {/* sample team */}
-
-        <div>
-          <button
-            onClick={() => {
-              deleteTeam();
-            }}
-          >
-            Disband
-          </button>
-          <button>Remove Member</button>
-          <button>Add Member</button>
-          <button>View Members</button>
-        </div>
-        <span>
-          <p>1 Software Developer(s) 3rd Year</p>
-          <p>1 BA Student(s) Any Year</p>
-          <p>1 Law Student(s) 3rd Year</p>
-        </span>
-      </div>
-
-      {/* sample team */}
 
       {/* Join Requests */}
 
@@ -598,7 +570,12 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
           return <p key={id}>{member.name}</p>;
         })}
       </div>
+      </div>
+      <div className={manageStyles.rightPageDiv}>
+        <Image src="/groupvideo.png" alt="Could not find logo" layout="responsive" width = "100px" height = "100px"/>
+      </div>
     </div>
+    
 
     // members
   );
