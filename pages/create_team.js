@@ -61,6 +61,7 @@ const CreatePage = () => {
         <option value="2nd">2nd</option>
         <option value="1st">1st</option>
       </select>
+      <br/>
     </div>,
   ]);
 
@@ -134,7 +135,7 @@ const CreatePage = () => {
       roles.push(
         <div className={CreateTeamStyles.roleInnerDiv} key={totalRoles}>
           <label className={CreateTeamStyles.roleLabel} htmlFor="">
-            Degree/Role
+            Member Degree / Role :
           </label>
           <input
             type="text"
@@ -147,9 +148,8 @@ const CreatePage = () => {
               }));
             }}
           />
-          <br />
           <label className={CreateTeamStyles.roleLabel} htmlFor="">
-            Amount
+            Amount :
           </label>
 
           <input
@@ -164,12 +164,11 @@ const CreatePage = () => {
               }));
             }}
           />
-          <br />
           <label className={CreateTeamStyles.roleLabel} htmlFor="">
-            Year
+          Member Year :
           </label>
 
-          <select
+          <select className={CreateTeamStyles.select}
             name={`memberDegreeYear${divId}`}
             id=""
             required
@@ -185,7 +184,9 @@ const CreatePage = () => {
             <option value="2nd">2nd</option>
             <option value="1st">1st</option>
           </select>
+          <br/>
         </div>
+
       );
       console.log("divId", divId);
       console.log("roles", roles.length);
