@@ -2,9 +2,103 @@
   display: flex;
   flex-direction: column;
   width: 50vw;
+  
+}
+
+.teams >button {
+  border: none;
+  background-color: #11223E;
+  margin: 10px;
+  margin-left: 30px;
+  text-align: left;
+  padding-left: 20px;
+  border-radius: 20px;
+}
+.teams >button >div >h1{
+  background-color: #11223E;
+  font-family: "poppins";
+  font-size: 35px;
+}
+.teams >button >div >p{
+  background-color: #11223E;
+  font-size: 25px;
+  font-family: "poppins";
+}
+.teams >button >div >ul{
+  background-color: #11223E;
+  font-size: 25px;
+  font-family: "poppins";
+  padding: 0px;
+}
+.teams >button >div >ul >li{
+  background-color: #11223E;
+  list-style-type: none;
+  font-size: 25px;
+  font-family: "poppins";
+  
+}
+.teams >button >div{
+  background-color: #11223E;
 }
 
 .pageContent {
   display: grid;
   grid-template-columns: 50% 50%;
+}
+.heading{
+  font-size: 45px;
+  font-family: "poppins";
+  text-align: center;
+}
+.teamInfo{
+  background-color: #11223E;
+  margin: 10px;
+  padding-left: 30px;
+  height: max-content;
+  margin-left: 30px;
+  margin-right: 30px;
+  padding-top: 0px;
+  border-radius: 20px;
+}
+.teamInfo >div{
+  background-color: #11223E;
+}
+.teamInfo >h1{
+  background-color: #11223E;
+  font-family: "poppins";
+  font-size: 35px;
+  margin-bottom: 0px;
+  
+}
+.teamInfo >div >p{
+  background-color: #11223E;
+  margin: 0px;
+  font-family: "poppins";
+  font-size: 25px;
+}
+.teamInfo >div >ul{
+  background-color: #11223E;
+  margin-top: 0px;
+  font-family: "poppins";
+  font-size: 25px;
+}
+.teamInfo >div >ul >li{
+  background-color: #11223E;
+  font-family: "poppins";
+  font-size: 25px;
+}
+.teamInfo >div >div >h2{
+  background-color: #11223E;
+  font-family: "poppins";
+  font-size: 30px;
+}
+.teamInfo >div >div >p{
+  background-color: #11223E;
+  font-family: "poppins";
+  font-size: 25px;
+}
+.teamInfo >div >div{
+  background-color: #11223E;
+  font-family: "poppins";
+  font-size: 25px;
 }

@@ -111,7 +111,7 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Homepage</h1>
+      <h1 className={styles.heading}>All Teams</h1>
       <div>
         <div>
           <label htmlFor="">Role/Degree</label>
@@ -155,10 +155,10 @@ export default function Home() {
                 <div>
                   <h1> {team.teamName}</h1>
                   <p>
-                    {team.memberData.length}/{totalPositions} members
+                    {team.memberData.length}/{totalPositions} Members
                   </p>
                   <ul>
-                    Member(s) needed:
+                    Members needed:
                     {team.openPositions.map((openPosition, id) => {
                       return (
                         <li key={id}>
