@@ -143,6 +143,8 @@ export default function Home() {
               totalPositions += parseInt(openPosition.Amount);
             });
 
+            totalPositions += team.memberData.length;
+
             return (
               <button
                 key={team.id}
