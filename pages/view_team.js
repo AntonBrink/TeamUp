@@ -12,7 +12,42 @@ export default function Home() {
   const [description, setDescription] = useState("");
   const [names, setNames] = useState([]);
   const [date, setDate] = useState("");
-  const [goAhead, setGoAhead] = useState(false);
+  const [teamId, setTeamId] = useState("");
+
+  const requestJoin = (id) => {
+    let userData;
+    teams.forEach((team) => {
+      if (team.id == id) {
+        userData = team.memberApplications;
+      }
+    });
+
+    userData.push({ name: user.user_metadata.full_name, email: user.email });
+
+    fetch(
+      "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: `mutation UpdateTeam($id : ID!, $MemberApplications :  [Json!]){
+    updateTeam(data: {memberApplications: $MemberApplications}, where: {id : $id}) {
+        id
+      }
+
+    }`,
+          variables: {
+            id: id,
+            MemberApplications: userData,
+          },
+        }),
+      }
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        window.alert("request to join sent");
+      });
+  };
 
   const setData = (id) => {
     setNames([]);
@@ -23,16 +58,15 @@ export default function Home() {
         setDate(team.applyEndDate);
         setDescription(team.groupDescription);
         team.memberData.forEach((member) => {
-          console.log(member);
           setNames((names) => [...names, member.name]);
         });
+        setTeamId(id);
       }
     });
   };
 
   useEffect(() => {
     if (authReady && user) {
-      console.log(user);
       fetch(
         "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
         {
@@ -48,7 +82,7 @@ export default function Home() {
     memberData
     applyEndDate
     groupDescription
-  
+    memberApplications
 }
 
   
@@ -67,6 +101,7 @@ export default function Home() {
               openPositions: team.openPositions,
               applyEndDate: team.applyEndDate,
               groupDescription: team.groupDescription,
+              memberApplications: team.memberApplications,
             });
           });
           setTeamsReady(true);
@@ -135,26 +170,36 @@ export default function Home() {
             );
           })}
         </div>
-
-        <div className={styles.teamInfo}>
-          <h1>{teamName}</h1>
-          <div>
-            <p></p>
-            <ul>
-              {names.map((name, id) => {
-                return <li key={id}>{name}</li>;
-              })}
-            </ul>
+        {teamId ? (
+          <div className={styles.teamInfo}>
+            <h1>{teamName}</h1>
             <div>
-              <h2>Team Description:</h2>
-              <p>{description}</p>
+              <p>Current Members:</p>
+              <ul>
+                {names.map((name, id) => {
+                  return <li key={id}>{name}</li>;
+                })}
+              </ul>
+              <div>
+                <h2>Team Description:</h2>
+                <p>{description}</p>
+              </div>
+              <div>
+                <h2>Applications Closing Date</h2>
+                <p>{date}</p>
+              </div>
             </div>
-            <div>
-              <h2>Applications Closing Date</h2>
-              <p>{date}</p>
-            </div>
+            <button
+              onClick={() => {
+                requestJoin(teamId);
+              }}
+            >
+              Request to Join
+            </button>
           </div>
-        </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );

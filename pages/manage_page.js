@@ -13,7 +13,7 @@ const ManagePage = () => {
   const [memberToRemove, setMemberToRemove] = useState("");
   const [removeGroup] = useState([]);
   const [tempId, setTempId] = useState("");
-  const [tempId2, settempId2] = useState("");
+  const [tempId2, setTempId2] = useState("");
   const [openRoles, setOpenRoles] = useState([]);
   const [memberToAddInfo, setMemberToAddInfo] = useState({
     name: "",
@@ -61,12 +61,12 @@ const ManagePage = () => {
     }
   }, [tempId2]);
 
-  useEffect(() => {
-    if (openRoles.length !== 0) {
-      setDisplayShowAddModal("showAddModal");
-      console.log(openRoles);
-    }
-  }, [openRoles]);
+  // useEffect(() => {
+  //   if (openRoles.length !== 0) {
+  //     setDisplayShowAddModal("showAddModal");
+  //     console.log(openRoles);
+  //   }
+  // }, [openRoles]);
 
   useEffect(() => {
     if (authReady && user) {
@@ -135,9 +135,42 @@ const ManagePage = () => {
     }
   };
 
-  const createAddModal = (teamId) => {
-    settempId2(teamId);
+  const declineRequest = (memberEmail) => {
+    let newRequests = [];
+
+    tempRequests.map((requester) => {
+      if (requester.email != memberEmail) {
+        newRequests.push(requester);
+      }
+    });
+
+    fetch(
+      "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: `mutation UpdateTeam($id : ID!, $memberApplications :  [Json!]){
+    updateTeam(data: {memberApplications: $memberApplications}, where: {id : $id}) {
+        id
+      }
+
+    }`,
+          variables: {
+            id: tempId2,
+            memberApplications: newRequests,
+          },
+        }),
+      }
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        if (res !== undefined) {
+          location.reload();
+        }
+      });
   };
+
   const fetchRoles = async () => {
     console.log(tempId2);
 
@@ -165,15 +198,6 @@ const ManagePage = () => {
     const openPositions = await response.json();
     return openPositions;
   };
-
-  // const fetchMembers = () => {
-  //   console.log("Fetching");
-  //   console.log(tempId2);
-
-  //   const memberData = [];
-
-  //   return memberData;
-  // };
 
   const addMember = (memberInfo) => {
     let newRoles = [];
@@ -240,10 +264,6 @@ const ManagePage = () => {
           newRoles = openRoles;
         }
 
-        console.log("before new roles log");
-
-        console.log(newRoles);
-
         fetch(
           "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
           {
@@ -268,7 +288,7 @@ const ManagePage = () => {
           .then((res) => res.json())
           .then((res) => {
             if (res !== undefined) {
-              location.reload();
+              declineRequest(memberInfo.email);
             }
           });
       })
@@ -339,6 +359,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
   };
 
   const memberApplicationsFunction = (teamId) => {
+    setTempId2(teamId);
     setDisplayRequesters("showrequesters");
     joinRequests.forEach((memberApplicationsArray) => {
       if (memberApplicationsArray.teamId == teamId) {
@@ -351,191 +372,177 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
 
   return (
     <div className={manageStyles.pageDiv}>
-    <div className={manageStyles.leftPageDiv}>
-      <h1 className={manageStyles.heading}>Your Teams :</h1>
+      <div className={manageStyles.leftPageDiv}>
+        <h1 className={manageStyles.heading}>Your Teams :</h1>
 
-      {!teamsReady && <div>Loading your teams...</div>}
+        {!teamsReady && <div>Loading your teams...</div>}
 
-      {teamsReady && (
-        <div>
-          {teams.data.teams.map((team) => {
-            teamMembers.push({ teamId: team.id, members: team.memberData });
-            joinRequests.push({
-              teamId: team.id,
-              members: team.memberApplications,
-            });
+        {teamsReady && (
+          <div>
+            {teams.data.teams.map((team) => {
+              teamMembers.push({ teamId: team.id, members: team.memberData });
+              joinRequests.push({
+                teamId: team.id,
+                members: team.memberApplications,
+              });
 
-            let totalPositions = 0;
+              let totalPositions = 0;
 
-            team.openPositions.forEach((openPosition) => {
-              totalPositions += parseInt(openPosition.Amount);
-            });
+              team.openPositions.forEach((openPosition) => {
+                totalPositions += parseInt(openPosition.Amount);
+              });
 
-            totalPositions = totalPositions + team.memberData.length;
+              totalPositions = totalPositions + team.memberData.length;
+
+              return (
+                <div className={manageStyles.teamDiv} key={team.id}>
+                  <h2>{team.teamName}</h2>
+                  <p>
+                    {team.memberData.length}/{totalPositions} members
+                  </p>
+                  <ul>
+                    Member(s) needed:{" "}
+                    {team.openPositions.map((openPosition, id) => {
+                      return (
+                        <li key={id}>
+                          {openPosition.Amount} {openPosition.Role}(s)
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  {team.creatorEmail == user.email ? (
+                    <div>
+                      <button
+                        onClick={() => {
+                          deleteTeam(team.id);
+                        }}
+                      >
+                        Disband
+                      </button>
+                      <button
+                        onClick={() => {
+                          CreateRemoveModal(team.id);
+                        }}
+                      >
+                        Remove Member
+                      </button>
+                      <button
+                        onClick={() => {
+                          createAddModal(team.id);
+                        }}
+                      >
+                        Add Member
+                      </button>
+                      <button onClick={() => showFunction(team.id)}>
+                        View Members
+                      </button>
+                      <button
+                        onClick={() => memberApplicationsFunction(team.id)}
+                      >
+                        View Join Requests
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <button onClick={() => showFunction(team.id)}>
+                        View Members
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Join Requests */}
+
+        <div className={showRequestersClassname}>
+          {tempRequests.map((requester, id) => {
+            let requesterDetails = {
+              email: requester.email,
+              name: requester.name,
+              role: "",
+              year: "other",
+            };
 
             return (
-              <div  className={manageStyles.teamDiv} key={team.id}>
-                <h2>{team.teamName}</h2>
-                <p>
-                  {team.memberData.length}/{totalPositions} members
-                </p>
-                <ul>
-                  Member(s) needed:{" "}
-                  {team.openPositions.map((openPosition, id) => {
-                    return (
-                      <li key={id}>
-                        {openPosition.Amount} {openPosition.Role}(s)
-                      </li>
-                    );
-                  })}
-                </ul>
-                {team.creatorEmail == user.email ? (
-                  <div>
-                    <button
-                      onClick={() => {
-                        deleteTeam(team.id);
-                      }}
-                    >
-                      Disband
-                    </button>
-                    <button
-                      onClick={() => {
-                        CreateRemoveModal(team.id);
-                      }}
-                    >
-                      Remove Member
-                    </button>
-                    <button
-                      onClick={() => {
-                        createAddModal(team.id);
-                      }}
-                    >
-                      Add Member
-                    </button>
-                    <button onClick={() => showFunction(team.id)}>
-                      View Members
-                    </button>
-                    <button onClick={() => memberApplicationsFunction(team.id)}>
-                      View Join Requests
-                    </button>
-                  </div>
-                ) : (
-                  <div>
-                    <button onClick={() => showFunction(team.id)}>
-                      View Members
-                    </button>
-                  </div>
-                )}
-              </div>
+              <p key={id}>
+                {requester.name} - {requester.email}{" "}
+                <button
+                  onClick={() => {
+                    addMember(requesterDetails);
+                  }}
+                >
+                  Add
+                </button>
+                <button
+                  onClick={() => {
+                    declineRequest(requester.email);
+                  }}
+                >
+                  Decline
+                </button>
+              </p>
             );
           })}
         </div>
-      )}
 
-      {/* Join Requests */}
+        {/* Join Requests */}
 
-      <div className={showRequestersClassname}>
-        {tempRequests.map((requester, id) => {
-          return (
-            <p key={id}>
-              {requester.name} - {requester.email} <button>Add</button>
-              <button>Decline</button>
-            </p>
-          );
-        })}
-      </div>
+        {/* add member modal */}
 
-      {/* Join Requests */}
-
-      {/* add member modal */}
-
-      <div className={addClassname}>
-        <div>
-          <label htmlFor="">Member Name</label>
-          <label htmlFor="">Member Year</label>
-          <label htmlFor="">Member Email</label>
-          <label htmlFor="">Member Role/Degree</label>
-        </div>
-        <div>
-          <input
-            required
-            type="text"
-            onChange={(e) => {
-              setMemberToAddInfo((memberToAddInfo) => ({
-                ...memberToAddInfo,
-                name: e.target.value,
-              }));
-            }}
-          />
-          <input
-            required
-            type="text"
-            onChange={(e) => {
-              setMemberToAddInfo((memberToAddInfo) => ({
-                ...memberToAddInfo,
-                year: e.target.value,
-              }));
-            }}
-          />
-          <input
-            required
-            type="text"
-            onChange={(e) => {
-              setMemberToAddInfo((memberToAddInfo) => ({
-                ...memberToAddInfo,
-                email: e.target.value,
-              }));
-            }}
-          />
-          <select
-            onChange={(e) => {
-              setMemberToAddInfo((memberToAddInfo) => ({
-                ...memberToAddInfo,
-                role: e.target.value,
-              }));
-            }}
-          >
-            <option value="other">Other</option>
-            {openRoles.map((openRole) => {
-              return (
-                <option key={openRole.Role} value={openRole.Role}>
-                  {openRole.Role} - {openRole.Years} Year
-                </option>
-              );
-            })}
-          </select>
-        </div>
-        <button
-          onClick={() => {
-            addMember(memberToAddInfo);
-          }}
-        >
-          Add Member
-        </button>
-      </div>
-
-      {/* add member modal */}
-
-      {/* remove member modal */}
-
-      <div className={removeClassname}>
-        <h2>TeamName</h2>
-
-        <form>
+        <div className={addClassname}>
           <div>
+            <label htmlFor="">Member Name</label>
+            <label htmlFor="">Member Year</label>
             <label htmlFor="">Member Email</label>
+            <label htmlFor="">Member Role/Degree</label>
           </div>
           <div>
+            <input
+              required
+              type="text"
+              onChange={(e) => {
+                setMemberToAddInfo((memberToAddInfo) => ({
+                  ...memberToAddInfo,
+                  name: e.target.value,
+                }));
+              }}
+            />
+            <input
+              required
+              type="text"
+              onChange={(e) => {
+                setMemberToAddInfo((memberToAddInfo) => ({
+                  ...memberToAddInfo,
+                  year: e.target.value,
+                }));
+              }}
+            />
+            <input
+              required
+              type="text"
+              onChange={(e) => {
+                setMemberToAddInfo((memberToAddInfo) => ({
+                  ...memberToAddInfo,
+                  email: e.target.value,
+                }));
+              }}
+            />
             <select
               onChange={(e) => {
-                setMemberToRemove(e.target.value);
+                setMemberToAddInfo((memberToAddInfo) => ({
+                  ...memberToAddInfo,
+                  role: e.target.value,
+                }));
               }}
             >
-              <option value="">Member Emails</option>
-              {removeGroup.map((member, id) => {
+              <option value="other">Other</option>
+              {openRoles.map((openRole) => {
                 return (
-                  <option key={id} value={member.email}>
-                    {member.email}
+                  <option key={openRole.Role} value={openRole.Role}>
+                    {openRole.Role} - {openRole.Years} Year
                   </option>
                 );
               })}
@@ -543,39 +550,80 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
           </div>
           <button
             onClick={() => {
-              removeMember();
+              addMember(memberToAddInfo);
             }}
           >
-            Remove Member
+            Add Member
           </button>
-        </form>
+        </div>
+
+        {/* add member modal */}
 
         {/* remove member modal */}
 
+        <div className={removeClassname}>
+          <h2>TeamName</h2>
+
+          <form>
+            <div>
+              <label htmlFor="">Member Email</label>
+            </div>
+            <div>
+              <select
+                onChange={(e) => {
+                  setMemberToRemove(e.target.value);
+                }}
+              >
+                <option value="">Member Emails</option>
+                {removeGroup.map((member, id) => {
+                  return (
+                    <option key={id} value={member.email}>
+                      {member.email}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            <button
+              onClick={() => {
+                removeMember();
+              }}
+            >
+              Remove Member
+            </button>
+          </form>
+
+          {/* remove member modal */}
+
+          {/* confirmation remove */}
+
+          <div className={manageStyles.removeConfirmation}>
+            <h1>Are you sure you want to remove user with id of id1</h1>
+            <button>No!</button>
+            <button>Yes!</button>
+          </div>
+        </div>
+
         {/* confirmation remove */}
 
-        <div className={manageStyles.removeConfirmation}>
-          <h1>Are you sure you want to remove user with id of id1</h1>
-          <button>No!</button>
-          <button>Yes!</button>
+        {/* members */}
+
+        <div className={showMembersClassname}>
+          {tempMembers.map((member, id) => {
+            return <p key={id}>{member.name}</p>;
+          })}
         </div>
       </div>
-
-      {/* confirmation remove */}
-
-      {/* members */}
-
-      <div className={showMembersClassname}>
-        {tempMembers.map((member, id) => {
-          return <p key={id}>{member.name}</p>;
-        })}
-      </div>
-      </div>
       <div className={manageStyles.rightPageDiv}>
-        <Image src="/groupvideo.png" alt="Could not find logo" layout="responsive" width = "100px" height = "100px"/>
+        <Image
+          src="/groupvideo.png"
+          alt="Could not find logo"
+          layout="responsive"
+          width="100px"
+          height="100px"
+        />
       </div>
     </div>
-    
 
     // members
   );
