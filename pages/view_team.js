@@ -146,7 +146,7 @@ export default function Home() {
             totalPositions += team.memberData.length;
 
             return (
-              <button
+              <button 
                 key={team.id}
                 onClick={() => {
                   setData(team.id);
@@ -187,11 +187,11 @@ export default function Home() {
                 <p>{description}</p>
               </div>
               <div>
-                <h2>Applications Closing Date</h2>
+                <h2>Applications Closing Date:</h2>
                 <p>{date}</p>
               </div>
             </div>
-            <button
+            <button className={styles.requestButton}
               onClick={() => {
                 requestJoin(teamId);
               }}

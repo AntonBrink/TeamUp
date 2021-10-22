@@ -3,10 +3,11 @@ import AuthContext from "../stores/authContext";
 import * as navStyle from "../styles/Navbar.module.css";
 import Image from "next/image";
 import Link from 'next/link';
+import { useRouter } from 'next/router'
 
 const Navbar = () => {
   const { user, login, logout, authReady } = useContext(AuthContext);
-
+  const router = useRouter();
 
   return (
     <nav className={navStyle.navbarComponent}>
@@ -16,9 +17,9 @@ const Navbar = () => {
     </Link>
 
       <ul className={navStyle.navList}>
-        <li className={navStyle.navItem}><Link href='/create_team'><a> Create Team</a></Link></li>
-        <li className={navStyle.navItem}><Link href='/view_team'><a> View Teams</a></Link></li>
-        <li className={navStyle.navItem}><Link href='/manage_page'><a> My Teams</a></Link></li>
+        <li className={`${(router.pathname == '/create_team') ? navStyle.active :''} ${navStyle.navItem}`} > <Link   href='/create_team'>  Create Team </Link></li>
+        <li className={`${(router.pathname == "/view_team") ? navStyle.active : ''} ${navStyle.navItem}`} ><Link href='/view_team' >View Teams</Link></li>
+        <li className={`${(router.pathname == "/manage_page") ? navStyle.active : ''} ${navStyle.navItem}`}  ><Link href='/manage_page'  > My Teams</Link></li>
       </ul>
       {authReady &&
         (!user ? (

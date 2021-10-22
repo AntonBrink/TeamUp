@@ -102,3 +102,17 @@
   font-family: "poppins";
   font-size: 25px;
 }
+.requestButton{
+  font-size: 24px;
+  font-family: "poppins";
+  width: 250px;
+  height: 60px;
+  border: solid;
+  background-color: #21355793;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.requestButton:hover{
+  background-color: #727b8be8;
+}
