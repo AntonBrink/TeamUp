@@ -1,3 +1,6 @@
+@import "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap";
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+
 .pageDiv{
     display: flex;
     flex-direction: row;
@@ -31,11 +34,23 @@
 .button{
     font-family: "larken";
     font-size: 25px;
+    font-weight: bold;
     margin-right: 40px;
     padding: 15px;
     padding-left: 20px;
     padding-right: 20px;
     border: solid;
     cursor: pointer;
+    background-color: #11223E;
+    width: 230px;
+    height: 70px;
 }
+
+.button:hover{
+    color: white;
+    background-color: #21355793;
+    border: solid white;
+}
+
+
 

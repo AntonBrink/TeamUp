@@ -9,6 +9,7 @@
 }
 .pageDivRight{
   min-width: 50vw;
+  margin-top: 30px;
 }
 .pageDiv {
   display: grid;
@@ -88,11 +89,13 @@
 .createBtn {
   font-size: 24px;
   font-family: "poppins";
-  border-radius: 20px;
   width: 250px;
   height: 60px;
-  border: none;
+  border: solid white;
   background-color: #11223E;
   margin-top: 20px;
+  cursor: pointer;
 }
-
+.createBtn:hover{
+  background-color: #21355793;
+}

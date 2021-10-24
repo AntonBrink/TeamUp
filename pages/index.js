@@ -2,6 +2,8 @@ import * as indexStyle from "../styles/Index.module.css";
 import Image from "next/image";
 import Link from 'next/link';
 
+
+
 const IndexPage = () => {
   return(
     <div className = {indexStyle.pageDiv}>
