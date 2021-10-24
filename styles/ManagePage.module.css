@@ -3,6 +3,7 @@
 }
 .leftPageDiv{
   width: 50vw;
+  position: relative;
 }
 .rightPageDiv{
   padding-top: 80px;
@@ -81,7 +82,7 @@
   background-color: #11223E;
 }
 .teamDiv >div >button{
-  background-color: #11223E;
+  background-color: #21355793;
   border: solid;
   border-width: 2px;
   border-color: white;
@@ -92,5 +93,37 @@
   padding-bottom: 5px;
   font-family: "poppins";
   font-size: 17px;
-
+}
+.teamDiv >div >button:hover{
+  background-color: white;
+  color: #11223E;
+  }
+.showRemoveModal{
+  background-color: red;
+  border: solid 5px white;
+  position: absolute;
+  left: 60%;
+  top:20%;
+  width:40vw;
+  height: 30vh;
+  z-index: 3;
+}
+.noMainPageBlur{
+  background-color: transparent;
+  width: 100vw;
+  height: 100vh;
+}
+.mainPageBlur{
+  background-color: white;
+  opacity:0.3;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left:0;
+  z-index:2;
+}
+.closeButton{
+float: right;
+border: none;
 }

@@ -32,11 +32,18 @@ const ManagePage = () => {
   const [displayRequesters, setDisplayRequesters] =
     useState("noshowrequesters");
 
+    const [showBlur, setShowBlur] =
+    useState("noShowBlur");
+    const mainPageBlur =
+    showBlur == "noShowBlur"
+      ? `${manageStyles.noMainPageBlur}`
+      : `${manageStyles.mainPageBlur}`;
+
   const removeClassname =
     displayRemoveModal == "noShowRemoveModal"
       ? `${manageStyles.noShowRemoveModal}`
       : `${manageStyles.showRemoveModal}`;
-
+ 
   const showMembersClassname =
     displayMembers == "noshowmembers"
       ? `${manageStyles.noshowmembers}`
@@ -422,16 +429,10 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
                       <button
                         onClick={() => {
                           CreateRemoveModal(team.id);
+                          setShowBlur("showBlur");
                         }}
                       >
                         Remove Member
-                      </button>
-                      <button
-                        onClick={() => {
-                          createAddModal(team.id);
-                        }}
-                      >
-                        Add Member
                       </button>
                       <button onClick={() => showFunction(team.id)}>
                         View Members
@@ -560,11 +561,21 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
         {/* add member modal */}
 
         {/* remove member modal */}
-
+        <div className={mainPageBlur} onClick={() => {
+              setShowRemoveModal("noShowRemoveModal");
+              setShowBlur("noShowBlur")
+            }}></div>
+        
         <div className={removeClassname}>
+        <button className={manageStyles.closeButton}
+            onClick={() => {
+              setShowRemoveModal("noShowRemoveModal");
+              setShowBlur("noShowBlur")
+            }}>
+              X
+            </button>
           <h2>TeamName</h2>
 
-          <form>
             <div>
               <label htmlFor="">Member Email</label>
             </div>
@@ -591,7 +602,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
             >
               Remove Member
             </button>
-          </form>
+            
 
           {/* remove member modal */}
 
@@ -603,6 +614,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
             <button>Yes!</button>
           </div>
         </div>
+        
 
         {/* confirmation remove */}
 

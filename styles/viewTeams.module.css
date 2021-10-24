@@ -118,5 +118,6 @@
   cursor: pointer;
 }
 .requestButton:hover{
-  background-color: #727b8be8;
+  background-color: white;
+  color: #11223E;
 }

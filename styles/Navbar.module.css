@@ -1,9 +1,11 @@
 
 .navbarComponent :global{
-    height: 135px;
+    height: 155px;
     display: flex;
     font-family: "larken";
     position: relative;
+    margin-bottom: 10px;
+    padding-bottom: 20px;
 }
 .navH1{
     font-size: 55px;
@@ -64,5 +66,6 @@
 }
 
 .button:hover{
-    background-color: #21355793;
+    background-color: white;
+    color:#11223E;
 }
