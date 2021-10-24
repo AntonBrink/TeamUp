@@ -202,17 +202,19 @@ const ManagePage = () => {
   const addMember = (memberInfo) => {
     let newRoles = [];
 
-    if (memberInfo.role == "") {
+    if (memberInfo.role == "" || memberInfo.role == "other") {
       memberInfo.role = "other";
     } else {
       openRoles.map((role) => {
         if (role.Role == memberInfo.role) {
-          if (role.Amount > 1) {
-            let tempAmount = parseInt(role.Amount) - 1;
+          if (role.Years == memberInfo.year) {
+            if (role.Amount > 1) {
+              let tempAmount = parseInt(role.Amount) - 1;
 
-            role.Amount = tempAmount.toString();
-          } else {
-            return;
+              role.Amount = tempAmount.toString();
+            } else {
+              return;
+            }
           }
         }
 
@@ -405,7 +407,8 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
                     {team.openPositions.map((openPosition, id) => {
                       return (
                         <li key={id}>
-                          {openPosition.Amount} {openPosition.Role}(s)
+                          {openPosition.Amount} {openPosition.Role}(s){" "}
+                          {openPosition.Years}
                         </li>
                       );
                     })}
@@ -466,9 +469,19 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
               year: "other",
             };
 
+            if (requester.role) {
+              requesterDetails.role = requester.role;
+            }
+
+            if (requester.year) {
+              requesterDetails.year = requester.year;
+            }
+
             return (
               <p key={id}>
-                {requester.name} - {requester.email}{" "}
+                Applicant Information: {requester.name} - {requester.email} -{" "}
+                {requester.userYear} - Role Information: {requester.role} -{" "}
+                {requester.year}
                 <button
                   onClick={() => {
                     addMember(requesterDetails);
