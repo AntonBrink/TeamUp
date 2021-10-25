@@ -153,7 +153,7 @@ export default function Home() {
                 }}
               >
                 <div>
-                  <h1> {team.teamName}</h1>
+                  <h1 className={styles.header}> {team.teamName}</h1>
                   <p>
                     {team.memberData.length}/{totalPositions} Members
                   </p>

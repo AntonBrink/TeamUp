@@ -211,102 +211,107 @@ const CreatePage = () => {
           }}
         > 
           <div className={CreateTeamStyles.page}>
+          <div className = {CreateTeamStyles.holderDiv}>
           <div className={CreateTeamStyles.pageDivLeft}>
-          <h1>New Team Information :</h1>
           
-          <div className={CreateTeamStyles.pageDiv}>
-            <div className={CreateTeamStyles.labelDiv}>
-              <label htmlFor="">Team Name :</label>
-              <label htmlFor="">Team Type :</label>
-              <label htmlFor="">Team Description :</label>
-              <label htmlFor="">Your Degree/Role :</label>
-              <label htmlFor="">Your Year :</label>
-              <label htmlFor="">Application End Date :</label>
-              <label htmlFor="">Total Unique Roles/Degrees :</label>
-            </div>
-            <div className={CreateTeamStyles.inputDiv}>
-              <input
-                type="text"
-                name="teamName"
-                required
-                onChange={(e) => {
-                  setTeamName(e.target.value);
-                }}
-              />
-              <input
-                type="text"
-                name="groupType"
-                required
-                onChange={(e) => {
-                  setGroupType(e.target.value);
-                }}
-              />
-              <input
-                type="text"
-                name="groupDescription"
-                required
-                onChange={(e) => {
-                  setGroupDescription(e.target.value);
-                }}
-              />
-              <input
-                type="text"
-                name="creatorDegreeRole"
-                required
-                onChange={(e) => {
-                  setCreatorRole(e.target.value);
-                }}
-              />
-              <input
-                type="number"
-                name="creatorYear"
-                required
-                onChange={(e) => {
-                  setCreatorYear(e.target.value);
-                }}
-              />
-              <input
-                type="date"
-                name="endDate"
-                required
-                onChange={(e) => {
-                  setEndDate(e.target.value);
-                }}
-              />
+            <h1 className={CreateTeamStyles.headers}>New Team Information :</h1>
+            
+            <div className={CreateTeamStyles.pageDiv}>
+              <div className={CreateTeamStyles.labelDiv}>
+                <label htmlFor="">Team Name :</label>
+                <label htmlFor="">Team Type :</label>
+                <label htmlFor="">Team Description :</label>
+                <label htmlFor="">Your Degree/Role :</label>
+                <label htmlFor="">Your Year :</label>
+                <label htmlFor="">Application End Date :</label>
+                <label htmlFor="">Total Unique Roles/Degrees :</label>
+              </div>
+              <div className={CreateTeamStyles.inputDiv}>
+                <input
+                  type="text"
+                  name="teamName"
+                  required
+                  onChange={(e) => {
+                    setTeamName(e.target.value);
+                  }}
+                />
+                <input
+                  type="text"
+                  name="groupType"
+                  required
+                  onChange={(e) => {
+                    setGroupType(e.target.value);
+                  }}
+                />
+                <input
+                  type="text"
+                  name="groupDescription"
+                  required
+                  onChange={(e) => {
+                    setGroupDescription(e.target.value);
+                  }}
+                />
+                <input
+                  type="text"
+                  name="creatorDegreeRole"
+                  required
+                  onChange={(e) => {
+                    setCreatorRole(e.target.value);
+                  }}
+                />
+                <input
+                  type="number"
+                  name="creatorYear"
+                  required
+                  onChange={(e) => {
+                    setCreatorYear(e.target.value);
+                  }}
+                />
+                <input
+                  type="date"
+                  name="endDate"
+                  required
+                  onChange={(e) => {
+                    setEndDate(e.target.value);
+                  }}
+                />
 
-              <input
-                type="number"
-                min="1"
-                max="10"
-                defaultValue="1"
-                name="uniqueRoles"
-                required
-                onChange={(e) => {
-                  setTotalRoles(e.target.value);
-                }}
-              />
+                <input
+                  type="number"
+                  min="1"
+                  max="10"
+                  defaultValue="1"
+                  name="uniqueRoles"
+                  required
+                  onChange={(e) => {
+                    setTotalRoles(e.target.value);
+                  }}
+                />
+              </div>
+              </div>
+            
+                  <h1 className={CreateTeamStyles.headers}>Team Members:</h1>
+              <div className={CreateTeamStyles.teamMembersDiv}>
+              {roles.map((role, id) => {
+                return (
+                  <div className={CreateTeamStyles.roleDiv} key={id}>
+                    {role}
+                  </div>
+                );
+              })}
             </div>
-            </div>
-          
-                <h1>Team Members:</h1>
-            <div className={CreateTeamStyles.teamMembersDiv}>
-            {roles.map((role, id) => {
-              return (
-                <div className={CreateTeamStyles.roleDiv} key={id}>
-                  {role}
-                </div>
-              );
-            })}
-          </div> <button type="submit" className={CreateTeamStyles.createBtn}>
-            Create Team
-          </button>
           </div>
-          
-          <div className={CreateTeamStyles.pageDivRight}>
-          <Image src="/puzzle.png" alt="Could not find logo" layout="responsive" width = "250px" height = "200px"/>
+          <div className= {CreateTeamStyles.btnDiv}>
+            <button type="submit" className={CreateTeamStyles.createBtn}>
+              Create Team
+            </button>
           </div>
-          </div>
-        </form>
+        </div>
+        <div className={CreateTeamStyles.pageDivRight}>
+        <Image src="/puzzle.png" alt="Could not find logo" layout="responsive" width = "250px" height = "200px"/>
+        </div>
+        </div>
+      </form>
       )}
     </div>
     

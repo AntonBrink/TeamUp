@@ -5,6 +5,11 @@
     font-family: "larken";
     position: relative;
 }
+
+.menuIcon{
+    display : none;
+
+}
 .navH1{
     font-size: 55px;
     font-family: "larken";
@@ -12,6 +17,19 @@
     margin-right: 20px;
     cursor: pointer;
 }
+
+.hamburgerIcon{
+    display: none;
+}
+
+.navListHamburger{
+    display: none;
+}
+
+.navItemHamburger{
+    display: none;
+}
+
 .navList{
     list-style-type: none;
     width: max-content ;
@@ -33,8 +51,6 @@
 
 .navItem:hover{
     border: solid 3px #11223E;
-
-
 }
 .active{
     border: solid 3px white;
@@ -66,3 +82,204 @@
 .button:hover{
     background-color: #21355793;
 }
+
+
+@media (max-width: 1024px) {
+    
+    .button:hover{
+        background-color:transparent;
+    }
+    .active{
+        border: none;
+        padding: none;
+    }
+    .logIcon{
+        font-size: 45px;
+    }
+    .logText{
+        display: none;
+    }
+    .navbarComponent :global{
+        width: 100vw;
+    }
+    .active{
+        border: none;
+        padding: 0px;
+    }
+    .button{
+        width: fit-content;
+        border: none;
+        background-color: transparent;
+        margin-top: 80px;
+        margin-left: unset;
+        margin-right: 20px;
+        right: 0vw;
+    
+    }
+
+    .menuIcon{
+        display: unset;
+        position: relative;
+        left:0%;
+        font-size: 55px;
+        margin-left: 20px;
+        margin-top: 65px;
+        
+    }
+
+    .navImage{
+        display: none !important;
+        visibility: hidden;
+        position: absolute;
+        padding-left: 10px;
+    }
+    .mobileMenu{
+        overflow: hidden;
+        background-color: #333;
+        position: relative;
+    }
+    .navSidebar{
+        padding-top: 0vh;
+        margin-top: 5vh;
+        width: fit-content;
+        height: fit-content;
+        margin-left: 0vw;
+
+    }
+    .navListHamburger{
+        box-shadow: 5px 10px;
+        border: solid white 2px;
+        padding-left: 10vw;
+        display: block;
+        font-size: 55px;
+        height: fit-content;
+        width: fit-content;
+        position: absolute;
+        justify-content: center;
+        margin-left: 0vw;
+        padding-left: 0vw;
+        z-index: 2;
+    }
+
+    .navItemHamburger{
+        color: white;
+        text-decoration: none;
+        font-size: 30px;
+        display: block;
+        margin: 1vw;
+        padding-bottom: 1vw;
+        width: 250px;
+        text-align: center;
+    }
+    .navH1{
+        display: none;
+    }
+    .navList{
+        display: none;
+    }
+    .navItem{
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbarComponent :global{
+        width: 100vw;
+    }
+    .button{
+        margin-top: 60px;
+    }
+    .menuIcon{
+        font-size: 36px;
+    }
+    .navItemHamburger{
+        font-size: 30px;
+        
+    }
+}
+
+@media (max-width: 540px) {
+    .button{
+        margin-top: 60px;
+    }
+    .menuIcon{
+        font-size: 36px;
+    }
+    .navSidebar{
+        margin-top: 90px;
+    }
+    .navItemHamburger{
+        font-size: 40px;
+
+    }
+}
+
+@media (max-width: 415px) {
+    .button{
+        margin-top: 60px;
+    }
+    .menuIcon{
+        font-size: 36px;
+    }
+    .navSidebar{
+        margin-top: 90px;
+    }
+    .navListHamburger{
+        width: fit-content;
+    }
+    .navItemHamburger{
+        font-size: 40px;
+
+    }
+}
+
+@media (max-width: 380px) {
+    .button{
+        margin-top: 60px;
+    }
+    .menuIcon{
+        font-size: 36px;
+    }
+    .navSidebar{
+        margin-top: 90px;
+
+    }
+    .navListHamburger{
+
+    }
+    .navItemHamburger{
+        font-size: 36px;
+
+    }
+}
+
+@media (max-width: 280px) {
+    .logIcon{
+        font-size: 40px;
+    }
+    .button{
+        margin-top: 60px;
+        padding-right: 0px;
+        margin-right: 10px;
+        right:0;
+        width: fit-content;
+
+    }
+    .menuIcon{
+        font-size: 36px;
+    }
+    .navSidebar{
+        margin-top: 90px;
+    }
+    .navListHamburger{
+        right: 10px;
+        
+    }
+    .navItemHamburger{
+        padding-bottom: 20px;
+        font-size: 28px;
+        margin: 0;
+    }
+}
+
+

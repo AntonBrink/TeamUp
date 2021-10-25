@@ -94,3 +94,54 @@
   font-size: 17px;
 
 }
+
+@media (max-width: 1024px){
+  .pageDiv{
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+    text-align: center;
+  }
+  .heading{
+    margin-left: 0;
+  }
+  .leftPageDiv{
+    width: 100vw;
+    
+  }
+  .rightPageDiv{
+    width: 100vw;
+
+  }
+  .teamDiv{
+    margin: 5vw;
+    
+    width: 90vw;
+  }
+  .rightPageDiv{
+    display: none;
+  }
+
+}
+@media (max-width: 768px) {
+}
+
+@media (max-width: 540px) {
+
+}
+
+@media (max-width: 415px) {
+
+}
+
+@media (max-width: 380px) {
+
+}
+
+@media (max-width: 280px) {
+  .heading{
+    font-size: 30px;
+  }
+  
+
+}
