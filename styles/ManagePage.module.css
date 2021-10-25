@@ -17,7 +17,7 @@
   font-size: 50px;
   font-weight: lighter;
 }
-.noShowRemoveModal {
+.noShowRemoveModal, .noShowAddModal {
   display: none;
 }
 .addModal {
@@ -99,18 +99,45 @@
   background-color: white;
   color: #11223E;
   }
-.showRemoveModal{
+.showRemoveModal,.showmembers,.showrequesters{
   border: solid 5px white;
   position: absolute;
   left: 60%;
   top:20%;
-  width:40vw;
-  height: 30vh;
+  width:50vw;
+  min-height: 30vh;
   z-index: 3;
   padding: 20px;
 }
 .showRemoveModal >h2{
   font-family: "poppins";
+}
+.showmembers >h2{
+  font-family: "poppins";
+}
+.showrequesters >div >h2{
+  font-family: "poppins";
+}
+.showrequesters >div >p{
+  font-family: "poppins";
+}
+.showrequesters >div >p >button{
+  font-family: "poppins";
+  border: solid 2px;
+  border-color: white;
+  margin-left: 10px;
+}
+.showrequesters >div >p >button:hover{
+  font-family: "poppins";
+  border: solid 2px;
+  border-color: white;
+  margin-left: 10px;
+  background-color: white;
+  color: #11223E;
+}
+.showmembers >p{
+  font-family: "poppins";
+  font-size: 20px;
 }
 .showRemoveModal >div >label{
   font-family: "poppins";
@@ -230,3 +257,4 @@ border: none;
   
 
 }
+
