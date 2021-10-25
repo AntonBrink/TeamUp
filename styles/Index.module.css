@@ -28,6 +28,7 @@
 
 }
 .buttonsDiv{
+  
  margin: 60px;
  margin-top: 80px;
 }
@@ -52,5 +53,74 @@
     border: solid white;
 }
 
+@media (max-width: 1024px){
+  .pageDiv{
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+}
+.leftDiv{
+  justify-content: center;
+  width: 100%;
+  padding: 0;
+}
+.rightDiv{
+  justify-content: center;
+  width: 100vw;
+}
+  .buttonsDiv{
+    justify-content: center;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+  }
 
+  .button{
+    margin-right: 0px;
+    width: 80vw;
+    height: 70px;
+    border-radius: 20px;
+    /* padding-bottom: 50px; */
+    margin-bottom: 20px;
+  }
 
+}
+
+@media (max-width: 768px) {
+}
+
+@media (max-width: 540px) {
+  .quote{
+    font-size: 45px;
+    padding-left: 10vw;
+  }
+}
+
+@media (max-width: 415px) {
+  .quote{
+    font-size: 40px;
+    padding-left: 10vw;
+  }
+}
+
+@media (max-width: 380px) {
+  .quote{
+    font-size: 30px;
+    padding-left: 10vw;
+  }
+}
+
+@media (max-width: 280px) {
+  .quote{
+    font-size: 25px;
+    padding-left: 10vw;
+  }
+  .button{
+    /* width: auto; */
+    margin-left: 0;
+    margin-right: 0;
+
+  }
+}

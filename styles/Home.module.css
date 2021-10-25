@@ -119,3 +119,29 @@
     flex-direction: column;
   }
 }
+
+@media (max-width: 1024px){
+  .buttonsDiv{
+    justify-content: center;
+  }
+
+  .buttons{
+    padding-top: 10px;
+  }
+
+}
+
+@media (max-width: 768px) {
+}
+
+@media (max-width: 540px) {
+}
+
+@media (max-width: 415px) {
+}
+
+@media (max-width: 380px) {
+}
+
+@media (max-width: 280px) {
+}

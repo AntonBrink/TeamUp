@@ -1,11 +1,10 @@
 .page{
   display: flex;
   font-family: "poppins";
-
 }
 .pageDivLeft{
   min-width: 50vw;
-  padding-left: 50px;
+  padding-left: 0px;
 }
 .pageDivRight{
   min-width: 50vw;
@@ -16,6 +15,10 @@
   grid-template-columns: 60% 40%;
   font-size: 24px;
 }
+.holderDiv{
+  padding-left: 10px;
+  margin-left: 10px;
+}
 
 .inputDiv > input {
   height: 32px;
@@ -23,7 +26,6 @@
   border: none;
   background-color: #11223E;
   border-radius: 20px;
-  padding-left: 20px;
   padding-right: 20px;
   font-family: "poppins";
   font-size: 20px;
@@ -36,7 +38,6 @@
   border: none;
   background-color: #11223E;
   border-radius: 20px;
-  padding-left: 20px;
   padding-right: 20px;
   font-family: "poppins";
   font-size: 20px
@@ -48,7 +49,6 @@
   border: none;
   background-color: #11223E;
   border-radius: 20px;
-  padding-left: 20px;
   padding-right: 20px;
   font-family: "poppins";
   font-size: 20px
@@ -98,4 +98,191 @@
 }
 .createBtn:hover{
   background-color: #21355793;
+}
+
+@media (max-width: 1024px){
+  .btnDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    left: 0;
+    margin-right: 0px;
+    padding-right: 0px;
+    right: 0;
+  }
+  .page{
+    display: flex;
+    font-family: "poppins";
+    flex-direction: column;
+  }
+  .pageDiv {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    font-size: 24px;
+  }
+  .pageDivLeft{
+    min-width: 100vw;
+  }
+  .pageDivRight{
+    min-width: 100vw;
+    margin-top: 30px;
+  }
+  .roleInnerDiv {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    font-size: 24px;
+    padding-right: 20px;
+  }
+  .roleInnerDiv {
+    grid-template-columns: 50% 50%;
+  }
+  
+}
+
+@media (max-width: 768px) {
+  
+  .labelDiv > label{
+    font-size: 20px;
+  }
+  .inputDiv > input {
+    height: 25px;
+    margin-bottom: 21px;
+    font-size: 20px;
+  }
+  .roleInnerDiv > label {
+    margin-bottom: 16px;
+    font-size: 20px;
+  }
+
+  .roleInnerDiv > input {
+    height: 25px;
+    font-size: 20px;
+  }
+  .select{
+    height: 25px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 415px) {
+  .headers{
+    font-size: 26px;
+  }
+  .roleInnerDiv {
+    grid-template-columns: 50% 50%;
+  }
+  .pageDiv {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    font-size: 24px;
+  }
+  .labelDiv > label{
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+  .inputDiv > input {
+    height: 20px;
+    margin-bottom: 11.6px;
+    font-size: 11px;
+  }
+  .roleInnerDiv > label {
+    margin-bottom: 16px;
+    font-size: 15px;
+  }
+
+  .roleInnerDiv > input {
+    height: 20px;
+    font-size: 15px;
+  }
+  .select{
+    height: 20px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 380px) {
+  .headers{
+    font-size: 24px;
+  }
+  .roleInnerDiv {
+    grid-template-columns: 70% 30%;
+  }
+  .pageDiv {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    font-size: 24px;
+  }
+  .labelDiv > label{
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+  .inputDiv > input {
+    height: 20px;
+    margin-bottom: 7.5px;
+    font-size: 11px;
+  }
+  .roleInnerDiv > label {
+    margin-bottom: 16px;
+    font-size: 15px;
+  }
+
+  .roleInnerDiv > input {
+    height: 20px;
+    font-size: 15px;
+  }
+  .select{
+    height: 20px;
+    font-size: 15px;
+  }
+  
+}
+
+@media (max-width: 280px) {
+  .pageDivLeft{
+  }
+  .inputDiv{
+    padding-right: 10px;
+  }
+  .roleInnerDiv{
+    padding-right: 10px;
+    margin-right: 10px;
+  }
+  .roleInnerDiv {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    font-size: 24px;
+    padding-right: 0px;
+  }
+  .headers{
+    font-size: 16px;
+  }
+  .pageDiv {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    font-size: 24px;
+  }
+  .labelDiv > label{
+    font-size: 11px;
+    margin-bottom: 5px;
+  }
+  .inputDiv > input {
+    height: 16px;
+    margin-bottom: 5px;
+    font-size: 11px;
+  }
+  .roleInnerDiv > label {
+    margin-bottom: 16px;
+    font-size: 11px;
+  }
+
+  .roleInnerDiv > input {
+    height: 16px;
+    font-size: 11px;
+  }
+
+  .select{
+    height: 16px;
+    font-size: 11px;
+  }
+  
 }

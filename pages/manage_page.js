@@ -382,7 +382,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
   return (
     <div className={manageStyles.pageDiv}>
       <div className={manageStyles.leftPageDiv}>
-        <h1 className={manageStyles.heading}>Your Teams :</h1>
+        <h1 className={manageStyles.heading}>Your Teams:</h1>
 
         {!teamsReady && <div>Loading your teams...</div>}
 
@@ -640,9 +640,10 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
         </div>
       </div>
       <div className={manageStyles.rightPageDiv}>
-        <Image
+        <Image 
           src="/groupvideo.png"
           alt="Could not find logo"
+          className = {manageStyles.image}
           layout="responsive"
           width="100px"
           height="100px"

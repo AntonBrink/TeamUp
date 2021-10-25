@@ -8,9 +8,9 @@ const IndexPage = () => {
   return(
     <div className = {indexStyle.pageDiv}>
       <div className = {indexStyle.leftDiv}>
-        <h1 className = {indexStyle.quote}> Create Teams,</h1>
+        <h1 className = {indexStyle.quote}> "Create Teams,</h1>
         <h1 className = {indexStyle.quote}> Join Others,</h1>
-        <h1 className = {indexStyle.quote}> Meet New People.</h1>
+        <h1 className = {indexStyle.quote}> Meet New People."</h1>
 
         <div className = {indexStyle.buttonsDiv}>
         <Link href='/create_team'>

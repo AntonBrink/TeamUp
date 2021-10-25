@@ -159,4 +159,99 @@
   margin-left: 28px;
   font-weight: normal;
   margin-bottom: 0px;
+  background-color: #727b8be8;
+}
+
+@media (max-width: 1024px){
+  .pageContent {
+    display: grid;
+    grid-template-columns: 100%;
+  }
+  .teams{
+    width: 100vw;
+  }
+  .teams >button{
+    margin-left: 5vw;
+    margin-right: 5vw;
+  }
+  .teamInfo{
+    background-color: #11223E;
+    margin: 10px;
+    padding-left: unse;
+    height: max-content;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    padding-top: 0px;
+    border-radius: 20px;
+    width: 90vw;
+    justify-content: space-evenly;
+  }
+
+  .requestButton{
+    margin-left: 5vw;
+    width: 75vw;
+    height: 40px;
+    border-radius: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+}
+
+@media (max-width: 540px) {
+}
+
+@media (max-width: 415px) {
+}
+
+@media (max-width: 380px) {
+}
+
+@media (max-width: 280px) {
+  .requestButton{
+    width: 60vw;
+    height: 40px;
+    font-size: 16px;
+  }
+  .teams >button{
+    margin-left: 5vw;
+    margin-right: 5vw;
+  }
+  .teams >button >div >h1{
+    font-size: 24px;
+  }
+
+  .teams >button >div >p{
+    font-size: 16px;
+  }
+
+  .teams >button >div >ul{
+    font-size: 16px;
+  }
+  .teams >button >div >ul >li{
+    font-size: 16px;
+    
+  }
+  .teamInfo >h1{
+    font-size: 24px;
+    
+  }
+  .teamInfo >div >p{
+    font-size: 16px;
+  }
+  .teamInfo >div >ul{
+    font-size: 16px;
+  }
+  .teamInfo >div >ul >li{
+    font-size: 16px;
+  }
+  .teamInfo >div >div >h2{
+    font-size: 16px;
+  }
+  .teamInfo >div >div >p{
+    font-size: 16px;
+  }
+  .teamInfo >div >div{
+    font-size: 16px;
+  }
 }
