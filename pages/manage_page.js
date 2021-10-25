@@ -498,7 +498,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
             }
 
             return (
-              <div>
+              <div key={id}>
                 <h2> Requests To Join Team:</h2>
                 <p key={id}>
                   Applicant Information: {requester.name} | {requester.email} |{" "}
