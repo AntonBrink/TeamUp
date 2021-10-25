@@ -77,18 +77,27 @@
     margin-top: 50px;
   }
 
-  .button{
-    margin-right: 0px;
-    width: 80vw;
-    height: 70px;
-    border-radius: 20px;
-    /* padding-bottom: 50px; */
-    margin-bottom: 20px;
-  }
-
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1399px) {
+  .button{
+    margin-bottom: 15px;
+  }
+  .quote{
+    font-size: 50px;
+  }
+  .leftDiv{
+    padding-top: 20px;
+  }
+}
+@media (max-width: 1100px) {
+  .quote{
+    font-size:50px;
+  }
+  .leftDiv{
+    flex-wrap: wrap;
+    align-content: space-around;
+  }
 }
 
 @media (max-width: 540px) {
@@ -107,7 +116,7 @@
 
 @media (max-width: 380px) {
   .quote{
-    font-size: 30px;
+    font-size: 35px;
     padding-left: 10vw;
   }
 }
