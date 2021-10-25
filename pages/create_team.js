@@ -23,7 +23,7 @@ const CreatePage = () => {
       <label htmlFor="" className={CreateTeamStyles.roleLabel}>
         Member Degree / Role :
       </label>
-      <input 
+      <input
         type="text"
         name="memberDegree0"
         required
@@ -57,11 +57,11 @@ const CreatePage = () => {
         }}
       >
         <option value="All">All</option>
-        <option value="3rd">3rd</option>
-        <option value="2nd">2nd</option>
-        <option value="1st">1st</option>
+        <option value="3">3rd</option>
+        <option value="2">2nd</option>
+        <option value="1">1st</option>
       </select>
-      <br/>
+      <br />
     </div>,
   ]);
 
@@ -165,10 +165,11 @@ const CreatePage = () => {
             }}
           />
           <label className={CreateTeamStyles.roleLabel} htmlFor="">
-          Member Year :
+            Member Year :
           </label>
 
-          <select className={CreateTeamStyles.select}
+          <select
+            className={CreateTeamStyles.select}
             name={`memberDegreeYear${divId}`}
             id=""
             required
@@ -180,13 +181,12 @@ const CreatePage = () => {
             }}
           >
             <option value="All">All</option>
-            <option value="3rd">3rd</option>
-            <option value="2nd">2nd</option>
-            <option value="1st">1st</option>
+            <option value="3">3rd</option>
+            <option value="2">2nd</option>
+            <option value="1">1st</option>
           </select>
-          <br/>
+          <br />
         </div>
-
       );
       console.log("divId", divId);
       console.log("roles", roles.length);
@@ -209,113 +209,118 @@ const CreatePage = () => {
           onSubmit={(e) => {
             createTeam(e);
           }}
-        > 
+        >
           <div className={CreateTeamStyles.page}>
-          <div className = {CreateTeamStyles.holderDiv}>
-          <div className={CreateTeamStyles.pageDivLeft}>
-          
-            <h1 className={CreateTeamStyles.headers}>New Team Information :</h1>
-            
-            <div className={CreateTeamStyles.pageDiv}>
-              <div className={CreateTeamStyles.labelDiv}>
-                <label htmlFor="">Team Name :</label>
-                <label htmlFor="">Team Type :</label>
-                <label htmlFor="">Team Description :</label>
-                <label htmlFor="">Your Degree/Role :</label>
-                <label htmlFor="">Your Year :</label>
-                <label htmlFor="">Application End Date :</label>
-                <label htmlFor="">Total Unique Roles/Degrees :</label>
-              </div>
-              <div className={CreateTeamStyles.inputDiv}>
-                <input
-                  type="text"
-                  name="teamName"
-                  required
-                  onChange={(e) => {
-                    setTeamName(e.target.value);
-                  }}
-                />
-                <input
-                  type="text"
-                  name="groupType"
-                  required
-                  onChange={(e) => {
-                    setGroupType(e.target.value);
-                  }}
-                />
-                <input
-                  type="text"
-                  name="groupDescription"
-                  required
-                  onChange={(e) => {
-                    setGroupDescription(e.target.value);
-                  }}
-                />
-                <input
-                  type="text"
-                  name="creatorDegreeRole"
-                  required
-                  onChange={(e) => {
-                    setCreatorRole(e.target.value);
-                  }}
-                />
-                <input
-                  type="number"
-                  name="creatorYear"
-                  required
-                  onChange={(e) => {
-                    setCreatorYear(e.target.value);
-                  }}
-                />
-                <input
-                  type="date"
-                  name="endDate"
-                  required
-                  onChange={(e) => {
-                    setEndDate(e.target.value);
-                  }}
-                />
+            <div className={CreateTeamStyles.holderDiv}>
+              <div className={CreateTeamStyles.pageDivLeft}>
+                <h1 className={CreateTeamStyles.headers}>
+                  New Team Information :
+                </h1>
 
-                <input
-                  type="number"
-                  min="1"
-                  max="10"
-                  defaultValue="1"
-                  name="uniqueRoles"
-                  required
-                  onChange={(e) => {
-                    setTotalRoles(e.target.value);
-                  }}
-                />
-              </div>
-              </div>
-            
-                  <h1 className={CreateTeamStyles.headers}>Team Members:</h1>
-              <div className={CreateTeamStyles.teamMembersDiv}>
-              {roles.map((role, id) => {
-                return (
-                  <div className={CreateTeamStyles.roleDiv} key={id}>
-                    {role}
+                <div className={CreateTeamStyles.pageDiv}>
+                  <div className={CreateTeamStyles.labelDiv}>
+                    <label htmlFor="">Team Name :</label>
+                    <label htmlFor="">Team Type :</label>
+                    <label htmlFor="">Team Description :</label>
+                    <label htmlFor="">Your Degree/Role :</label>
+                    <label htmlFor="">Your Year :</label>
+                    <label htmlFor="">Application End Date :</label>
+                    <label htmlFor="">Total Unique Roles/Degrees :</label>
                   </div>
-                );
-              })}
+                  <div className={CreateTeamStyles.inputDiv}>
+                    <input
+                      type="text"
+                      name="teamName"
+                      required
+                      onChange={(e) => {
+                        setTeamName(e.target.value);
+                      }}
+                    />
+                    <input
+                      type="text"
+                      name="groupType"
+                      required
+                      onChange={(e) => {
+                        setGroupType(e.target.value);
+                      }}
+                    />
+                    <input
+                      type="text"
+                      name="groupDescription"
+                      required
+                      onChange={(e) => {
+                        setGroupDescription(e.target.value);
+                      }}
+                    />
+                    <input
+                      type="text"
+                      name="creatorDegreeRole"
+                      required
+                      onChange={(e) => {
+                        setCreatorRole(e.target.value);
+                      }}
+                    />
+                    <input
+                      type="number"
+                      name="creatorYear"
+                      required
+                      onChange={(e) => {
+                        setCreatorYear(e.target.value);
+                      }}
+                    />
+                    <input
+                      type="date"
+                      name="endDate"
+                      required
+                      onChange={(e) => {
+                        setEndDate(e.target.value);
+                      }}
+                    />
+
+                    <input
+                      type="number"
+                      min="1"
+                      max="10"
+                      defaultValue="1"
+                      name="uniqueRoles"
+                      required
+                      onChange={(e) => {
+                        setTotalRoles(e.target.value);
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <h1 className={CreateTeamStyles.headers}>Team Members:</h1>
+                <div className={CreateTeamStyles.teamMembersDiv}>
+                  {roles.map((role, id) => {
+                    return (
+                      <div className={CreateTeamStyles.roleDiv} key={id}>
+                        {role}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className={CreateTeamStyles.btnDiv}>
+                <button type="submit" className={CreateTeamStyles.createBtn}>
+                  Create Team
+                </button>
+              </div>
+            </div>
+            <div className={CreateTeamStyles.pageDivRight}>
+              <Image
+                src="/puzzle.png"
+                alt="Could not find logo"
+                layout="responsive"
+                width="250px"
+                height="200px"
+              />
             </div>
           </div>
-          <div className= {CreateTeamStyles.btnDiv}>
-            <button type="submit" className={CreateTeamStyles.createBtn}>
-              Create Team
-            </button>
-          </div>
-        </div>
-        <div className={CreateTeamStyles.pageDivRight}>
-        <Image src="/puzzle.png" alt="Could not find logo" layout="responsive" width = "250px" height = "200px"/>
-        </div>
-        </div>
-      </form>
+        </form>
       )}
     </div>
-    
-    
   );
 };
 

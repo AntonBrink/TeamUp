@@ -2,12 +2,11 @@
   display: flex;
   flex-direction: column;
   width: 50vw;
-  
 }
 
-.teams >button {
+.teams > button {
   border: none;
-  background-color: #11223E;
+  background-color: #11223e;
   margin: 10px;
   margin-left: 30px;
   text-align: left;
@@ -15,47 +14,46 @@
   /* border-radius: 20px; */
   cursor: pointer;
 }
-.teams >button:hover {
+.teams > button:hover {
   box-shadow: 0px 0px 20px #001027;
 }
-.teams >button >div >h1{
-  background-color: #11223E;
+.teams > button > div > h1 {
+  background-color: #11223e;
   font-family: "poppins";
   font-size: 35px;
 }
-.teams >button >div >p{
-  background-color: #11223E;
+.teams > button > div > p {
+  background-color: #11223e;
   font-size: 25px;
   font-family: "poppins";
 }
-.teams >button >div >ul{
-  background-color: #11223E;
+.teams > button > div > ul {
+  background-color: #11223e;
   font-size: 25px;
   font-family: "poppins";
   padding: 0px;
 }
-.teams >button >div >ul >li{
-  background-color: #11223E;
+.teams > button > div > ul > li {
+  background-color: #11223e;
   list-style-type: none;
   font-size: 25px;
   font-family: "poppins";
-  
 }
-.teams >button >div{
-  background-color: #11223E;
+.teams > button > div {
+  background-color: #11223e;
 }
 
 .pageContent {
   display: grid;
   grid-template-columns: 50% 50%;
 }
-.heading{
+.heading {
   font-size: 45px;
   font-family: "poppins";
   text-align: center;
 }
-.teamInfo{
-  background-color: #11223E;
+.teamInfo {
+  background-color: #11223e;
   margin: 10px;
   padding-left: 30px;
   height: max-content;
@@ -64,49 +62,48 @@
   padding-top: 0px;
   /* border-radius: 20px; */
 }
-.teamInfo >div{
-  background-color: #11223E;
+.teamInfo > div {
+  background-color: #11223e;
 }
-.teamInfo >h1{
-  background-color: #11223E;
+.teamInfo > h1 {
+  background-color: #11223e;
   font-family: "poppins";
   font-size: 35px;
   margin-bottom: 0px;
-  
 }
-.teamInfo >div >p{
-  background-color: #11223E;
+.teamInfo > div > p {
+  background-color: #11223e;
   margin: 0px;
   font-family: "poppins";
   font-size: 25px;
 }
-.teamInfo >div >ul{
-  background-color: #11223E;
+.teamInfo > div > ul {
+  background-color: #11223e;
   margin-top: 0px;
   font-family: "poppins";
   font-size: 25px;
 }
-.teamInfo >div >ul >li{
-  background-color: #11223E;
+.teamInfo > div > ul > li {
+  background-color: #11223e;
   font-family: "poppins";
   font-size: 25px;
 }
-.teamInfo >div >div >h2{
-  background-color: #11223E;
+.teamInfo > div > div > h2 {
+  background-color: #11223e;
   font-family: "poppins";
   font-size: 30px;
 }
-.teamInfo >div >div >p{
-  background-color: #11223E;
+.teamInfo > div > div > p {
+  background-color: #11223e;
   font-family: "poppins";
   font-size: 25px;
 }
-.teamInfo >div >div{
-  background-color: #11223E;
+.teamInfo > div > div {
+  background-color: #11223e;
   font-family: "poppins";
   font-size: 25px;
 }
-.requestButton{
+.requestButton {
   font-size: 24px;
   font-family: "poppins";
   width: 250px;
@@ -117,65 +114,63 @@
   margin-bottom: 20px;
   cursor: pointer;
 }
-.requestButton:hover{
+.requestButton:hover {
   background-color: white;
-  color: #11223E;
+  color: #11223e;
 }
-.roleLabel{
-  background-color: #11223E;
+.roleLabel {
+  background-color: #11223e;
   margin-left: 10px;
   font-size: 24px;
   font-family: "poppins";
-
 }
-.selectList{
+.selectList {
   font-size: 24px;
   font-family: "poppins";
   margin-right: 20px;
   border-color: white;
 }
-.yearLabel{
-  background-color: #11223E;
+.yearLabel {
+  background-color: #11223e;
   margin-right: 10px;
   font-size: 24px;
   font-family: "poppins";
 }
-.filterLabel{
+.filterLabel {
   margin-right: 10px;
   font-size: 22px;
   font-family: "poppins";
   margin-left: 28px;
 }
-.filterSelect{
+.filterSelect {
   font-size: 24px;
   font-family: "poppins";
   margin-right: 20px;
   border-color: white;
 }
-.filters{
+.filters {
   margin-right: 10px;
   font-size: 28px;
   font-family: "poppins";
   margin-left: 28px;
   font-weight: normal;
   margin-bottom: 0px;
-  background-color: #727b8be8;
 }
 
-@media (max-width: 1024px){
+@media (max-width: 1024px) {
   .pageContent {
     display: grid;
     grid-template-columns: 100%;
   }
-  .teams{
+  .teams {
     width: 100vw;
   }
-  .teams >button{
+  .teams > button {
     margin-left: 5vw;
     margin-right: 5vw;
   }
-  .teamInfo{
-    background-color: #11223E;
+  .teamInfo {
+    background-color: #11223e;
     margin: 10px;
     padding-left: unse;
     height: max-content;
@@ -187,7 +182,7 @@
     justify-content: space-evenly;
   }
 
-  .requestButton{
+  .requestButton {
     margin-left: 5vw;
     width: 75vw;
     height: 40px;
@@ -208,50 +203,48 @@
 }
 
 @media (max-width: 280px) {
-  .requestButton{
+  .requestButton {
     width: 60vw;
     height: 40px;
     font-size: 16px;
   }
-  .teams >button{
+  .teams > button {
     margin-left: 5vw;
     margin-right: 5vw;
   }
-  .teams >button >div >h1{
+  .teams > button > div > h1 {
     font-size: 24px;
   }
 
-  .teams >button >div >p{
+  .teams > button > div > p {
     font-size: 16px;
   }
 
-  .teams >button >div >ul{
+  .teams > button > div > ul {
     font-size: 16px;
   }
-  .teams >button >div >ul >li{
+  .teams > button > div > ul > li {
     font-size: 16px;
-    
   }
-  .teamInfo >h1{
+  .teamInfo > h1 {
     font-size: 24px;
-    
   }
-  .teamInfo >div >p{
+  .teamInfo > div > p {
     font-size: 16px;
   }
-  .teamInfo >div >ul{
+  .teamInfo > div > ul {
     font-size: 16px;
   }
-  .teamInfo >div >ul >li{
+  .teamInfo > div > ul > li {
     font-size: 16px;
   }
-  .teamInfo >div >div >h2{
+  .teamInfo > div > div > h2 {
     font-size: 16px;
   }
-  .teamInfo >div >div >p{
+  .teamInfo > div > div > p {
     font-size: 16px;
   }
-  .teamInfo >div >div{
+  .teamInfo > div > div {
     font-size: 16px;
   }
 }

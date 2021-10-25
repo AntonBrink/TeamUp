@@ -1,23 +1,24 @@
-.pageDiv{
+.pageDiv {
   display: flex;
 }
-.leftPageDiv{
+.leftPageDiv {
   width: 50vw;
   position: relative;
 }
-.rightPageDiv{
+.rightPageDiv {
   padding-top: 80px;
   width: 40vw;
   bottom: 0;
 }
-.heading{
+.heading {
   margin-left: 70px;
   font-family: "poppins";
   margin-bottom: 5px;
   font-size: 50px;
   font-weight: lighter;
 }
-.noShowRemoveModal, .noShowAddModal {
+.noShowRemoveModal,
+.noShowAddModal {
   display: none;
 }
 .addModal {
@@ -29,6 +30,10 @@
 }
 
 .memberListnoshowmembers {
+  display: none;
+}
+
+.noshowmembers {
   display: none;
 }
 
@@ -47,41 +52,40 @@
 .noShowAddModal {
   display: none;
 }
-.teamDiv{
-  background-color: #11223E;
+.teamDiv {
+  background-color: #11223e;
   padding: 30px;
   margin: 40px;
   margin-top: 0px;
   border-radius: 20px;
 }
-.teamDiv >h2{
-  background-color: #11223E;
+.teamDiv > h2 {
+  background-color: #11223e;
   font-family: "poppins";
   font-size: 35px;
   margin-top: 0px;
   margin-bottom: 2px;
   font-weight: lighter;
 }
-.teamDiv >p{
-  background-color: #11223E;
+.teamDiv > p {
+  background-color: #11223e;
   font-family: "poppins";
   font-size: 25px;
-
 }
-.teamDiv >ul{
-  background-color: #11223E;
+.teamDiv > ul {
+  background-color: #11223e;
   font-family: "poppins";
   font-size: 25px;
   list-style-type: none;
   padding: 0px;
 }
-.teamDiv >ul >li{
-  background-color: #11223E;
+.teamDiv > ul > li {
+  background-color: #11223e;
 }
-.teamDiv >div{
-  background-color: #11223E;
+.teamDiv > div {
+  background-color: #11223e;
 }
-.teamDiv >div >button{
+.teamDiv > div > button {
   background-color: #21355793;
   border: solid;
   border-width: 2px;
@@ -95,60 +99,62 @@
   font-size: 17px;
   cursor: pointer;
 }
-.teamDiv >div >button:hover{
+.teamDiv > div > button:hover {
   background-color: white;
-  color: #11223E;
-  }
-.showRemoveModal,.showmembers,.showrequesters{
+  color: #11223e;
+}
+.showRemoveModal,
+.showmembers,
+.showrequesters {
   border: solid 5px white;
   position: absolute;
   left: 60%;
-  top:20%;
-  width:50vw;
+  top: 20%;
+  width: 50vw;
   min-height: 30vh;
   z-index: 3;
   padding: 20px;
 }
-.showRemoveModal >h2{
+.showRemoveModal > h2 {
   font-family: "poppins";
 }
-.showmembers >h2{
+.showmembers > h2 {
   font-family: "poppins";
 }
-.showrequesters >div >h2{
+.showrequesters > div > h2 {
   font-family: "poppins";
 }
-.showrequesters >div >p{
+.showrequesters > div > p {
   font-family: "poppins";
 }
-.showrequesters >div >p >button{
+.showrequesters > div > p > button {
   font-family: "poppins";
   border: solid 2px;
   border-color: white;
   margin-left: 10px;
 }
-.showrequesters >div >p >button:hover{
+.showrequesters > div > p > button:hover {
   font-family: "poppins";
   border: solid 2px;
   border-color: white;
   margin-left: 10px;
   background-color: white;
-  color: #11223E;
+  color: #11223e;
 }
-.showmembers >p{
+.showmembers > p {
   font-family: "poppins";
   font-size: 20px;
 }
-.showRemoveModal >div >label{
+.showRemoveModal > div > label {
   font-family: "poppins";
   font-size: 20px;
 }
-.showRemoveModal >div >select{
+.showRemoveModal > div > select {
   font-family: "poppins";
   font-size: 20px;
   margin-bottom: 20px;
 }
-.removeButton{
+.removeButton {
   font-family: "poppins";
   font-size: 20px;
   background-color: #21355793;
@@ -162,7 +168,7 @@
   font-family: "poppins";
   cursor: pointer;
 }
-.removeButton:hover{
+.removeButton:hover {
   font-family: "poppins";
   font-size: 20px;
   background-color: white;
@@ -175,86 +181,76 @@
   padding-bottom: 5px;
   font-family: "poppins";
   cursor: pointer;
-  color: #11223E;
+  color: #11223e;
 }
-.closeButton{
+.closeButton {
   border: none;
   cursor: pointer;
 }
-.closeButton:hover{
+.closeButton:hover {
   border: none;
   cursor: pointer;
   color: grey;
 }
-.noMainPageBlur{
+.noMainPageBlur {
   background-color: transparent;
   width: 100vw;
   height: 0;
 }
-.mainPageBlur{
+.mainPageBlur {
   background-color: grey;
-  opacity:0.5;
+  opacity: 0.5;
   width: 100vw;
   height: 100%;
   position: absolute;
   top: 0;
-  left:0;
-  z-index:2;
+  left: 0;
+  z-index: 2;
 }
-.closeButton{
-float: right;
-border: none;
-
+.closeButton {
+  float: right;
+  border: none;
 }
 
-@media (max-width: 1024px){
-  .pageDiv{
+@media (max-width: 1024px) {
+  .pageDiv {
     flex-direction: column;
     justify-content: space-evenly;
     width: 100%;
     text-align: center;
   }
-  .heading{
+  .heading {
     margin-left: 0;
   }
-  .leftPageDiv{
+  .leftPageDiv {
     width: 100vw;
-    
   }
-  .rightPageDiv{
+  .rightPageDiv {
     width: 100vw;
-
   }
-  .teamDiv{
+  .teamDiv {
     margin: 5vw;
-    
+
     width: 90vw;
   }
-  .rightPageDiv{
+  .rightPageDiv {
     display: none;
   }
-
 }
 @media (max-width: 768px) {
 }
 
 @media (max-width: 540px) {
-
 }
 
 @media (max-width: 415px) {
-
 }
 
 @media (max-width: 380px) {
-
 }
 
 @media (max-width: 280px) {
-  .heading{
+  .heading {
     font-size: 30px;
   }
-  
-
 }
-
