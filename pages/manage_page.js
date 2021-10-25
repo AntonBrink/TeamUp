@@ -15,22 +15,13 @@ const ManagePage = () => {
   const [tempId, setTempId] = useState("");
   const [tempId2, setTempId2] = useState("");
   const [openRoles, setOpenRoles] = useState([]);
-  const [memberToAddInfo, setMemberToAddInfo] = useState({
-    name: "",
-    role: "",
-    year: "",
-    email: "",
-  });
 
   let teamMembers = [];
   let joinRequests = [];
   const [displayRemoveModal, setShowRemoveModal] =
     useState("noShowRemoveModal");
-  const [displayShowAddModal, setDisplayShowAddModal] =
-    useState("noShowAddModal");
   const [displayMembers, setDisplayMembers] = useState("noshowmembers");
-  const [displayRequesters, setDisplayRequesters] =
-    useState("noshowrequesters");
+  const [displayRequesters, setDisplayRequesters] = useState("noshowrequesters");
 
     const [showBlur, setShowBlur] =
     useState("noShowBlur");
@@ -54,10 +45,6 @@ const ManagePage = () => {
       ? `${manageStyles.noshowrequesters}`
       : `${manageStyles.showrequesters}`;
 
-  const addClassname =
-    displayShowAddModal == "noShowAddModal"
-      ? `${manageStyles.noShowAddModal}`
-      : `${manageStyles.showAddModal}`;
 
   useEffect(() => {
     if (tempId2 !== "") {
@@ -437,18 +424,18 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
                       >
                         Remove Member
                       </button>
-                      <button onClick={() => showFunction(team.id)}>
+                      <button onClick={() => {showFunction(team.id); setShowBlur("showBlur")}}>
                         View Members
                       </button>
                       <button
-                        onClick={() => memberApplicationsFunction(team.id)}
+                        onClick={() =>{memberApplicationsFunction(team.id); setShowBlur("showBlur")} }
                       >
                         View Join Requests
                       </button>
                     </div>
                   ) : (
                     <div>
-                      <button onClick={() => showFunction(team.id)}>
+                      <button onClick={() => {showFunction(team.id); setShowBlur("showBlur")} }>
                         View Members
                       </button>
                     </div>
@@ -460,8 +447,15 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
         )}
 
         {/* Join Requests */}
-
+        
         <div className={showRequestersClassname}>
+        <button className={manageStyles.closeButton}
+            onClick={() => {
+              setDisplayRequesters("noshowrequesters");
+              setShowBlur("noShowBlur")
+            }}>
+              X
+            </button>
           {tempRequests.map((requester, id) => {
             let requesterDetails = {
               email: requester.email,
@@ -479,9 +473,11 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
             }
 
             return (
+              <div>
+                <h2> Requests To Join Team:</h2>
               <p key={id}>
-                Applicant Information: {requester.name} - {requester.email} -{" "}
-                {requester.userYear} - Role Information: {requester.role} -{" "}
+                Applicant Information: {requester.name} | {requester.email} |{" "}
+                {requester.userYear} | Role Information: {requester.role} |{" "}
                 {requester.year}
                 <button
                   onClick={() => {
@@ -498,85 +494,20 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
                   Decline
                 </button>
               </p>
+              </div>
             );
           })}
         </div>
 
         {/* Join Requests */}
 
-        {/* add member modal */}
-
-        <div className={addClassname}>
-          <div>
-            <label htmlFor="">Member Name</label>
-            <label htmlFor="">Member Year</label>
-            <label htmlFor="">Member Email</label>
-            <label htmlFor="">Member Role/Degree</label>
-          </div>
-          <div>
-            <input
-              required
-              type="text"
-              onChange={(e) => {
-                setMemberToAddInfo((memberToAddInfo) => ({
-                  ...memberToAddInfo,
-                  name: e.target.value,
-                }));
-              }}
-            />
-            <input
-              required
-              type="text"
-              onChange={(e) => {
-                setMemberToAddInfo((memberToAddInfo) => ({
-                  ...memberToAddInfo,
-                  year: e.target.value,
-                }));
-              }}
-            />
-            <input
-              required
-              type="text"
-              onChange={(e) => {
-                setMemberToAddInfo((memberToAddInfo) => ({
-                  ...memberToAddInfo,
-                  email: e.target.value,
-                }));
-              }}
-            />
-            <select
-              onChange={(e) => {
-                setMemberToAddInfo((memberToAddInfo) => ({
-                  ...memberToAddInfo,
-                  role: e.target.value,
-                }));
-              }}
-            >
-              <option value="other">Other</option>
-              {openRoles.map((openRole) => {
-                return (
-                  <option key={openRole.Role} value={openRole.Role}>
-                    {openRole.Role} - {openRole.Years} Year
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <button
-            onClick={() => {
-              addMember(memberToAddInfo);
-            }}
-          >
-            Add Member
-          </button>
-        </div>
-
-        {/* add member modal */}
 
         {/* remove member modal */}
         <div className={mainPageBlur} onClick={() => {
               setShowRemoveModal("noShowRemoveModal");
               setShowBlur("noShowBlur")
+              setDisplayMembers("noshowmembers");
+              setDisplayRequesters("noshowrequesters");
             }}></div>
         
         <div className={removeClassname}>
@@ -633,7 +564,15 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
 
         {/* members */}
 
+              
         <div className={showMembersClassname}>
+        <button className={manageStyles.closeButton}
+            onClick={() => {
+              setDisplayRequesters("noshowrequesters");
+              setShowBlur("noShowBlur")
+            }}>
+              X
+            </button><h2>Team Members:</h2>
           {tempMembers.map((member, id) => {
             return <p key={id}>{member.name}</p>;
           })}
