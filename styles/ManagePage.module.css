@@ -93,13 +93,13 @@
   padding-bottom: 5px;
   font-family: "poppins";
   font-size: 17px;
+  cursor: pointer;
 }
 .teamDiv >div >button:hover{
   background-color: white;
   color: #11223E;
   }
 .showRemoveModal{
-  background-color: red;
   border: solid 5px white;
   position: absolute;
   left: 60%;
@@ -107,15 +107,66 @@
   width:40vw;
   height: 30vh;
   z-index: 3;
+  padding: 20px;
+}
+.showRemoveModal >h2{
+  font-family: "poppins";
+}
+.showRemoveModal >div >label{
+  font-family: "poppins";
+  font-size: 20px;
+}
+.showRemoveModal >div >select{
+  font-family: "poppins";
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.removeButton{
+  font-family: "poppins";
+  font-size: 20px;
+  background-color: #21355793;
+  border: solid;
+  border-width: 2px;
+  border-color: white;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-family: "poppins";
+  cursor: pointer;
+}
+.removeButton:hover{
+  font-family: "poppins";
+  font-size: 20px;
+  background-color: white;
+  border: solid;
+  border-width: 2px;
+  border-color: white;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-family: "poppins";
+  cursor: pointer;
+  color: #11223E;
+}
+.closeButton{
+  border: none;
+  cursor: pointer;
+}
+.closeButton:hover{
+  border: none;
+  cursor: pointer;
+  color: grey;
 }
 .noMainPageBlur{
   background-color: transparent;
   width: 100vw;
-  height: 100vh;
+  height: 0;
 }
 .mainPageBlur{
-  background-color: white;
-  opacity:0.3;
+  background-color: grey;
+  opacity:0.5;
   width: 100vw;
   height: 100%;
   position: absolute;

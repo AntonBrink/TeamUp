@@ -141,11 +141,12 @@ export default function Home() {
 
   return (
     <div>
-      <h1 className={styles.heading}>All Teams</h1>
+      <h1 className={styles.heading}>View Available Teams</h1>
       <div>
         <div>
-          <label htmlFor="">Role/Degree</label>
-          <select
+          <h2 className={styles.filters}>Filter Teams:</h2>
+          <label className={styles.filterLabel} htmlFor="">Role/Degree</label>
+          <select className={styles.filterSelect}
             onChange={(e) => {
               setTeamsReady(false);
 
@@ -154,13 +155,13 @@ export default function Home() {
           >
             <option value="All">All </option>
             <option value="BA">BA</option>
-            <option value="It">IT</option>
+            <option value="It">Bsc IT</option>
             <option value="Bcom">Bcom</option>
           </select>
         </div>
         <div>
-          <label htmlFor="">Year</label>
-          <select
+          <label className={styles.filterLabel} htmlFor="">Year</label>
+          <select className={styles.filterSelect}
             onChange={(e) => {
               setTeamsReady(false);
 
@@ -168,9 +169,9 @@ export default function Home() {
             }}
           >
             <option value="All">All</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
+            <option value="1">1st </option>
+            <option value="2">2nd </option>
+            <option value="3">3rd </option>
           </select>
         </div>
       </div>
@@ -280,12 +281,13 @@ export default function Home() {
                 <button
                   onClick={() => {
                     requestJoin(teamId);
-                  }}
+                  }} className={styles.requestButton}
                 >
                   Request to Join
                 </button>
-                Role:
-                <select
+                <label className={styles.roleLabel}>Role: </label>
+                
+                <select className={styles.selectList}
                   onChange={(e) => {
                     let role = "other";
                     let year = "All";
@@ -309,7 +311,7 @@ export default function Home() {
                     // setApplyRole(e.target.value);
                   }}
                 >
-                  <option value="other">other</option>
+                  <option value="other">Other</option>
 
                   {openRoles.map((openRole, id) => {
                     let value = openRole.Role + " - " + openRole.Years;
@@ -331,17 +333,19 @@ export default function Home() {
                     }
                   })}
                 </select>
-                Year:
-                <select
+                <label className={styles.yearLabel}>
+                Your Year:
+                </label>
+                <select className={styles.selectList}
                   onChange={(e) => {
                     setUserYear(e.target.value);
                   }}
                 >
-                  <option value="other">other</option>
+                  <option value="other">Other</option>
 
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
+                  <option value="1">1st</option>
+                  <option value="2">2nd</option>
+                  <option value="3">3rd</option>
                 </select>
               </div>
             </div>

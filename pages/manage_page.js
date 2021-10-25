@@ -608,7 +608,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
                 })}
               </select>
             </div>
-            <button
+            <button className={manageStyles.removeButton}
               onClick={() => {
                 removeMember();
               }}

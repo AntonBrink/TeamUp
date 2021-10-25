@@ -121,3 +121,42 @@
   background-color: white;
   color: #11223E;
 }
+.roleLabel{
+  background-color: #11223E;
+  margin-left: 10px;
+  font-size: 24px;
+  font-family: "poppins";
+
+}
+.selectList{
+  font-size: 24px;
+  font-family: "poppins";
+  margin-right: 20px;
+  border-color: white;
+}
+.yearLabel{
+  background-color: #11223E;
+  margin-right: 10px;
+  font-size: 24px;
+  font-family: "poppins";
+}
+.filterLabel{
+  margin-right: 10px;
+  font-size: 22px;
+  font-family: "poppins";
+  margin-left: 28px;
+}
+.filterSelect{
+  font-size: 24px;
+  font-family: "poppins";
+  margin-right: 20px;
+  border-color: white;
+}
+.filters{
+  margin-right: 10px;
+  font-size: 28px;
+  font-family: "poppins";
+  margin-left: 28px;
+  font-weight: normal;
+  margin-bottom: 0px;
+}
