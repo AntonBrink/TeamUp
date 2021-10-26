@@ -21,6 +21,18 @@ export default function Home() {
   const [filterYear, setFilterYear] = useState("All");
   const [firstRun, setFirstRun] = useState(2);
 
+  const [showBlur, setShowBlur] = useState("noShowBlur");
+  const mainPageBlur =
+    showBlur == "noShowBlur"
+      ? `${styles.noMainPageBlur}`
+      : `${styles.mainPageBlur}`;
+
+  const [notification, setNotification] = useState("noShowNotification");
+  const notificationClass =
+    notification == "noShowNotification"
+      ? `${styles.noShowNotification}`
+      : `${styles.showNotification}`;
+
   const requestJoin = (id) => {
     let userData = [];
 
@@ -82,7 +94,8 @@ export default function Home() {
     )
       .then((res) => res.json())
       .then((res) => {
-        window.alert("request to join sent");
+        setShowBlur("showBlur");
+        setNotification("showNotification");
       });
   };
 
@@ -134,21 +147,26 @@ export default function Home() {
       )
         .then((res) => res.json())
         .then((result) => {
+          setTeams([]);
+
           result.data.teams.forEach((team) => {
-            teams.push({
-              id: team.id,
-              teamName: team.teamName,
-              memberData: team.memberData,
-              openPositions: team.openPositions,
-              applyEndDate: team.applyEndDate,
-              groupDescription: team.groupDescription,
-              memberApplications: team.memberApplications,
-            });
+            setTeams((teams) => [
+              ...teams,
+              {
+                id: team.id,
+                teamName: team.teamName,
+                memberData: team.memberData,
+                openPositions: team.openPositions,
+                applyEndDate: team.applyEndDate,
+                groupDescription: team.groupDescription,
+                memberApplications: team.memberApplications,
+              },
+            ]);
           });
           setTeamsReady(true);
         });
     }
-  }, [teams, user, authReady]);
+  }, [user, authReady]);
 
   useEffect(() => {
     if (firstRun > 1) {
@@ -163,7 +181,16 @@ export default function Home() {
   }, [filterRole, filterYear]);
 
   return (
-    <div>
+    <div className={styles.wholePage}>
+      <div className={notificationClass}>Your join request has been sent</div>
+      <div
+        className={mainPageBlur}
+        onClick={() => {
+          setShowBlur("noShowBlur");
+          setNotification("noShowNotification");
+        }}
+      ></div>
+
       <h1 className={styles.heading}>View Available Teams</h1>
       <div>
         <div>

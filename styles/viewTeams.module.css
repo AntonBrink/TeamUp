@@ -48,6 +48,43 @@
   grid-template-columns: 50% 50%;
   position: relative;
 }
+
+.noMainPageBlur {
+  background-color: transparent;
+  width: 100vw;
+  height: 0;
+}
+
+.noShowNotification {
+  display: none;
+}
+
+.showNotification {
+  border: solid 5px white;
+  position: absolute;
+  left: 60%;
+  top: 20%;
+  width: 50vw;
+  min-height: 30vh;
+  z-index: 3;
+  padding: 20px;
+}
+
+.wholePage {
+  position: relative;
+}
+
+.mainPageBlur {
+  background-color: grey;
+  opacity: 0.5;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
 .heading {
   font-size: 45px;
   font-family: "poppins";
