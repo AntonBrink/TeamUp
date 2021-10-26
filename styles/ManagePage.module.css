@@ -25,6 +25,14 @@
   display: none;
 }
 
+.noShowPrevious {
+  display: none;
+}
+
+.noShowRemove {
+  display: none;
+}
+
 .removeConfirmation {
   display: none;
 }

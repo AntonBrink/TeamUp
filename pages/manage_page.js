@@ -26,6 +26,9 @@ const ManagePage = () => {
   const [displayRequesters, setDisplayRequesters] =
     useState("noshowrequesters");
 
+  const [confirmation, setConfirmation] = useState("noShowRemove");
+  const [previousInfo, setPreviousInfo] = useState("showPrevious");
+
   const [feedback, setFeedback] = useState("noFeedback");
 
   const [showBlur, setShowBlur] = useState("noShowBlur");
@@ -38,6 +41,15 @@ const ManagePage = () => {
     displayRemoveModal == "noShowRemoveModal"
       ? `${manageStyles.noShowRemoveModal}`
       : `${manageStyles.showRemoveModal}`;
+
+  const confirmationClassname =
+    confirmation == "noShowRemove"
+      ? `${manageStyles.noShowRemove}`
+      : `${manageStyles.showRemove}`;
+  const previousClassname =
+    previousInfo == "showPrevious"
+      ? `${manageStyles.showPrevious}`
+      : `${manageStyles.noShowPrevious}`;
 
   const showMembersClassname =
     displayMembers == "noshowmembers"
@@ -370,7 +382,13 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
           },
         }),
       }
-    ).then((res) => res.json());
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        if (res !== "underfined") {
+          setFeedback("badFeedback");
+        }
+      });
   };
 
   const showFunction = (teamId) => {
@@ -592,45 +610,73 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
           </button>
           <h2>TeamName</h2>
 
-          <div>
-            <label htmlFor="">Member Email</label>
-          </div>
-          <div>
-            <select
-              onChange={(e) => {
-                setMemberToRemove(e.target.value);
+          <div className={previousClassname}>
+            <div>
+              <label htmlFor="">Member Email</label>
+            </div>
+            <div>
+              <select
+                onChange={(e) => {
+                  setMemberToRemove(e.target.value);
+                }}
+              >
+                <option value="">Member Emails</option>
+                {removeGroup.map((member, id) => {
+                  if (member.email !== user.email) {
+                    return (
+                      <option key={id} value={member.email}>
+                        {member.email}
+                      </option>
+                    );
+                  }
+                })}
+              </select>
+            </div>
+            <button
+              className={manageStyles.removeButton}
+              onClick={() => {
+                setConfirmation("showRemove");
+                setPreviousInfo("noShowPrevious");
               }}
             >
-              <option value="">Member Emails</option>
-              {removeGroup.map((member, id) => {
-                if (member.email !== user.email) {
-                  return (
-                    <option key={id} value={member.email}>
-                      {member.email}
-                    </option>
-                  );
-                }
-              })}
-            </select>
+              Remove Member
+            </button>
           </div>
-          <button
-            className={manageStyles.removeButton}
-            onClick={() => {
-              removeMember();
-            }}
-          >
-            Remove Member
-          </button>
+
+          {/* <h1>Are you sure you want to remove {`${member.email}`}</h1>
+            <button>Yes</button>
+            <button>No</button> */}
 
           {/* remove member modal */}
 
           {/* confirmation remove */}
 
-          <div className={manageStyles.removeConfirmation}>
-            <h1>Are you sure you want to remove user with id of id1</h1>
-            <button>No!</button>
-            <button>Yes!</button>
+          <div className={confirmationClassname}>
+            <h1>Are you sure you want to remove {`${memberToRemove}`}</h1>
+            <button
+              onClick={() => {
+                setPreviousInfo("showPrevious");
+                setConfirmation("noShowRemove");
+                setShowRemoveModal("noShowRemoveModal");
+                setShowBlur("noShowBlur");
+              }}
+            >
+              No!
+            </button>
+            <button
+              onClick={() => {
+                removeMember();
+              }}
+            >
+              Yes!
+            </button>
           </div>
+
+          <p className={feedbackClass}>
+            {feedback == "badFeedback"
+              ? `${memberToRemove} has been removed from the team`
+              : ""}
+          </p>
         </div>
 
         {/* confirmation remove */}
@@ -643,6 +689,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
             onClick={() => {
               setDisplayMembers("noshowmembers");
               setShowBlur("noShowBlur");
+              setFeedback("noFeedback");
             }}
           >
             X
