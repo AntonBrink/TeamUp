@@ -65,13 +65,6 @@ const ManagePage = () => {
     }
   }, [tempId2]);
 
-  // useEffect(() => {
-  //   if (openRoles.length !== 0) {
-  //     setDisplayShowAddModal("showAddModal");
-  //     console.log(openRoles);
-  //   }
-  // }, [openRoles]);
-
   useEffect(() => {
     if (authReady && user) {
       fetch(
@@ -174,7 +167,6 @@ const ManagePage = () => {
 
           setTempRequests((tempRequests) => [...tempRequests, newRequests]);
           setTempRequestsReady(true);
-          setFeedback("badFeedback");
         }
       });
   };
@@ -518,6 +510,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
           >
             X
           </button>
+          <h2> Requests To Join Team:</h2>
 
           {!tempRequestsReady && <div>Loading members... </div>}
           {tempRequests.map((requester, id) => {
@@ -539,7 +532,6 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
 
               return (
                 <div key={id}>
-                  <h2> Requests To Join Team:</h2>
                   <p key={id}>
                     Applicant Information: {requester.name} | {requester.email}{" "}
                     | {requester.userYear} | Role Information: {requester.role}{" "}
@@ -554,6 +546,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
                     <button
                       onClick={() => {
                         declineRequest(requester.email);
+                        setFeedback("badFeedback");
                       }}
                     >
                       Decline
@@ -569,7 +562,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
             {feedback == "goodFeedback"
               ? `${tempMemberEmail} has been added to the team`
               : feedback == "badFeedback"
-              ? `${tempMemberEmail} has not been added, this member is already in the team`
+              ? `${tempMemberEmail} has not been added or is already part of the team`
               : ""}
           </p>
         </div>
