@@ -62,14 +62,25 @@
 .showNotification {
   border: solid 5px white;
   position: absolute;
-  left: 60%;
+  left: 40%;
   top: 20%;
-  width: 50vw;
-  min-height: 30vh;
+  width: 20vw;
+  min-height: 20vh;
   z-index: 3;
   padding: 20px;
+  font-size: 20px;
+  font-family: "poppins";
 }
-
+.closeButton {
+  border: none;
+  cursor: pointer;
+  float: right;
+}
+.closeButton:hover {
+  border: none;
+  cursor: pointer;
+  color: grey;
+}
 .wholePage {
   position: relative;
 }
@@ -217,7 +228,6 @@
     margin-left: 5vw;
     margin-right: 5vw;
     padding-top: 0px;
-    border-radius: 20px;
     width: 90vw;
     justify-content: space-evenly;
   }
@@ -226,17 +236,79 @@
     margin-left: 5vw;
     width: 75vw;
     height: 40px;
-    border-radius: 20px;
+  }
+  .showNotification {
+    font-size: 20px;
+    left: 33%;
+    width: 30vw;
   }
 }
 
 @media (max-width: 768px) {
+  .showNotification {
+    left: 28%;
+    width: 40vw;
+    font-size: 15px;
+  }
 }
 
 @media (max-width: 540px) {
+  .showNotification {
+    left: 24%;
+    width: 50vw;
+    font-size: 15px;
+  }
 }
 
 @media (max-width: 415px) {
+  .teams > button > div > h1 {
+    font-size: 22px;
+  }
+  .teams > button > div > p {
+    font-size: 16px;
+  }
+
+  .teams > button > div > ul {
+    font-size: 16px;
+  }
+  .teams > button > div > ul > li {
+    font-size: 16px;
+  }
+  .teamInfo > h1 {
+    font-size: 24px;
+  }
+  .teamInfo > div > p {
+    font-size: 16px;
+  }
+  .teamInfo > div > ul {
+    font-size: 16px;
+  }
+  .teamInfo > div > ul > li {
+    font-size: 16px;
+  }
+  .teamInfo > div > div > h2 {
+    font-size: 16px;
+  }
+  .teamInfo > div > div > p {
+    font-size: 16px;
+  }
+  .teamInfo > div > div {
+    font-size: 16px;
+}
+.selectList {
+  font-size: 20px;
+  font-family: "poppins";
+  margin-right: 20px;
+  border-color: white;
+}
+.roleLabel {
+  font-size: 20px;
+
+}
+.yearLabel {
+  font-size: 20px;
+
+}
 }
 
 @media (max-width: 380px) {

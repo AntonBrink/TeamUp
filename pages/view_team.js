@@ -182,7 +182,17 @@ export default function Home() {
 
   return (
     <div className={styles.wholePage}>
-      <div className={notificationClass}>Your join request has been sent</div>
+      <div className={notificationClass}>
+        <button
+            className={styles.closeButton}
+            onClick={() => {
+              setNotification("noShowNotification");
+              setShowBlur("noShowBlur");
+            }}
+          >
+            X
+          </button>
+      <h2>Your join request has been sent</h2></div>
       <div
         className={mainPageBlur}
         onClick={() => {
