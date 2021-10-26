@@ -264,8 +264,15 @@ const CreatePage = () => {
                 <div className={CreateTeamStyles.pageDiv}>
                   <div className={CreateTeamStyles.labelDiv}>
                     <label htmlFor="">Team Name :</label>
-                    <label htmlFor="">Team Type :</label>
-                    <label htmlFor="">Team Description :</label>
+                    <label htmlFor="" className={CreateTeamStyles.typeLabel}>
+                      Team Type :
+                    </label>
+                    <label
+                      htmlFor=""
+                      className={CreateTeamStyles.descriptionLabel}
+                    >
+                      Team Description :
+                    </label>
                     <label htmlFor="">Your Degree/Role :</label>
                     <label htmlFor="">Your Year :</label>
                     <label htmlFor="">Application End Date :</label>
