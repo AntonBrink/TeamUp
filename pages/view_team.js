@@ -6,7 +6,7 @@ import AuthContext from "../stores/authContext";
 
 export default function Home() {
   const { user, authReady } = useContext(AuthContext);
-  const [teams] = useState([]);
+  const [teams, setTeams] = useState([]);
   const [teamsReady, setTeamsReady] = useState(false);
   const [teamName, setTeamName] = useState("");
   const [description, setDescription] = useState("");
@@ -23,9 +23,33 @@ export default function Home() {
 
   const requestJoin = (id) => {
     let userData = [];
+
     teams.forEach((team) => {
       if (team.id == id) {
-        userData = team.memberApplications;
+        fetch(
+          "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              query: `query($id : ID!){
+
+  teams (where: {id : $id}){
+    memberData
+}
+
+  
+}`,
+              variables: {
+                id: id,
+              },
+            }),
+          }
+        )
+          .then((res) => res.json())
+          .then((result) => {
+            userData = result.data.teams.memberData;
+          });
       }
     });
 
@@ -64,7 +88,6 @@ export default function Home() {
 
   const setData = (id) => {
     setNames([]);
-    setOpenRoles([]);
 
     teams.map((team) => {
       if (team.id == id) {

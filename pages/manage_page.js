@@ -174,6 +174,7 @@ const ManagePage = () => {
 
           setTempRequests((tempRequests) => [...tempRequests, newRequests]);
           setTempRequestsReady(true);
+          setFeedback("badFeedback");
         }
       });
   };
