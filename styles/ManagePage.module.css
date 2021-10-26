@@ -39,10 +39,16 @@
 
 .goodFeedback {
   color: green;
+  font-family: "poppins";
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .badFeedback {
-  color: red;
+  color: rgb(141, 44, 44);
+  font-family: "poppins";
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .memberListnoshowmembers {
@@ -132,6 +138,39 @@
 }
 .showRemoveModal > h2 {
   font-family: "poppins";
+  font-size: 30px;
+}
+.showRemoveModal >div {
+  font-family: "poppins";
+  font-size: 23px;
+}
+.showRemoveModal >div >div >select {
+  font-family: "poppins";
+  font-size: 20px;
+  margin-bottom: 25px;
+}
+.showRemoveModal >div >h1 {
+  font-family: "poppins";
+  font-size: 25px;
+}
+.showRemoveModal >div >button {
+  background-color: #21355793;
+  border: solid;
+  border-width: 2px;
+  border-color: white;
+  margin: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-family: "poppins";
+  font-size: 17px;
+  cursor: pointer;
+  width: 70px;
+}
+.showRemoveModal >div >button:hover{
+  background-color: white;
+  color: #11223e;
 }
 .showmembers > h2 {
   font-family: "poppins";
@@ -182,6 +221,7 @@
   padding-bottom: 5px;
   font-family: "poppins";
   cursor: pointer;
+  min-width: fit-content;
 }
 .removeButton:hover {
   font-family: "poppins";
