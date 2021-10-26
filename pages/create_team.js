@@ -18,6 +18,20 @@ const CreatePage = () => {
   const [years, setYears] = useState([]);
   const [amount, setAmount] = useState([]);
 
+  const [displayConfirmation, setDisplayConfirmation] =
+    useState("noShowConfirmation");
+
+  const [showBlur, setShowBlur] = useState("noShowBlur");
+  const mainPageBlur =
+    showBlur == "noShowBlur"
+      ? `${CreateTeamStyles.noMainPageBlur}`
+      : `${CreateTeamStyles.mainPageBlur}`;
+
+  const showConfirmation =
+  displayConfirmation == "noShowConfirmation"
+    ? `${CreateTeamStyles.noShowConfirmation}`
+    : `${CreateTeamStyles.showConfirmation}`;
+
   const [roles] = useState([
     <div className={CreateTeamStyles.roleInnerDiv} key={totalRoles}>
       <label htmlFor="" className={CreateTeamStyles.roleLabel}>
@@ -121,7 +135,10 @@ const CreatePage = () => {
             },
           }),
         }
-      );
+      ).then((res)=>res.json()).then((res)=>{if(res != "undefined"){
+        setDisplayConfirmation("showConfirmation");
+        setShowBlur("showBlur");
+      }});
       console.log("Fetched");
     }
   };
@@ -201,7 +218,27 @@ const CreatePage = () => {
   }
 
   return (
-    <div>
+    
+    <div className={CreateTeamStyles.mainDiv}>
+      <div
+          className={mainPageBlur}
+          onClick={() => {
+            setDisplayConfirmation("noShowConfirmation");
+            setShowBlur("noShowBlur");
+          }}
+        ></div>
+        <div className={showConfirmation}>
+                  <button
+                    className={CreateTeamStyles.closeButton}
+                    onClick={() => {
+                      setDisplayConfirmation("noShowConfirmation");
+                      setShowBlur("noShowBlur");
+                    }}
+                    >
+                    X
+                  </button>
+                  <h2> You successfully created a team!</h2>
+                </div>
       {!user && <div>You must be logged in to create a team</div>}
 
       {user && (
@@ -210,6 +247,7 @@ const CreatePage = () => {
             createTeam(e);
           }}
         >
+          
           <div className={CreateTeamStyles.page}>
             <div className={CreateTeamStyles.holderDiv}>
               <div className={CreateTeamStyles.pageDivLeft}>
@@ -303,7 +341,7 @@ const CreatePage = () => {
                 </div>
               </div>
               <div className={CreateTeamStyles.btnDiv}>
-                <button type="submit" className={CreateTeamStyles.createBtn}>
+                <button type="submit" className={CreateTeamStyles.createBtn} >
                   Create Team
                 </button>
               </div>
