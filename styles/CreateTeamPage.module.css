@@ -1,16 +1,15 @@
-.mainDiv{
+.mainDiv {
   position: relative;
-  padding-bottom:  100px;
+  padding-bottom: 100px;
 }
-.page{
+.page {
   display: flex;
   font-family: "poppins";
-
 }
-.pageDivLeft{
+.pageDivLeft {
   padding-left: 0px;
 }
-.pageDivRight{
+.pageDivRight {
   margin-top: 30px;
   height: 100%;
   width: 50vw;
@@ -20,19 +19,34 @@
   grid-template-columns: 60% 40%;
   font-size: 24px;
 }
-.holderDiv{
+.holderDiv {
   padding-left: 10px;
   margin-left: 10px;
+  width: 50vw;
 }
 
 .inputDiv > input {
   height: 32px;
   margin-bottom: 18px;
   border: none;
-  background-color: #11223E;
+  background-color: #11223e;
   padding-right: 20px;
   font-family: "poppins";
   font-size: 20px;
+}
+
+.inputDiv > textarea {
+  height: 96px;
+  margin-bottom: 18px;
+  border: none;
+  background-color: #11223e;
+  padding-right: 20px;
+  font-family: "poppins";
+  font-size: 20px;
+}
+
+.teamType {
+  height: 64px !important;
 }
 
 .roleInnerDiv > input {
@@ -40,22 +54,21 @@
   height: 32px;
   margin-bottom: 18px;
   border: none;
-  background-color: #11223E;
+  background-color: #11223e;
   padding-right: 20px;
   font-family: "poppins";
-  font-size: 20px
+  font-size: 20px;
 }
-.select{
+.select {
   margin-top: 5px;
   height: 32px;
   margin-bottom: 18px;
   border: none;
-  background-color: #11223E;
+  background-color: #11223e;
 
   padding-right: 20px;
   font-family: "poppins";
-  font-size: 20px
-  
+  font-size: 20px;
 }
 .roleInnerDiv > label {
   margin-bottom: 16px;
@@ -70,7 +83,7 @@
   display: flex;
   flex-direction: column;
 }
-.inputDiv{
+.inputDiv {
   margin-top: 5px;
   padding-right: 20px;
 }
@@ -92,7 +105,6 @@
   color: grey;
 }
 
-
 .roleDiv {
   font-size: 24px;
   font-family: "poppins";
@@ -104,17 +116,17 @@
   width: 250px;
   height: 60px;
   border: solid white;
-  background-color: #11223E;
+  background-color: #11223e;
   cursor: pointer;
 }
-.createBtn:hover{
+.createBtn:hover {
   background-color: #21355793;
 }
 
-.noShowConfirmation{
+.noShowConfirmation {
   display: none;
 }
-.showConfirmation{
+.showConfirmation {
   border: solid 5px white;
   position: absolute;
   left: 30%;
@@ -124,10 +136,9 @@
   z-index: 3;
   padding: 20px;
 }
-.showConfirmation >h2{
+.showConfirmation > h2 {
   font-family: "poppins";
   font-size: 30px;
-
 }
 .noMainPageBlur {
   background-color: transparent;
@@ -144,8 +155,8 @@
   left: 0;
   z-index: 2;
 }
-@media (max-width: 1024px){
-  .btnDiv{
+@media (max-width: 1024px) {
+  .btnDiv {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -154,7 +165,7 @@
     padding-right: 0px;
     right: 0;
   }
-  .page{
+  .page {
     display: flex;
     font-family: "poppins";
     flex-direction: column;
@@ -164,7 +175,7 @@
     grid-template-columns: 50% 50%;
     font-size: 24px;
   }
-  .pageDivRight{
+  .pageDivRight {
     margin-top: 30px;
   }
   .roleInnerDiv {
@@ -176,7 +187,7 @@
   .roleInnerDiv {
     grid-template-columns: 50% 50%;
   }
-  .showConfirmation{
+  .showConfirmation {
     border: solid 5px white;
     position: absolute;
     left: 30%;
@@ -186,11 +197,9 @@
     z-index: 3;
     padding: 20px;
   }
-  
 }
 
 @media (max-width: 768px) {
-
   .inputDiv > input {
     padding-left: 10px;
   }
@@ -203,17 +212,16 @@
     height: 25px;
     font-size: 20px;
   }
-  .select{
+  .select {
     height: 25px;
     font-size: 20px;
   }
-  .showConfirmation >h2{
+  .showConfirmation > h2 {
     font-size: 25px;
   }
 }
 @media (max-width: 550px) {
-  
-  .showConfirmation{
+  .showConfirmation {
     border: solid 5px white;
     position: absolute;
     left: 25%;
@@ -223,13 +231,12 @@
     z-index: 3;
     padding: 20px;
   }
-  .showConfirmation >h2{
+  .showConfirmation > h2 {
     font-size: 25px;
   }
-
 }
 @media (max-width: 415px) {
-  .headers{
+  .headers {
     font-size: 26px;
   }
   .roleInnerDiv {
@@ -240,7 +247,7 @@
     grid-template-columns: 50% 50%;
     font-size: 24px;
   }
-  .labelDiv > label{
+  .labelDiv > label {
     font-size: 15px;
     margin-bottom: 5px;
   }
@@ -258,17 +265,17 @@
     height: 20px;
     font-size: 15px;
   }
-  .select{
+  .select {
     height: 20px;
     font-size: 15px;
   }
-  .showConfirmation >h2{
+  .showConfirmation > h2 {
     font-size: 20px;
   }
 }
 
 @media (max-width: 380px) {
-  .headers{
+  .headers {
     font-size: 24px;
   }
   .roleInnerDiv {
@@ -279,7 +286,7 @@
     grid-template-columns: 60% 40%;
     font-size: 24px;
   }
-  .labelDiv > label{
+  .labelDiv > label {
     font-size: 15px;
     margin-bottom: 5px;
   }
@@ -297,18 +304,16 @@
     height: 20px;
     font-size: 15px;
   }
-  .select{
+  .select {
     height: 20px;
     font-size: 15px;
   }
-  
 }
 @media (max-width: 280px) {
-
-  .inputDiv{
+  .inputDiv {
     padding-right: 10px;
   }
-  .roleInnerDiv{
+  .roleInnerDiv {
     padding-right: 10px;
     margin-right: 10px;
   }
@@ -318,7 +323,7 @@
     font-size: 24px;
     padding-right: 0px;
   }
-  .headers{
+  .headers {
     font-size: 16px;
   }
   .pageDiv {
@@ -326,7 +331,7 @@
     grid-template-columns: 70% 30%;
     font-size: 24px;
   }
-  .labelDiv > label{
+  .labelDiv > label {
     font-size: 11px;
     margin-bottom: 5px;
   }
@@ -345,12 +350,11 @@
     font-size: 11px;
   }
 
-  .select{
+  .select {
     height: 16px;
     font-size: 11px;
   }
-  .showConfirmation >h2{
+  .showConfirmation > h2 {
     font-size: 15px;
   }
-  
 }

@@ -28,9 +28,9 @@ const CreatePage = () => {
       : `${CreateTeamStyles.mainPageBlur}`;
 
   const showConfirmation =
-  displayConfirmation == "noShowConfirmation"
-    ? `${CreateTeamStyles.noShowConfirmation}`
-    : `${CreateTeamStyles.showConfirmation}`;
+    displayConfirmation == "noShowConfirmation"
+      ? `${CreateTeamStyles.noShowConfirmation}`
+      : `${CreateTeamStyles.showConfirmation}`;
 
   const [roles] = useState([
     <div className={CreateTeamStyles.roleInnerDiv} key={totalRoles}>
@@ -38,6 +38,7 @@ const CreatePage = () => {
         Member Degree / Role :
       </label>
       <input
+        placeholder="e.g. BA"
         type="text"
         name="memberDegree0"
         required
@@ -51,6 +52,7 @@ const CreatePage = () => {
       </label>
 
       <input
+        placeholder="e.g. 2"
         type="number"
         name="memberDegreeAmount0"
         required
@@ -135,10 +137,14 @@ const CreatePage = () => {
             },
           }),
         }
-      ).then((res)=>res.json()).then((res)=>{if(res != "undefined"){
-        setDisplayConfirmation("showConfirmation");
-        setShowBlur("showBlur");
-      }});
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          if (res != "undefined") {
+            setDisplayConfirmation("showConfirmation");
+            setShowBlur("showBlur");
+          }
+        });
       console.log("Fetched");
     }
   };
@@ -155,6 +161,7 @@ const CreatePage = () => {
             Member Degree / Role :
           </label>
           <input
+            placeholder="e.g. BA"
             type="text"
             name={`memberDegree${divId}`}
             required
@@ -170,6 +177,7 @@ const CreatePage = () => {
           </label>
 
           <input
+            placeholder="e.g. 2"
             type="number"
             name={`memberDegreeAmount${divId}`}
             required
@@ -218,27 +226,26 @@ const CreatePage = () => {
   }
 
   return (
-    
     <div className={CreateTeamStyles.mainDiv}>
       <div
-          className={mainPageBlur}
+        className={mainPageBlur}
+        onClick={() => {
+          setDisplayConfirmation("noShowConfirmation");
+          setShowBlur("noShowBlur");
+        }}
+      ></div>
+      <div className={showConfirmation}>
+        <button
+          className={CreateTeamStyles.closeButton}
           onClick={() => {
             setDisplayConfirmation("noShowConfirmation");
             setShowBlur("noShowBlur");
           }}
-        ></div>
-        <div className={showConfirmation}>
-                  <button
-                    className={CreateTeamStyles.closeButton}
-                    onClick={() => {
-                      setDisplayConfirmation("noShowConfirmation");
-                      setShowBlur("noShowBlur");
-                    }}
-                    >
-                    X
-                  </button>
-                  <h2> You successfully created a team!</h2>
-                </div>
+        >
+          X
+        </button>
+        <h2> You successfully created a team!</h2>
+      </div>
       {!user && <div>You must be logged in to create a team</div>}
 
       {user && (
@@ -247,7 +254,6 @@ const CreatePage = () => {
             createTeam(e);
           }}
         >
-          
           <div className={CreateTeamStyles.page}>
             <div className={CreateTeamStyles.holderDiv}>
               <div className={CreateTeamStyles.pageDivLeft}>
@@ -267,6 +273,7 @@ const CreatePage = () => {
                   </div>
                   <div className={CreateTeamStyles.inputDiv}>
                     <input
+                      placeholder="e.g. TeamUp"
                       type="text"
                       name="teamName"
                       required
@@ -274,7 +281,9 @@ const CreatePage = () => {
                         setTeamName(e.target.value);
                       }}
                     />
-                    <input
+                    <textarea
+                      className={CreateTeamStyles.teamType}
+                      placeholder="e.g. Competition, Assignment, Recreation"
                       type="text"
                       name="groupType"
                       required
@@ -282,7 +291,8 @@ const CreatePage = () => {
                         setGroupType(e.target.value);
                       }}
                     />
-                    <input
+                    <textarea
+                      placeholder="e.g. We are a group of students who want to pariticipate in the EdTeck Hack Jam"
                       type="text"
                       name="groupDescription"
                       required
@@ -291,6 +301,7 @@ const CreatePage = () => {
                       }}
                     />
                     <input
+                      placeholder="BSC IT"
                       type="text"
                       name="creatorDegreeRole"
                       required
@@ -299,6 +310,7 @@ const CreatePage = () => {
                       }}
                     />
                     <input
+                      placeholder="e.g. 3"
                       type="number"
                       name="creatorYear"
                       required
@@ -341,7 +353,7 @@ const CreatePage = () => {
                 </div>
               </div>
               <div className={CreateTeamStyles.btnDiv}>
-                <button type="submit" className={CreateTeamStyles.createBtn} >
+                <button type="submit" className={CreateTeamStyles.createBtn}>
                   Create Team
                 </button>
               </div>
