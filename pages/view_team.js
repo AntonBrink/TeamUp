@@ -22,7 +22,7 @@ export default function Home() {
   const [firstRun, setFirstRun] = useState(2);
 
   const requestJoin = (id) => {
-    let userData;
+    let userData = [];
     teams.forEach((team) => {
       if (team.id == id) {
         userData = team.memberApplications;
@@ -145,8 +145,11 @@ export default function Home() {
       <div>
         <div>
           <h2 className={styles.filters}>Filter Teams:</h2>
-          <label className={styles.filterLabel} htmlFor="">Role/Degree</label>
-          <select className={styles.filterSelect}
+          <label className={styles.filterLabel} htmlFor="">
+            Role/Degree
+          </label>
+          <select
+            className={styles.filterSelect}
             onChange={(e) => {
               setTeamsReady(false);
 
@@ -160,8 +163,11 @@ export default function Home() {
           </select>
         </div>
         <div>
-          <label className={styles.filterLabel} htmlFor="">Year</label>
-          <select className={styles.filterSelect}
+          <label className={styles.filterLabel} htmlFor="">
+            Year
+          </label>
+          <select
+            className={styles.filterSelect}
             onChange={(e) => {
               setTeamsReady(false);
 
@@ -281,13 +287,15 @@ export default function Home() {
                 <button
                   onClick={() => {
                     requestJoin(teamId);
-                  }} className={styles.requestButton}
+                  }}
+                  className={styles.requestButton}
                 >
                   Request to Join
                 </button>
                 <label className={styles.roleLabel}>Role: </label>
-                
-                <select className={styles.selectList}
+
+                <select
+                  className={styles.selectList}
                   onChange={(e) => {
                     let role = "other";
                     let year = "All";
@@ -333,10 +341,9 @@ export default function Home() {
                     }
                   })}
                 </select>
-                <label className={styles.yearLabel}>
-                Your Year:
-                </label>
-                <select className={styles.selectList}
+                <label className={styles.yearLabel}>Your Year:</label>
+                <select
+                  className={styles.selectList}
                   onChange={(e) => {
                     setUserYear(e.target.value);
                   }}

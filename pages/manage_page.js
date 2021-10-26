@@ -10,11 +10,13 @@ const ManagePage = () => {
   const [teamsReady, setTeamsReady] = useState(false);
   const [tempMembers, setTempMembers] = useState([]);
   const [tempRequests, setTempRequests] = useState([]);
+  const [tempRequestsReady, setTempRequestsReady] = useState(false);
   const [memberToRemove, setMemberToRemove] = useState("");
   const [removeGroup, setRemoveGroup] = useState([]);
   const [tempId, setTempId] = useState("");
   const [tempId2, setTempId2] = useState("");
   const [openRoles, setOpenRoles] = useState([]);
+  const [tempMemberEmail, setTempMemberEmail] = useState("");
 
   let teamMembers = [];
   let joinRequests = [];
@@ -23,6 +25,8 @@ const ManagePage = () => {
   const [displayMembers, setDisplayMembers] = useState("noshowmembers");
   const [displayRequesters, setDisplayRequesters] =
     useState("noshowrequesters");
+
+  const [feedback, setFeedback] = useState("noFeedback");
 
   const [showBlur, setShowBlur] = useState("noShowBlur");
   const mainPageBlur =
@@ -44,6 +48,13 @@ const ManagePage = () => {
     displayRequesters == "noshowrequesters"
       ? `${manageStyles.noshowrequesters}`
       : `${manageStyles.showrequesters}`;
+
+  const feedbackClass =
+    feedback == "noFeedback"
+      ? `${manageStyles.noFeedback}`
+      : feedback == "goodFeedback"
+      ? `${manageStyles.goodFeedback}`
+      : `${manageStyles.badFeedback}`;
 
   useEffect(() => {
     if (tempId2 !== "") {
@@ -159,7 +170,10 @@ const ManagePage = () => {
       .then((res) => res.json())
       .then((res) => {
         if (res !== undefined) {
-          location.reload();
+          setTempRequestsReady(false);
+
+          setTempRequests((tempRequests) => [...tempRequests, newRequests]);
+          setTempRequestsReady(true);
         }
       });
   };
@@ -194,6 +208,8 @@ const ManagePage = () => {
 
   const addMember = (memberInfo) => {
     let newRoles = [];
+
+    setTempMemberEmail(memberInfo.email);
 
     if (memberInfo.role == "" || memberInfo.role == "other") {
       memberInfo.role = "other";
@@ -253,43 +269,60 @@ const ManagePage = () => {
 
         myInfo = memberData;
         newGroup = myInfo.data.teams[0].memberData;
-        newGroup.push(memberInfo);
+
+        console.log(newGroup);
+
+        let hasMember = false;
+
         newGroup.map((member) => {
-          hiddenDesc += member.email;
-          hiddenDesc += ",";
+          if (member.email == memberInfo.email) {
+            hasMember = true;
+          }
         });
 
-        if (memberInfo.role == "other") {
-          newRoles = openRoles;
-        }
+        if (hasMember) {
+          setFeedback("badFeedback");
+          return;
+        } else {
+          newGroup.push(memberInfo);
+          newGroup.map((member) => {
+            hiddenDesc += member.email;
+            hiddenDesc += ",";
+          });
 
-        fetch(
-          "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              query: `mutation UpdateTeam($id : ID!, $groupData :  [Json!], $hiddenDescription : String!, $openRoles : [Json!]){
+          if (memberInfo.role == "other") {
+            newRoles = openRoles;
+          }
+
+          fetch(
+            "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                query: `mutation UpdateTeam($id : ID!, $groupData :  [Json!], $hiddenDescription : String!, $openRoles : [Json!]){
     updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription, openPositions: $openRoles}, where: {id : $id}) {
         id
       }
 
     }`,
-              variables: {
-                id: tempId2,
-                groupData: newGroup,
-                hiddenDescription: hiddenDesc,
-                openRoles: newRoles,
-              },
-            }),
-          }
-        )
-          .then((res) => res.json())
-          .then((res) => {
-            if (res !== undefined) {
-              declineRequest(memberInfo.email);
+                variables: {
+                  id: tempId2,
+                  groupData: newGroup,
+                  hiddenDescription: hiddenDesc,
+                  openRoles: newRoles,
+                },
+              }),
             }
-          });
+          )
+            .then((res) => res.json())
+            .then((res) => {
+              if (res !== undefined) {
+                declineRequest(memberInfo.email);
+                setFeedback("goodFeedback");
+              }
+            });
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -365,6 +398,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
     setTempId2(teamId);
     setDisplayRequesters("showrequesters");
 
+    setTempRequestsReady(false);
     setTempRequests([]);
 
     joinRequests.forEach((memberApplicationsArray) => {
@@ -374,6 +408,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
         });
       }
     });
+    setTempRequestsReady(true);
   };
 
   return (
@@ -477,51 +512,65 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
             onClick={() => {
               setDisplayRequesters("noshowrequesters");
               setShowBlur("noShowBlur");
+              setFeedback("noFeedback");
             }}
           >
             X
           </button>
+
+          {!tempRequestsReady && <div>Loading members... </div>}
           {tempRequests.map((requester, id) => {
-            let requesterDetails = {
-              email: requester.email,
-              name: requester.name,
-              role: "",
-              year: "other",
-            };
+            if (requester.email) {
+              let requesterDetails = {
+                email: requester.email,
+                name: requester.name,
+                role: "",
+                year: "other",
+              };
 
-            if (requester.role) {
-              requesterDetails.role = requester.role;
+              if (requester.role) {
+                requesterDetails.role = requester.role;
+              }
+
+              if (requester.year) {
+                requesterDetails.year = requester.year;
+              }
+
+              return (
+                <div key={id}>
+                  <h2> Requests To Join Team:</h2>
+                  <p key={id}>
+                    Applicant Information: {requester.name} | {requester.email}{" "}
+                    | {requester.userYear} | Role Information: {requester.role}{" "}
+                    | {requester.year}
+                    <button
+                      onClick={() => {
+                        addMember(requesterDetails);
+                      }}
+                    >
+                      Add
+                    </button>
+                    <button
+                      onClick={() => {
+                        declineRequest(requester.email);
+                      }}
+                    >
+                      Decline
+                    </button>
+                  </p>
+                </div>
+              );
+            } else {
+              return;
             }
-
-            if (requester.year) {
-              requesterDetails.year = requester.year;
-            }
-
-            return (
-              <div key={id}>
-                <h2> Requests To Join Team:</h2>
-                <p key={id}>
-                  Applicant Information: {requester.name} | {requester.email} |{" "}
-                  {requester.userYear} | Role Information: {requester.role} |{" "}
-                  {requester.year}
-                  <button
-                    onClick={() => {
-                      addMember(requesterDetails);
-                    }}
-                  >
-                    Add
-                  </button>
-                  <button
-                    onClick={() => {
-                      declineRequest(requester.email);
-                    }}
-                  >
-                    Decline
-                  </button>
-                </p>
-              </div>
-            );
           })}
+          <p className={feedbackClass}>
+            {feedback == "goodFeedback"
+              ? `${tempMemberEmail} has been added to the team`
+              : feedback == "badFeedback"
+              ? `${tempMemberEmail} has not been added, this member is already in the team`
+              : ""}
+          </p>
         </div>
 
         {/* Join Requests */}

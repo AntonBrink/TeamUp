@@ -29,6 +29,14 @@
   display: none;
 }
 
+.goodFeedback {
+  color: green;
+}
+
+.badFeedback {
+  color: red;
+}
+
 .memberListnoshowmembers {
   display: none;
 }
