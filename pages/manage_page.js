@@ -595,6 +595,7 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
             setShowBlur("noShowBlur");
             setDisplayMembers("noshowmembers");
             setDisplayRequesters("noshowrequesters");
+            setFeedback("noFeedback");
           }}
         ></div>
 
@@ -655,21 +656,22 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
             <h1>Are you sure you want to remove {`${memberToRemove}`}</h1>
             <button
               onClick={() => {
+                removeMember();
+              }}
+            >
+              Yes
+            </button>
+            <button
+              onClick={() => {
                 setPreviousInfo("showPrevious");
                 setConfirmation("noShowRemove");
                 setShowRemoveModal("noShowRemoveModal");
                 setShowBlur("noShowBlur");
               }}
             >
-              No!
+              No
             </button>
-            <button
-              onClick={() => {
-                removeMember();
-              }}
-            >
-              Yes!
-            </button>
+            
           </div>
 
           <p className={feedbackClass}>
