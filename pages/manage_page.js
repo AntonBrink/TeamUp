@@ -111,7 +111,7 @@ const ManagePage = () => {
           setTeamsReady(true);
         });
     }
-  }, [user, authReady]);
+  }, [user, authReady, teams]);
 
   const deleteTeam = (teamId) => {
     let teamDeleteConfirm = confirm(
@@ -184,8 +184,6 @@ const ManagePage = () => {
   };
 
   const fetchRoles = async () => {
-    console.log(tempId2);
-
     const response = await fetch(
       "https://api-eu-central-1.graphcms.com/v2/ckryvxf6e25y801xtfsosabhf/master",
       {
@@ -324,6 +322,8 @@ const ManagePage = () => {
             .then((res) => {
               if (res !== undefined) {
                 declineRequest(memberInfo.email);
+                setTeamsReady(false);
+                setTeams([]);
                 setFeedback("goodFeedback");
               }
             });
@@ -385,8 +385,10 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
     )
       .then((res) => res.json())
       .then((res) => {
-        if (res !== "underfined") {
+        if (res !== "undefined") {
           setFeedback("badFeedback");
+          setTeamsReady(false);
+          setTeams([]);
         }
       });
   };
@@ -671,7 +673,6 @@ updateTeam(data: {memberData: $groupData, hiddenDesc: $hiddenDescription}, where
             >
               No
             </button>
-            
           </div>
 
           <p className={feedbackClass}>

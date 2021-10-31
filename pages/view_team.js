@@ -1,6 +1,4 @@
 import styles from "../styles/viewTeams.module.css";
-import Link from "next/link";
-
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../stores/authContext";
 
@@ -101,6 +99,7 @@ export default function Home() {
 
   const setData = (id) => {
     setNames([]);
+    setOpenRoles([]);
 
     teams.map((team) => {
       if (team.id == id) {
@@ -184,15 +183,16 @@ export default function Home() {
     <div className={styles.wholePage}>
       <div className={notificationClass}>
         <button
-            className={styles.closeButton}
-            onClick={() => {
-              setNotification("noShowNotification");
-              setShowBlur("noShowBlur");
-            }}
-          >
-            X
-          </button>
-      <h2>Your join request has been sent</h2></div>
+          className={styles.closeButton}
+          onClick={() => {
+            setNotification("noShowNotification");
+            setShowBlur("noShowBlur");
+          }}
+        >
+          X
+        </button>
+        <h2>Your join request has been sent</h2>
+      </div>
       <div
         className={mainPageBlur}
         onClick={() => {
