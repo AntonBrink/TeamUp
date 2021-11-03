@@ -31,6 +31,13 @@ export default function Home() {
       ? `${styles.noShowNotification}`
       : `${styles.showNotification}`;
 
+      const [displayTeamInfo, setShowTeamInfo] = useState("noShowTeamInfo");
+      const teamInfo =
+      displayTeamInfo == "noShowTeamInfo"
+        ? `${styles.noShowTeamInfo}`
+        : `${styles.teamInfo}`;
+  
+
   const requestJoin = (id) => {
     let userData = [];
 
@@ -198,6 +205,7 @@ export default function Home() {
         onClick={() => {
           setShowBlur("noShowBlur");
           setNotification("noShowNotification");
+          setShowTeamInfo("noShowTeamInfo");
         }}
       ></div>
 
@@ -246,6 +254,7 @@ export default function Home() {
       {!teamsReady && <h1>Loading teams...</h1>}
 
       {teamsReady && (
+        
         <div className={styles.pageContent}>
           <div className={styles.teams}>
             {teams.map((team) => {
@@ -301,6 +310,8 @@ export default function Home() {
                   key={team.id}
                   onClick={() => {
                     setData(team.id);
+                    setShowTeamInfo("teamInfo");
+                    setShowBlur("showBlur")
                   }}
                 >
                   <div>
@@ -324,8 +335,20 @@ export default function Home() {
               );
             })}
           </div>
+
           {teamId ? (
-            <div className={styles.teamInfo}>
+            <div className={teamInfo}> 
+            <button
+            className={styles.closeButton}
+            onClick={() => {
+              setShowTeamInfo("noShowTeamInfo");
+              setShowBlur("noShowBlur");
+            }}
+          >
+            X
+          </button>
+         
+          
               <h1>{teamName}</h1>
               <div>
                 <p>Current Members:</p>
