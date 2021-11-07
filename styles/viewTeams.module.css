@@ -49,12 +49,6 @@
   position: relative;
 }
 
-.noMainPageBlur {
-  background-color: transparent;
-  width: 100vw;
-  height: 0;
-}
-
 .noShowNotification {
   display: none;
 }
@@ -83,17 +77,6 @@
 }
 .wholePage {
   position: relative;
-}
-
-.mainPageBlur {
-  background-color: grey;
-  opacity: 0.5;
-  width: 100vw;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
 }
 
 .heading {
@@ -213,23 +196,24 @@
 .closeButton {
   display: none;
 }
-.noMainPageBlur {
-  background-color: transparent;
-  width: 100vw;
-  height: 0;
-}
-.mainPageBlur {
-  background-color: grey;
-  opacity: 0.5;
-  width: 100vw;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-}
 
 @media (max-width: 1024px) {
+  .noMainPageBlur {
+    background-color: transparent;
+    width: 100vw;
+    height: 0;
+  }
+  .mainPageBlur {
+    background-color: grey;
+    opacity: 0.5;
+    width: 100vw;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+  }
+
   .pageContent {
     display: grid;
     grid-template-columns: 100%;
@@ -255,7 +239,7 @@
     justify-content: space-evenly;
     border: solid 5px white;
     left: 5%;
-    top: 5%;  
+    top: 5%;
     z-index: 3;
     padding: 10px;
   }
@@ -298,16 +282,16 @@
     width: 50vw;
     font-size: 15px;
   }
-  .selectList{
+  .selectList {
     font-size: 18px;
   }
-  .yearLabel{
+  .yearLabel {
     font-size: 18px;
   }
-  .roleLabel{
+  .roleLabel {
     font-size: 18px;
   }
-  .requestButton{
+  .requestButton {
     font-size: 18px;
   }
   .teamInfo > h1 {
@@ -384,27 +368,24 @@
   }
   .teamInfo > div > div {
     font-size: 16px;
+  }
+  .selectList {
+    font-size: 15px;
+    font-family: "poppins";
+    margin-right: 20px;
+    border-color: white;
+  }
+  .roleLabel {
+    font-size: 15px;
+  }
+  .yearLabel {
+    font-size: 15px;
+  }
+  .requestButton {
+    font-size: 15px;
+    height: fit-content;
+  }
 }
-.selectList {
-  font-size: 15px;
-  font-family: "poppins";
-  margin-right: 20px;
-  border-color: white;
-}
-.roleLabel {
-  font-size: 15px;
-
-}
-.yearLabel {
-  font-size: 15px;
-
-}
-.requestButton{
-  font-size: 15px;
-  height: fit-content ;
-}
-}
-
 
 @media (max-width: 280px) {
   .requestButton {
