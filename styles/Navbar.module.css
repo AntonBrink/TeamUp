@@ -112,7 +112,9 @@
     font-size: 45px;
   }
   .logText {
-    display: none;
+    /* display: none; */
+    margin-right: 10px;
+    margin-bottom: 10px;
   }
   .navbarComponent :global {
     width: 100vw;
