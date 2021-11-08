@@ -32,11 +32,6 @@ export default function Home() {
       ? `${styles.noSmallPageBlur}`
       : `${styles.smallPageBlur}`;
 
-  console.log(showBlur);
-  console.log(showBlur2);
-  console.log(mainPageBlur);
-  console.log(smallPageBlur);
-
   const [notification, setNotification] = useState("noShowNotification");
   const notificationClass =
     notification == "noShowNotification"
