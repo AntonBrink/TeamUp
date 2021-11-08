@@ -20,10 +20,22 @@ export default function Home() {
   const [firstRun, setFirstRun] = useState(2);
 
   const [showBlur, setShowBlur] = useState("noShowBlur");
+  const [showBlur2, setShowBlur2] = useState("noShowBlur");
+
   const mainPageBlur =
     showBlur == "noShowBlur"
       ? `${styles.noMainPageBlur}`
       : `${styles.mainPageBlur}`;
+
+  const smallPageBlur =
+    showBlur2 == "noShowBlur"
+      ? `${styles.noSmallPageBlur}`
+      : `${styles.smallPageBlur}`;
+
+  console.log(showBlur);
+  console.log(showBlur2);
+  console.log(mainPageBlur);
+  console.log(smallPageBlur);
 
   const [notification, setNotification] = useState("noShowNotification");
   const notificationClass =
@@ -31,12 +43,11 @@ export default function Home() {
       ? `${styles.noShowNotification}`
       : `${styles.showNotification}`;
 
-      const [displayTeamInfo, setShowTeamInfo] = useState("noShowTeamInfo");
-      const teamInfo =
-      displayTeamInfo == "noShowTeamInfo"
-        ? `${styles.noShowTeamInfo}`
-        : `${styles.teamInfo}`;
-  
+  const [displayTeamInfo, setShowTeamInfo] = useState("noShowTeamInfo");
+  const teamInfo =
+    displayTeamInfo == "noShowTeamInfo"
+      ? `${styles.noShowTeamInfo}`
+      : `${styles.teamInfo}`;
 
   const requestJoin = (id) => {
     let userData = [];
@@ -101,6 +112,7 @@ export default function Home() {
       .then((res) => {
         setShowBlur("showBlur");
         setNotification("showNotification");
+        console.log(mainPageBlur);
       });
   };
 
@@ -194,6 +206,7 @@ export default function Home() {
           onClick={() => {
             setNotification("noShowNotification");
             setShowBlur("noShowBlur");
+            setShowBlur2("noShowBlur");
           }}
         >
           X
@@ -203,6 +216,16 @@ export default function Home() {
       <div
         className={mainPageBlur}
         onClick={() => {
+          setShowBlur("noShowBlur");
+          setNotification("noShowNotification");
+          setShowTeamInfo("noShowTeamInfo");
+        }}
+      ></div>
+
+      <div
+        className={smallPageBlur}
+        onClick={() => {
+          setShowBlur2("noShowBlur");
           setShowBlur("noShowBlur");
           setNotification("noShowNotification");
           setShowTeamInfo("noShowTeamInfo");
@@ -254,7 +277,6 @@ export default function Home() {
       {!teamsReady && <h1>Loading teams...</h1>}
 
       {teamsReady && (
-        
         <div className={styles.pageContent}>
           <div className={styles.teams}>
             {teams.map((team) => {
@@ -311,7 +333,7 @@ export default function Home() {
                   onClick={() => {
                     setData(team.id);
                     setShowTeamInfo("teamInfo");
-                    setShowBlur("showBlur")
+                    setShowBlur2("showBlur");
                   }}
                 >
                   <div>
@@ -337,18 +359,18 @@ export default function Home() {
           </div>
 
           {teamId ? (
-            <div className={teamInfo}> 
-            <button
-            className={styles.closeButton}
-            onClick={() => {
-              setShowTeamInfo("noShowTeamInfo");
-              setShowBlur("noShowBlur");
-            }}
-          >
-            X
-          </button>
-         
-          
+            <div className={teamInfo}>
+              <button
+                className={styles.closeButton}
+                onClick={() => {
+                  setShowTeamInfo("noShowTeamInfo");
+                  setShowBlur("noShowBlur");
+                  setShowBlur2("noShowBlur");
+                }}
+              >
+                X
+              </button>
+
               <h1>{teamName}</h1>
               <div>
                 <p>Current Members:</p>

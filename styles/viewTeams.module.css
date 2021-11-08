@@ -194,16 +194,32 @@
   margin-bottom: 0px;
 }
 .closeButton {
-  display: none;
+  /* display: none; */
+}
+
+.noMainPageBlur {
+  background-color: transparent;
+  width: 100vw;
+  height: 0;
+}
+.mainPageBlur {
+  background-color: grey;
+  opacity: 0.5;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
 }
 
 @media (max-width: 1024px) {
-  .noMainPageBlur {
+  .noSmallPageBlur {
     background-color: transparent;
     width: 100vw;
     height: 0;
   }
-  .mainPageBlur {
+  .smallPageBlur {
     background-color: grey;
     opacity: 0.5;
     width: 100vw;
